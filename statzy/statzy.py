@@ -25,5 +25,10 @@ def server():
     return render_template('server.html')
 
 
+@statzy.route('/komponenteServer')
+def komponenteServer():
+    return render_template('komponenteServer.html')
+
+
 if __name__ == '__main__':
     statzy.run()
