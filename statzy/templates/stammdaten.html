@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>IT Verfahren Stammdaten Formular</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.15/dist/tailwind.min.css">
-  </head>
-  <body class="bg-gray-100 text-gray-900 font-sans">
+{% extends "layout.html" %}
+
+{% block content %}
+  <div class="bg-gray-100 text-gray-900 font-sans">
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <div class="px-4 py-6 sm:px-0">
         <h1 class="text-3xl font-bold text-center mb-8">IT Verfahren Stammdaten Formular</h1>
@@ -103,3 +98,4 @@
         </button>
       </div>
     </form>
+{% endblock %}

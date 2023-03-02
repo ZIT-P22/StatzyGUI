@@ -13,20 +13,32 @@
 <body>
     <!--! Navbar start-->
     <ul class="flex border-b">
-        <li class="mr-3"><a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="/">Home</a></li>
-        <li class="mr-3"><a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="/fachverfahren">Fachverfahren</a></li>
-        <li class="mr-3"><a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="/server">Server</a></li>
-        <li class="mr-3"><a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="/datenbanken">Datenbanken</a></li>
-        <li class="mr-3"><a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="/stammdaten">Stammdaten</a></li>
-        <li class="mr-3"><a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="/komponenteServer">Komponenten Server</a></li>
+        <li class="mr-3"><a
+                class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3"
+                href="/">Home</a></li>
+        <li class="mr-3"><a
+                class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3"
+                href="/fachverfahren">Fachverfahren</a></li>
+        <li class="mr-3"><a
+                class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3"
+                href="/server">Server</a></li>
+        <li class="mr-3"><a
+                class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3"
+                href="/datenbanken">Datenbanken</a></li>
+        <li class="mr-3"><a
+                class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3"
+                href="/stammdaten">Stammdaten</a></li>
+        <li class="mr-3"><a
+                class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3"
+                href="/komponenteServer">Komponenten Server</a></li>
     </ul>
     <!--! Navbar end-->
-    {% block content %}
-    <h1>Welcome to {{ title }}!</h1>
-    <p>This is a basic HTML page with Jinja integration.</p>
-    <ul>
-        {% endblock %}
-    </ul>
-</body>
 
+
+    {% block content %}
+        <h1>Welcome to {{ title }}!</h1>
+        <p>This is a basic HTML page with Jinja integration.</p>
+    {% endblock %}
+    
+</body>
 </html>
