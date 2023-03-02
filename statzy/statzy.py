@@ -20,10 +20,6 @@ def datenbanken():
 def server():
     return render_template('server.html')
 
-@statzy.route('/stammdaten')
-def stammdaten():
-    return render_template('stammdaten.html')
-
 @statzy.route('/komponenteServer')
 def komponenteServer():
     return render_template('komponenteServer.html')

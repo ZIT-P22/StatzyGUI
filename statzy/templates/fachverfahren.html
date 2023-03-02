@@ -1,83 +1,101 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>Welcome to my website!</h1>
-    <p>This is my fachverfahren.</p>
-    <body>
-        <form>
-            <fieldset>
-                <legend>Stammdaten</legend>
-                <label for="name">Name des IT-Verfahrens:</label>
-                <input type="text" id="name" name="name" required><br><br>
-                
-                <label for="id">Verfahrens-ID (wenn vorhanden)</label>
-                <input type="text" id="id" name="id"><br><br>
-                
-                <label for="tag">Verf.-TAG</label>
-                <input type="text" id="tag" name="tag"><br><br>
-                
-                <label for="deploymentDate">Bereitstellungszeitpunkt:</label>
-                <input type="date" id="deploymentDate" name="deploymentDate" required><br><br>
+  <div class="bg-gray-100 text-gray-900 font-sans">
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <div class="px-4 py-6 sm:px-0">
+        <h1 class="text-3xl font-bold text-center mb-8">IT Verfahren Stammdaten Formular</h1>
+        <hr class="border-gray-300 my-8">
 
-            <label for="runtime">Laufzeit:</label>
-            <input type="text" id="runtime" name="runtime"><br><br>
-            
-            <label>BSI Schutzbearf:</label>
-            <br>
-            <label for="confidentiality">Vertraulichkeit:</label>
-            <input type="text" id="confidentiality" name="confidentiality">
-            <label for="availability">Verfügbarkeit:</label>
-            <input type="text" id="availability" name="availability">
-            <label for="integrity">Integrität:</label>
-            <input type="text" id="integrity" name="integrity">
-            <br><br>
-            
-            <label for="notes">Anmerkungen</label>
-            <textarea id="notes" name="notes"></textarea><br><br>
-            
-            <label>Umgebung (P,I,T):</label>
-            <br>
-            <label for="production">Produktion:</label>
-            <input type="checkbox" id="production" name="production">
-            <label for="integration">Integration:</label>
-            <input type="checkbox" id="integration" name="integration">
-            <label for="test">Test:</label>
-            <input type="checkbox" id="test" name="test">
-            <br><br>
-            
-            <label for="customer">Auftraggeber:</label>
-            <input type="text" id="customer" name="customer"><br><br>
-            
-            <label for="customerPhone">Telefon:</label>
-            <input type="tel" id="customerPhone" name="customerPhone"><br><br>
-            
-            <label for="user">Nutzer:</label>
-            <input type="text" id="user" name="user"><br><br>
+        <form class="max-w-3xl mx-auto">
+          <div class="mb-6">
+            <label class="block font-bold mb-2" for="it-verfahren-namen">
+              Namen des IT Verfahrens:
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline" type="text" id="it-verfahren-namen" name="it-verfahren-namen">
+          </div>
 
-            <label for="userPhone">Telefon:</label>
-            <input type="tel" id="userPhone" name="userPhone"><br><br>
-            
-            <label for="support">Verfahrensbetreuung (ZIT-BB):</label>
-            <input type="text" id="support" name="support"><br><br>
-            
-            <label for="supportPhone">Telefon:</label>
-            <input type="tel" id="supportPhone" name="supportPhone"><br><br>
-            
-            <label for="management">Kundenmanagement (ZIT-BB):</label>
-            <input type="text" id="management" name="management"><br><br>
-            
-            <label for="managementPhone">Telefon:</label>
-            <input type="tel" id="managementPhone" name="managementPhone"><br><br>
-            
-            <label for="admin">Fachadministration durch:</label>
-            <input type="text" id="admin" name="admin"><br><br>
-            
-            <label for="adminPhone">Telefon:</label>
-            <input type="tel" id="adminPhone" name="adminPhone"><br><br>
-            
-            <!--Beschreibung/Verwendungszweck IT-Verfahren-->
-            <label for="use">Beschreibung/Verwendungszweck IT-Verfahren:</label>
-            <textarea id="use" name="use"></textarea><br><br>
-        </body>
-        
-        {% endblock %}
+          <div class="mb-6 flex flex-wrap">
+            <div class="w-full md:w-1/2 pr-4">
+              <label class="block font-bold mb-2" for="verfahrens-id">
+                Verfahrens-ID (wenn vorhanden):
+              </label>
+              <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline" type="text" id="verfahrens-id" name="verfahrens-id">
+            </div>
+
+            <div class="w-full md:w-1/2 pl-4">
+              <label class="block font-bold mb-2" for="verfahrens-tag">
+                Verf.-Tag:
+              </label>
+              <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline" type="text" id="verfahrens-tag" name="verfahrens-tag">
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <label class="block font-bold mb-2" for="berichtstellungszeitpunkt">
+              Berichtstellungszeitpunkt:
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline" type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt">
+          </div>
+
+          <div class="mb-6">
+            <label class="block font-bold mb-2" for="laufzeit">
+              Laufzeit:
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline" type="text" id="laufzeit" name="laufzeit">
+          </div>
+
+          <hr class="border-gray-300 my-8">
+
+          <div class="mb-6 flex flex-wrap">
+                   <div class="w-full md:w-1/2 pl-4">
+          <label class="block font-bold mb-2" for="dsgvo">
+            DSGVO:
+          </label>
+          <div class="relative">
+            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="dsgvo" name="dsgvo">
+              <option value="" disabled selected>Bitte DSGVO auswählen</option>
+              <option value="Ja">Ja</option>
+              <option value="Nein">Nein</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M14.707 8.707a1 1 0 0 0-1.414-1.414L10 10.586 6.707 7.293a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.414 0l4-4z"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label class="block font-bold mb-2" for="beschreibung">
+          Beschreibung:
+        </label>
+        <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="beschreibung" name="beschreibung" rows="6"></textarea>
+      </div>
+
+      <div class="mb-6">
+        <label class="block font-bold mb-2" for="betroffene-personen">
+          Betroffene Personen:
+        </label>
+      </div>
+
+      <div class="mb-6">
+        <label class="block font-bold mb-2" for="massnahmen">
+          Maßnahmen:
+        </label>
+        <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="massnahmen" name="massnahmen" rows="6"></textarea>
+      </div>
+    
+      <div class="mb-6">
+        <label class="block font-bold mb-2" for="datum">
+          Datum:
+        </label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="datum" name="datum" type="date">
+      </div>
+    
+      <div class="flex items-center justify-center">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+          Abschicken
+        </button>
+      </div>
+    </form>
+{% endblock %}
