@@ -20,7 +20,9 @@ def datenbanken():
 def server():
     return render_template('server.html')
 
-
+@statzy.route('/stammdaten')
+def server():
+    return render_template('stammdaten.html')
 
 if __name__ == '__main__':
     statzy.run()
