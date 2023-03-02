@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='tailwind.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='theme.css') }}">
     <title>{{ title }}</title>
-  </head>
-  <body>
+</head>
+
+<body>
     <!--! Navbar start-->
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/fachverfahren">Fachverfahren</a></li>
-        <li><a href="/server">Server</a></li>
-        <li><a href="/datenbanken">Datenbanken</a></li>
-        <li><a href="/stammdaten">Stammdaten</a></li>
-        <li><a href="/komponenteServer">Komponenten Server</a></li>
-      </ul>
-    </nav>
-    <!--! Navbar end-->
-      {% block content %}
-        <h1>Welcome to {{ title }}!</h1>
-        <p>This is a basic HTML page with Jinja integration.</p>
-        <ul>
-      {% endblock %}
+    <ul class="flex border-b">
+        <li class="mr-3"><a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="/">Home</a></li>
+        <li class="mr-3"><a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="/fachverfahren">Fachverfahren</a></li>
+        <li class="mr-3"><a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="/server">Server</a></li>
+        <li class="mr-3"><a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="/datenbanken">Datenbanken</a></li>
+        <li class="mr-3"><a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="/stammdaten">Stammdaten</a></li>
+        <li class="mr-3"><a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="/komponenteServer">Komponenten Server</a></li>
     </ul>
-  </body>
+    <!--! Navbar end-->
+    {% block content %}
+    <h1>Welcome to {{ title }}!</h1>
+    <p>This is a basic HTML page with Jinja integration.</p>
+    <ul>
+        {% endblock %}
+    </ul>
+</body>
+
 </html>
