@@ -24,5 +24,9 @@ def server():
 def server():
     return render_template('stammdaten.html')
 
+@statzy.route('/komponenteServer')
+def server():
+    return render_template('komponenteServer.html')
+
 if __name__ == '__main__':
     statzy.run()
