@@ -5,7 +5,8 @@ statzy = Flask(__name__)
 
 @statzy.route('/')
 def index():
-    return render_template('index.html')
+    title = 'Statzy'
+    return render_template('index.html', title=title)
 
 @statzy.route('/fachverfahren')
 def fachverfahren():

@@ -1,30 +1,27 @@
-Simple web page to display a form
+{% extends "layout.html" %}
 
-<html>
-
-<head>
-    <title>Simple Form</title>
-</head>
-
-<body>
-    <form>
-        <fieldset>
-            <legend>Stammdaten</legend>
-            <label for="name">Name des IT-Verfahrens:</label>
-            <input type="text" id="name" name="name" required><br><br>
-
-            <label for="id">Verfahrens-ID (wenn vorhanden)</label>
-            <input type="text" id="id" name="id"><br><br>
-
-            <label for="tag">Verf.-TAG</label>
-            <input type="text" id="tag" name="tag"><br><br>
-
-            <label for="deploymentDate">Bereitstellungszeitpunkt:</label>
-            <input type="date" id="deploymentDate" name="deploymentDate" required><br><br>
+{% block content %}
+    <h1>Welcome to my website!</h1>
+    <p>This is my fachverfahren.</p>
+    <body>
+        <form>
+            <fieldset>
+                <legend>Stammdaten</legend>
+                <label for="name">Name des IT-Verfahrens:</label>
+                <input type="text" id="name" name="name" required><br><br>
+                
+                <label for="id">Verfahrens-ID (wenn vorhanden)</label>
+                <input type="text" id="id" name="id"><br><br>
+                
+                <label for="tag">Verf.-TAG</label>
+                <input type="text" id="tag" name="tag"><br><br>
+                
+                <label for="deploymentDate">Bereitstellungszeitpunkt:</label>
+                <input type="date" id="deploymentDate" name="deploymentDate" required><br><br>
 
             <label for="runtime">Laufzeit:</label>
             <input type="text" id="runtime" name="runtime"><br><br>
-
+            
             <label>BSI Schutzbearf:</label>
             <br>
             <label for="confidentiality">Vertraulichkeit:</label>
@@ -34,10 +31,10 @@ Simple web page to display a form
             <label for="integrity">Integrität:</label>
             <input type="text" id="integrity" name="integrity">
             <br><br>
-
+            
             <label for="notes">Anmerkungen</label>
             <textarea id="notes" name="notes"></textarea><br><br>
-
+            
             <label>Umgebung (P,I,T):</label>
             <br>
             <label for="production">Produktion:</label>
@@ -47,40 +44,40 @@ Simple web page to display a form
             <label for="test">Test:</label>
             <input type="checkbox" id="test" name="test">
             <br><br>
-
+            
             <label for="customer">Auftraggeber:</label>
             <input type="text" id="customer" name="customer"><br><br>
-
+            
             <label for="customerPhone">Telefon:</label>
             <input type="tel" id="customerPhone" name="customerPhone"><br><br>
-
+            
             <label for="user">Nutzer:</label>
             <input type="text" id="user" name="user"><br><br>
 
             <label for="userPhone">Telefon:</label>
             <input type="tel" id="userPhone" name="userPhone"><br><br>
-
+            
             <label for="support">Verfahrensbetreuung (ZIT-BB):</label>
             <input type="text" id="support" name="support"><br><br>
-
+            
             <label for="supportPhone">Telefon:</label>
             <input type="tel" id="supportPhone" name="supportPhone"><br><br>
-
+            
             <label for="management">Kundenmanagement (ZIT-BB):</label>
             <input type="text" id="management" name="management"><br><br>
-
+            
             <label for="managementPhone">Telefon:</label>
             <input type="tel" id="managementPhone" name="managementPhone"><br><br>
-
+            
             <label for="admin">Fachadministration durch:</label>
             <input type="text" id="admin" name="admin"><br><br>
-
+            
             <label for="adminPhone">Telefon:</label>
             <input type="tel" id="adminPhone" name="adminPhone"><br><br>
-
+            
             <!--Beschreibung/Verwendungszweck IT-Verfahren-->
             <label for="use">Beschreibung/Verwendungszweck IT-Verfahren:</label>
             <textarea id="use" name="use"></textarea><br><br>
-</body>
-
-</html>
+        </body>
+        
+        {% endblock %}
