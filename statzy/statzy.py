@@ -7,7 +7,7 @@ statzy = Flask(__name__)
 @statzy.route('/')
 def index():
     title = 'Statzy'
-    return render_template('index.html', title=title)
+    return render_template('login.html', title=title)
 
 
 @statzy.route('/fachverfahren')
@@ -51,7 +51,7 @@ def login():
         tables = [table[0] for table in cursor.fetchall()]
 
         # Render the template with the dropdown menu
-        return render_template('tables.html', tables=tables)
+        return render_template('index.html', tables=tables)
     except:
         return 'Database connection failed!'
 
