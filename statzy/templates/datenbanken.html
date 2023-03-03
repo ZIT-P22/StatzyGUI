@@ -1,39 +1,37 @@
 {% extends "layout.html" %} {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>{{ table_name }} Results</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css"
-    />
-  </head>
-  <body class="bg-gray-100">
-    <div class="flex items-center justify-center min-h-screen">
-      <div class="w-full max-w-md px-6 py-8 bg-white rounded-lg shadow-md">
-        <h1 class="mb-4 text-2xl font-medium">{{ table_name }} Results</h1>
-        <table class="w-full table-auto">
-          <thead>
-            <tr>
-              {% for column in results[0].keys() %}
-              <th class="px-4 py-2">{{ column }}</th>
-              {% endfor %}
-            </tr>
-          </thead>
-          <tbody>
-            {% for row in results %}
-            <tr>
-              {% for value in row %}
-              <td class="px-4 py-2 border">{{ value }}</td>
-              {% endfor %}
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+<div class="container mx-auto">
+  <div class="flex flex-col items-center justify-center">
+    <h1 class="mb-4 text-2xl font-medium">Datenbanken</h1>
+    <form action="{{ url_for('query') }}" method="POST">
+      <div class="relative inline-block">
+        <select
+          class="block w-full px-4 py-2 pr-8 leading-tight bg-white border border-gray-400 rounded shadow appearance-none hover:border-gray-500 focus:outline-none focus:shadow-outline"
+          name="table"
+        >
+          {% for table in tables %}
+          <option value="{{ table }}">{{ table }}</option>
+          {% endfor %}
+        </select>
+        <div
+          class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 fill-current"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path d="M0 0h20v20H0z" fill="none" />
+            <path d="M7 9l3 3 3-3H7z" />
+          </svg>
+        </div>
       </div>
-    </div>
-  </body>
-</html>
-
+      <button
+        class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+        type="submit"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
 {% endblock %}
