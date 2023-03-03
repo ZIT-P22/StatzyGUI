@@ -12,16 +12,8 @@ def index():
 
 @statzy.route('/fachverfahren', methods=['POST'])
 def fachverfahren():
-    fachverfahren = "T1"
-    try:
-        cursor = conn.cursor()
-        cursor.execute(
-            "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag = ",fachverfahren," ORDER BY name ")
-        results = cursor.fetchall()
-        
-        return render_template('fachverfahren.html', fachverfahren=fachverfahren, results=results)
-    except:
-        return 'Database connection failed!'
+    return render_template('fachverfahren.html')
+
 
 @statzy.route('/datenbanken')
 def datenbanken():
