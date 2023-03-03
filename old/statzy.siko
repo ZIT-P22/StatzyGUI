@@ -620,8 +620,8 @@ Container
 --
 
 COPY public.datenbank (name, "clusterlösung", instanz, "größe", typ, fachverfahren, server, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd) FROM stdin;
-DB1234	\N	12	1024	\N	4711	1	2022-11-09 09:58:37.897665	fxspangenberg	\N	\N
-DB01	ja	12	180	MSSQL	4711	\N	2022-11-10 14:01:04.588558	fxspangenberg	\N	\N
+DB1234	''	12	1024	''	4711	1	2022-11-09 09:58:37.897665	fxspangenberg	''	''
+DB01	ja	12	180	MSSQL	4711	''	2022-11-10 14:01:04.588558	fxspangenberg	''	''
 \.
 
 
@@ -630,7 +630,7 @@ DB01	ja	12	180	MSSQL	4711	\N	2022-11-10 14:01:04.588558	fxspangenberg	\N	\N
 --
 
 COPY public.fachverfahren (name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation) FROM stdin;
-Testverfahren	4711	TST-01	Nur zum Test verwenden	\N	1	2	3	4
+Testverfahren	4711	TST-01	Nur zum Test verwenden	''	1	2	3	4
 a	4712	T1	testen	1 Jahr	7	7	7	7
 \.
 
@@ -640,18 +640,18 @@ a	4712	T1	testen	1 Jahr	7	7	7	7
 --
 
 COPY public.person (name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd) FROM stdin;
-Müller	123456	2.6	Heinz	1	2022-11-09 08:24:54.277163	fxspangenberg	\N	\N
-Reich	123456	2.3	Sieglinde	2	2022-11-09 08:24:54.277163	fxspangenberg	\N	\N
-Wohlthat	123556	4.1	Friedrich	3	2022-11-09 08:24:54.277163	fxspangenberg	\N	\N
-Luchs	1238956	4.2	Karin	4	2022-11-09 08:24:54.277163	fxspangenberg	\N	\N
-Kaiser	12365636	4.3	Theodor	5	2022-11-09 08:24:54.277163	fxspangenberg	\N	\N
-Düsselfeld	1234567890	2.1	Gerlinde	6	2022-11-09 13:17:07.539225	fxspangenberg	\N	\N
-Abel	110	5.3	Lukas	7	2022-11-09 13:38:30.559335	fxspangenberg	\N	\N
-Heinrich	12345	4.2	Müller	8	2022-11-10 09:37:20.765067	fxspangenberg	\N	\N
-Auch Martin	123456778	2.6	Martin	9	2022-11-10 10:13:21.318025	fxspangenberg	\N	\N
-Lukas	12345677	2.6	Lukas	10	2022-11-10 10:13:45.12144	fxspangenberg	\N	\N
-Lukas	1234567	2.6	Lukas	11	2022-11-10 10:14:27.634261	fxspangenberg	\N	\N
-Lukas	353333	2.6	Leba	12	2022-11-10 12:09:52.643085	fxspangenberg	\N	\N
+Müller	123456	2.6	Heinz	1	2022-11-09 08:24:54.277163	fxspangenberg	''	''
+Reich	123456	2.3	Sieglinde	2	2022-11-09 08:24:54.277163	fxspangenberg	''	''
+Wohlthat	123556	4.1	Friedrich	3	2022-11-09 08:24:54.277163	fxspangenberg	''	''
+Luchs	1238956	4.2	Karin	4	2022-11-09 08:24:54.277163	fxspangenberg	''	''
+Kaiser	12365636	4.3	Theodor	5	2022-11-09 08:24:54.277163	fxspangenberg	''	''
+Düsselfeld	1234567890	2.1	Gerlinde	6	2022-11-09 13:17:07.539225	fxspangenberg	''	''
+Abel	110	5.3	Lukas	7	2022-11-09 13:38:30.559335	fxspangenberg	''	''
+Heinrich	12345	4.2	Müller	8	2022-11-10 09:37:20.765067	fxspangenberg	''	''
+Auch Martin	123456778	2.6	Martin	9	2022-11-10 10:13:21.318025	fxspangenberg	''	''
+Lukas	12345677	2.6	Lukas	10	2022-11-10 10:13:45.12144	fxspangenberg	''	''
+Lukas	1234567	2.6	Lukas	11	2022-11-10 10:14:27.634261	fxspangenberg	''	''
+Lukas	353333	2.6	Leba	12	2022-11-10 12:09:52.643085	fxspangenberg	''	''
 \.
 
 
@@ -660,8 +660,8 @@ Lukas	353333	2.6	Leba	12	2022-11-10 12:09:52.643085	fxspangenberg	\N	\N
 --
 
 COPY public.server (server_id, fachverfahren, name, umgebung, laufzeit_server, bereitstellungszeitpunkt, verwendungszweck, typ, netzwerk, ram, cpu, os, speichertyp, "kapazität", erreichbarkeit, "hochverfügbarkeit", vertraulichkeit, "verfügbarkeit", "integrität", anmerkungen, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd) FROM stdin;
-1	4711	beap-00188-099	virtuell	\N	\N	\N	\N	\N	\N	\N	Red Hat 8.x	\N	\N	\N	\N	\N	\N	\N	\N	2022-11-09 08:27:03.335977	fxspangenberg	\N	\N
-3	4711	beap	physisch	1 Jahr	2021-10-20 00:00:00	Applikationserver (AP)	\N	nx 1Gbps	4 GB	8 Core	SLES 12 SP5	class-F	12GB	Internet(DMZ)	f	a	b	c	qbcde	2022-11-10 13:51:45.61189	fxspangenberg	\N	\N
+1	4711	beap-00188-099	virtuell	''	''	''	''	''	''	''	Red Hat 8.x	''	''	''	''	''	''	''	''	2022-11-09 08:27:03.335977	fxspangenberg	''	''
+3	4711	beap	physisch	1 Jahr	2021-10-20 00:00:00	Applikationserver (AP)	''	nx 1Gbps	4 GB	8 Core	SLES 12 SP5	class-F	12GB	Internet(DMZ)	f	a	b	c	qbcde	2022-11-10 13:51:45.61189	fxspangenberg	''	''
 \.
 
 

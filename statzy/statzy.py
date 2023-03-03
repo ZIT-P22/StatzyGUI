@@ -10,9 +10,29 @@ def index():
     return render_template('login.html', title=title)
 
 
-@statzy.route('/fachverfahren', methods=['POST'])
+@statzy.route('/fachverfahren')
 def fachverfahren():
-    return render_template('fachverfahren.html')
+    tag = 'T1'
+    try:
+        print("Test 0")
+        cursor = conn.cursor()
+        print("Test 1")
+        query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag = '" + tag + "' ORDER BY name "
+        #query = "SELECT tag FROM fachverfahren WHERE tag = '" + tag + "' ORDER BY name "
+        print("Test 2")
+        cursor.execute(query)
+        print("Test 3")
+        results = cursor.fetchall()
+        print(results)
+
+        # Unpacking der Werte in Variablen
+        name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation = results[0]
+
+        return render_template('fachverfahren.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministation=fachadministation)
+        #return results
+    except:
+        print("Test 4")
+        return 'Fehler'
 
 
 @statzy.route('/datenbanken')
@@ -38,9 +58,9 @@ def login():
     try:
         conn = psycopg2.connect(
             dbname='statzy',
-            user=username,
-            password=password,
-            host='10.128.201.127',
+            user='postgres',
+            password='postgres',
+            host='localhost',
             port='5432'
         )
         cursor = conn.cursor()
