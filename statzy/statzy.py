@@ -14,6 +14,10 @@ def index():
 def fachverfahren():
     return render_template('fachverfahren.html')
 
+    cursor.execute(
+        "Insert into fachverfahren (CPU/vCPU) values (%s)", (CPU/vCPU))
+    conn.commit()
+
 
 @statzy.route('/datenbanken')
 def datenbanken():
