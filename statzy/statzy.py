@@ -10,10 +10,18 @@ def index():
     return render_template('login.html', title=title)
 
 
-@statzy.route('/fachverfahren')
+@statzy.route('/fachverfahren', methods=['POST'])
 def fachverfahren():
-    return render_template('fachverfahren.html')
-
+    fachverfahren = "T1"
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag = ",fachverfahren," ORDER BY name ")
+        results = cursor.fetchall()
+        
+        return render_template('fachverfahren.html', fachverfahren=fachverfahren, results=results)
+    except:
+        return 'Database connection failed!'
 
 @statzy.route('/datenbanken')
 def datenbanken():
@@ -32,15 +40,15 @@ def komponenteServer():
 
 @statzy.route('/login', methods=['POST'])
 def login():
+    global conn
     username = request.form['username']
     password = request.form['password']
-
     try:
         conn = psycopg2.connect(
             dbname='statzy',
             user=username,
             password=password,
-            host='localhost',
+            host='10.128.201.127',
             port='5432'
         )
         cursor = conn.cursor()
@@ -59,15 +67,7 @@ def login():
 @statzy.route('/query', methods=['POST'])
 def query():
     table_name = request.form['table']
-
     try:
-        conn = psycopg2.connect(
-            dbname='statzy',
-            user=username,
-            password=password,
-            host='localhost',
-            port='5432'
-        )
         cursor = conn.cursor()
 
         # Execute the SELECT * query on the selected table
