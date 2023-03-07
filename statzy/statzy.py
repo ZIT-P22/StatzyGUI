@@ -57,8 +57,11 @@ def komponenteServer():
 @statzy.route('/login', methods=['POST'])
 def login():
     global conn, cursor
-    username = request.form['username']
-    password = request.form['password']
+    #username = request.form['username']
+    #password = request.form['password']
+
+    username = 'postgres'
+    password = 'postgre'
 
     print("Username:", username)
     print("Password:", password)
