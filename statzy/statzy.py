@@ -7,7 +7,6 @@ conn = None
 cursor = None
 statzy.secret_key = secrets.token_hex(16)
 
-
 @statzy.route('/')
 def index():
     title = 'Statzy'
@@ -61,7 +60,7 @@ def login():
     #password = request.form['password']
 
     username = 'postgres'
-    password = 'postgre'
+    password = 'postgres'
 
     print("Username:", username)
     print("Password:", password)
@@ -95,20 +94,28 @@ def login():
         return 'Database connection failed! Login'
 
 
+    
+    
 @statzy.route('/query', methods=['POST'])
 def query():
     global conn, cursor
     table_name = request.form['table']
     try:
         # Execute the SELECT * query on the selected table
-        cursor.execute(
-            f"SELECT * FROM {table_name}")
+        cursor.execute(f"SELECT * FROM {table_name}")
         results = cursor.fetchall()
 
         # Render the template with the query results
-        return render_template('query.html', table_name=table_name, results=results)
-    except:
-        return 'Database connection failed! Query'
+        return render_template('query.html', table_name=table_name, data=results, cursor=cursor)
+    except Exception as e:
+        print("Exception:", e)
+        results = []  # initialize results as an empty list
+        return f"Database query failed! {e}"
+
+
+
+
+
 
 
 @statzy.route('/datenbanken')

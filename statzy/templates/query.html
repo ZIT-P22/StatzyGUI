@@ -1,39 +1,25 @@
 {% extends "layout.html" %} {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>{{ table_name }} Results</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css"
-    />
-  </head>
-  <body class="bg-gray-100">
-    <div class="flex items-center justify-center min-h-screen">
-      <div class="w-full max-w-md px-6 py-8 bg-white rounded-lg shadow-md">
-        <h1 class="mb-4 text-2xl font-medium">{{ table_name }} Results</h1>
-        <table class="w-full table-auto">
-          <thead>
-            <tr>
-              {% for column in results[0].keys() %}
-              <th class="px-4 py-2">{{ column }}</th>
-              {% endfor %}
-            </tr>
-          </thead>
-          <tbody>
-            {% for row in results %}
-            <tr>
-              {% for value in row %}
-              <td class="px-4 py-2 border">{{ value }}</td>
-              {% endfor %}
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </body>
-</html>
-
+<div class="container mx-auto my-8">
+  <h1 class="text-3xl font-bold">{{ table_name }}</h1>
+  <div class="overflow-x-auto bg-white rounded-lg shadow">
+    <table class="w-full whitespace-no-wrap table-auto">
+      <thead>
+        <tr class="font-bold text-left">
+          {% for column in cursor.description %}
+          <th class="px-6 py-4">{{ column[0] }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in data %}
+        <tr class="border-t">
+          {% for cell in row %}
+          <td class="px-6 py-4">{{ cell }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}
