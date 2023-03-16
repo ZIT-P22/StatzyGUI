@@ -20,7 +20,7 @@ def start():
 
 @statzy.route('/fachverfahren')
 def fachverfahren():
-    tag = 'T1'
+    tag = request.form('tag')
     try:
         print("Test 0")
         cursor = conn.cursor()
@@ -41,7 +41,6 @@ def fachverfahren():
     except:
         print("Test 4")
         return 'Fehler'
-
 
 @statzy.route('/server')
 def server():

@@ -8,8 +8,8 @@
 
       <hr class="my-8 border-gray-300" />
 
-      <form action="">
-        <div class="flex flex-wrap max-w-3xl mx-auto">
+      <form action="{{ url_for('fachverfahren') }}" method="POST" class="max-w-3xl mx-auto">
+        <div class="flex flex-wrap">
           <div class="w-full">
             <label class="block mb-2 font-bold" for="verfahrens-tag">
               Verf.-Tag:
@@ -34,7 +34,7 @@
 
     </div>
     <!--! form start-->
-    <form action="{{ url_for('fachverfahren') }}" method="POST" class="max-w-3xl mx-auto">
+    <form action="" method="POST" class="max-w-3xl mx-auto">
       <hr class="my-8 border-gray-300" />
       <div class="mb-6">
         <label class="block mb-2 font-bold" for="it-verfahren-namen">
