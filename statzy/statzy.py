@@ -47,6 +47,10 @@ def fachverfahrenAuswahl():
         results = cursor.fetchall()
         print(results)
 
+        # Wenn es keine Ergebnisse gibt, dann wird eine Warnung ausgegeben das keine Ergebnisse gefunden wurden
+        if not results:
+            return 'Keine Ergebnisse gefunden'
+
         # Unpacking der Werte in Variablen
         name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[0]
 
