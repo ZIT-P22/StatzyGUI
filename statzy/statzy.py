@@ -20,7 +20,21 @@ def start():
 
 @statzy.route('/fachverfahren')
 def fachverfahren():
+    name = ''
+    verf_id = ''
+    tag = ''
+    vewendungszweck = ''
+    laufzeitverfahren = ''
+    auftraggeber = ''
+    verf_betreuung = ''
+    kundenmanagement = ''
+    fachadministration = ''
+    return render_template('fachverfahren.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+
+@statzy.route('/fachverfahrenAuswahl' , methods=['POST'])
+def fachverfahrenAuswahl():
     tag = request.form('tag')
+    #tag = 'T1'
     try:
         print("Test 0")
         cursor = conn.cursor()

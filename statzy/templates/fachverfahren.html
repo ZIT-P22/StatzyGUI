@@ -8,7 +8,7 @@
 
       <hr class="my-8 border-gray-300" />
 
-      <form action="{{ url_for('fachverfahren') }}" method="POST" class="max-w-3xl mx-auto">
+      <form action="{{ url_for('fachverfahrenAuswahl') }}" method="POST" class="max-w-3xl mx-auto">
         <div class="flex flex-wrap">
           <div class="w-full">
             <label class="block mb-2 font-bold" for="verfahrens-tag">
@@ -18,9 +18,7 @@
           <div class="w-4/6 md:w-5/6">
             <input class="w-full px-3 py-2 leading-tight text-gray-900 border
           rounded shadow appearance-none focus:outline-none
-          focus:shadow-outline" type="text" id="verfahrens-tag" name="verfahrens-tag" value="{{
-            tag
-          }}" ">
+          focus:shadow-outline" type="text" id="verfahrens-tag" name="verfahrens-tag" value="Bitte den Verf-Tag Eingeben">
         </div>
         
         <div class=" pl-4 w-2/6 md:w-1/6">
