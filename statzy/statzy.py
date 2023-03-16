@@ -33,7 +33,7 @@ def fachverfahren():
 
 @statzy.route('/fachverfahrenAuswahl' , methods=['POST'])
 def fachverfahrenAuswahl():
-    tag = request.form('tag')
+    tag = request.form['tag']
     #tag = 'T1'
     try:
         print("Test 0")
