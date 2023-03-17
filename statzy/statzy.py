@@ -36,9 +36,10 @@ def fachverfahrenEditieren():
         results = cursor.fetchall()
         print(results)
 
+
         # Wenn es keine Ergebnisse gibt, dann wird eine Warnung ausgegeben das keine Ergebnisse gefunden wurden
         if not results:
-            return render_template('fachverfahrenSuche.html', warning=1)
+            return render_template('fachverfahrenSuche.html', warning=1 , tag=tag)
 
         # Unpacking der Werte in Variablen
         name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[0]
@@ -47,6 +48,10 @@ def fachverfahrenEditieren():
     except:
         print("Test 4")
         return 'Fehler'
+
+@statzy.route('/fachverfahrenErstellen', methods=['POST'])
+def fachverfahrenErstellen():
+    return render_template('fachverfahrenErstellen.html')
 
 @statzy.route('/server')
 def server():
