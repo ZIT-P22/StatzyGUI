@@ -20,36 +20,33 @@ def start():
 
 @statzy.route('/fachverfahrenSuche')
 def fachverfahrenSuche():
-    return render_template('fachverfahrenSuche.html')
+    return render_template('fachverfahrenSuche.html', warning=0)
 
 @statzy.route('/fachverfahrenEditieren' , methods=['POST'])
 def fachverfahrenEditieren():
     tag = request.form['tag']
-    #tag = 'T1'
-    #try:
-    print("Test 0")
-    cursor = conn.cursor()
-    print("Test 1")
-    query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag = '" + tag + "' ORDER BY name "
-    #query = "SELECT tag FROM fachverfahren WHERE tag = '" + tag + "' ORDER BY name "
-    print("Test 2")
-    cursor.execute(query)
-    print("Test 3")
-    results = cursor.fetchall()
-    print(results)
+    try:
+        print("Test 0")
+        cursor = conn.cursor()
+        print("Test 1")
+        query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag = '" + tag + "' ORDER BY name "
+        print("Test 2")
+        cursor.execute(query)
+        print("Test 3")
+        results = cursor.fetchall()
+        print(results)
 
-    # Wenn es keine Ergebnisse gibt, dann wird eine Warnung ausgegeben das keine Ergebnisse gefunden wurden
-    if not results:
-        return 'Keine Ergebnisse gefunden'
+        # Wenn es keine Ergebnisse gibt, dann wird eine Warnung ausgegeben das keine Ergebnisse gefunden wurden
+        if not results:
+            return render_template('fachverfahrenSuche.html', warning=1)
 
-    # Unpacking der Werte in Variablen
-    name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[0]
+        # Unpacking der Werte in Variablen
+        name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[0]
 
-    return render_template('fachverfahrenEditieren.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
-    #return results
-#except:
-    print("Test 4")
-    return 'Fehler'
+        return render_template('fachverfahrenEditieren.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+    except:
+        print("Test 4")
+        return 'Fehler'
 
 @statzy.route('/server')
 def server():
