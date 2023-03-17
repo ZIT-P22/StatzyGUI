@@ -22,8 +22,8 @@ def start():
 def fachverfahrenSuche():
     return render_template('fachverfahrenSuche.html', warning=0)
 
-@statzy.route('/fachverfahrenEditieren' , methods=['POST'])
-def fachverfahrenEditieren():
+@statzy.route('/fachverfahrenAnsehen' , methods=['POST'])
+def fachverfahrenAnsehen():
     tag = request.form['tag']
     try:
         print("Test 0")
@@ -44,6 +44,27 @@ def fachverfahrenEditieren():
         # Unpacking der Werte in Variablen
         name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[0]
 
+        return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+    except:
+        print("Test 4")
+        return 'Fehler'
+
+@statzy.route('/fachverfahrenEditieren', methods=['POST'])
+def fachverfahrenEditieren():
+    tag = request.form['tag']
+    try:
+        print("Test 0")
+        cursor = conn.cursor()
+        print("Test 1")
+        query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag = '" + tag + "' ORDER BY name "
+        print("Test 2")
+        cursor.execute(query)
+        print("Test 3")
+        results = cursor.fetchall()
+        print(results)
+        # Unpacking der Werte in Variablen
+        name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[0]
+
         return render_template('fachverfahrenEditieren.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
     except:
         print("Test 4")
@@ -51,7 +72,8 @@ def fachverfahrenEditieren():
 
 @statzy.route('/fachverfahrenErstellen', methods=['POST'])
 def fachverfahrenErstellen():
-    return render_template('fachverfahrenErstellen.html')
+    tag = request.form['tag']
+    return render_template('fachverfahrenErstellen.html', tag=tag)
 
 @statzy.route('/server')
 def server():
