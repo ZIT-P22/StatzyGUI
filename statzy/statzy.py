@@ -180,4 +180,4 @@ def datenbanken():
 
 
 if __name__ == '__main__':
-    statzy.run(debug=True)
+    statzy.run(debug=True, host="0.0.0.0", port=5000)
