@@ -7,6 +7,7 @@ conn = None
 cursor = None
 statzy.secret_key = secrets.token_hex(16)
 
+
 @statzy.route('/')
 def index():
     title = 'Statzy'
@@ -22,7 +23,8 @@ def start():
 def fachverfahrenSuche():
     return render_template('fachverfahrenSuche.html', warning=0)
 
-@statzy.route('/fachverfahrenAnsehen' , methods=['POST'])
+
+@statzy.route('/fachverfahrenAnsehen', methods=['POST'])
 def fachverfahrenAnsehen():
     tag = request.form['tag']
     try:
@@ -36,18 +38,19 @@ def fachverfahrenAnsehen():
         results = cursor.fetchall()
         print(results)
 
-
         # Wenn es keine Ergebnisse gibt, dann wird eine Warnung ausgegeben das keine Ergebnisse gefunden wurden
         if not results:
-            return render_template('fachverfahrenSuche.html', warning=1 , tag=tag)
+            return render_template('fachverfahrenSuche.html', warning=1, tag=tag)
 
         # Unpacking der Werte in Variablen
-        name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[0]
+        name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
+            0]
 
         return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
     except:
         print("Test 4")
         return 'Fehler'
+
 
 @statzy.route('/fachverfahrenEditieren', methods=['POST'])
 def fachverfahrenEditieren():
@@ -63,17 +66,20 @@ def fachverfahrenEditieren():
         results = cursor.fetchall()
         print(results)
         # Unpacking der Werte in Variablen
-        name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[0]
+        name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
+            0]
 
         return render_template('fachverfahrenEditieren.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
     except:
         print("Test 4")
         return 'Fehler'
 
+
 @statzy.route('/fachverfahrenErstellen', methods=['POST'])
 def fachverfahrenErstellen():
     tag = request.form['tag']
     return render_template('fachverfahrenErstellen.html', tag=tag)
+
 
 @statzy.route('/server')
 def server():
@@ -88,8 +94,8 @@ def komponenteServer():
 @statzy.route('/login', methods=['POST'])
 def login():
     global conn, cursor
-    #username = request.form['username']
-    #password = request.form['password']
+    # username = request.form['username']
+    # password = request.form['password']
 
     username = 'postgres'
     password = 'postgres'
@@ -126,8 +132,6 @@ def login():
         return 'Database connection failed! Login'
 
 
-    
-    
 @statzy.route('/query', methods=['POST'])
 def query():
     global conn, cursor
@@ -143,11 +147,6 @@ def query():
         print("Exception:", e)
         results = []  # initialize results as an empty list
         return f"Database query failed! {e}"
-
-
-
-
-
 
 
 @statzy.route('/datenbanken')

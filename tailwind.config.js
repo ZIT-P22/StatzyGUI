@@ -1,8 +1,9 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [],
+  mode: 'jit',
+  content: ['./statzy/templates/**/*.html'],
   theme: {
     extend: {},
   },
+  variants: {},
   plugins: [],
 }
