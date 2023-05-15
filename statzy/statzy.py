@@ -155,6 +155,12 @@ def fachverfahrenAnsehen():
 
             name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
                 0]
+            
+            auftraggeber = personIdToName(auftraggeber)
+            verf_betreuung = personIdToName(verf_betreuung)
+            kundenmanagement = personIdToName(kundenmanagement)
+            fachadministration = personIdToName(fachadministration)
+            
             return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
         except:
             return 'Fehler'
