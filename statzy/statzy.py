@@ -77,11 +77,11 @@ def fachverfahrenEditieren():
 
 @statzy.route('/fachverfahrenErstellen', methods=['POST'])
 def fachverfahrenErstellen():
-    #? folgenden Tag gibt es nicht deswegen wird er Standertmäßig übergeben
+    # ? folgenden Tag gibt es nicht deswegen wird er Standertmäßig übergeben
     tag = request.form['tag']
     edit = request.form['edit']
     if edit == '1':
-        #? falls irgendeine validation fehl schlägt, dann wird die Seite neu geladen und die Werte werden wieder in die Felder eingetragen / Stadnardmäßig wird der Tag auf "" gesetzt
+        # ? falls irgendeine validation fehl schlägt, dann wird die Seite neu geladen und die Werte werden wieder in die Felder eingetragen / Stadnardmäßig wird der Tag auf "" gesetzt
         name = request.form['name']
         verf_id = request.form['verf_id']
         vewendungszweck = request.form['vewendungszweck']
@@ -99,16 +99,16 @@ def fachverfahrenErstellen():
         verf_betreuung = ''
         kundenmanagement = ''
         fachadministration = ''
-    
+
     try:
-        #todo SQL-Querys zur Validierung
-        #? aus personendatenbank
-    
-    
+        # todo SQL-Querys zur Validierung
+        # ? aus personendatenbank
+
         return render_template('fachverfahrenErstellen.html', tag=tag, name=name, verf_id=verf_id, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
 
     except:
         return 'Fehler'
+
 
 @statzy.route('/server')
 def server():
@@ -137,7 +137,7 @@ def login():
             dbname='statzy',
             user=username,
             password=password,
-            host='localhost',
+            host='10.128.201.123',
             port='5432'
         )
 
