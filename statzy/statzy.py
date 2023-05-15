@@ -161,7 +161,7 @@ def datenbanken():
             dbname='statzy',
             user=username,
             password=password,
-            host='localhost',
+            host='10.128.201.123',
             port='5432'
         )
         cursor = conn.cursor()
