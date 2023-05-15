@@ -1,11 +1,38 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, g
 import psycopg2
 import secrets
 
 statzy = Flask(__name__)
-conn = None
-cursor = None
 statzy.secret_key = secrets.token_hex(16)
+
+
+def get_db():
+    if 'db' not in g:
+        g.db = psycopg2.connect(
+            dbname='statzy',
+            user=session.get('username'),
+            password=session.get('password'),
+            host='10.128.201.123',
+            port='5432'
+        )
+    return g.db
+
+
+def get_cursor():
+    if 'cursor' not in g:
+        g.cursor = get_db().cursor()
+    return g.cursor
+
+
+@statzy.teardown_appcontext
+def close_db(e=None):
+    cursor = g.pop('cursor', None)
+    db = g.pop('db', None)
+
+    if cursor is not None:
+        cursor.close()
+    if db is not None:
+        db.close()
 
 
 @statzy.route('/')
@@ -28,27 +55,18 @@ def fachverfahrenSuche():
 def fachverfahrenAnsehen():
     tag = request.form['tag']
     try:
-        print("Test 0")
-        cursor = conn.cursor()
-        print("Test 1")
+        cursor = get_cursor()
         query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
-        print("Test 2")
         cursor.execute(query)
-        print("Test 3")
         results = cursor.fetchall()
-        print(results)
 
-        # Wenn es keine Ergebnisse gibt, dann wird eine Warnung ausgegeben das keine Ergebnisse gefunden wurden
         if not results:
             return render_template('fachverfahrenSuche.html', warning=1, tag=tag)
 
-        # Unpacking der Werte in Variablen
         name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
             0]
-
         return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
     except:
-        print("Test 4")
         return 'Fehler'
 
 
@@ -56,32 +74,23 @@ def fachverfahrenAnsehen():
 def fachverfahrenEditieren():
     tag = request.form['tag']
     try:
-        print("Test 0")
-        cursor = conn.cursor()
-        print("Test 1")
+        cursor = get_cursor()
         query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
-        print("Test 2")
         cursor.execute(query)
-        print("Test 3")
         results = cursor.fetchall()
-        print(results)
-        # Unpacking der Werte in Variablen
+
         name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
             0]
-
         return render_template('fachverfahrenEditieren.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
     except:
-        print("Test 4")
         return 'Fehler'
 
 
 @statzy.route('/fachverfahrenErstellen', methods=['POST'])
 def fachverfahrenErstellen():
-    # ? folgenden Tag gibt es nicht deswegen wird er Standertmäßig übergeben
     tag = request.form['tag']
     edit = request.form['edit']
     if edit == '1':
-        # ? falls irgendeine validation fehl schlägt, dann wird die Seite neu geladen und die Werte werden wieder in die Felder eingetragen / Stadnardmäßig wird der Tag auf "" gesetzt
         name = request.form['name']
         verf_id = request.form['verf_id']
         vewendungszweck = request.form['vewendungszweck']
@@ -101,11 +110,7 @@ def fachverfahrenErstellen():
         fachadministration = ''
 
     try:
-        # todo SQL-Querys zur Validierung
-        # ? aus personendatenbank
-
         return render_template('fachverfahrenErstellen.html', tag=tag, name=name, verf_id=verf_id, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
-
     except:
         return 'Fehler'
 
@@ -122,88 +127,37 @@ def komponenteServer():
 
 @statzy.route('/login', methods=['POST'])
 def login():
-    global conn, cursor
-    # username = request.form['username']
-    # password = request.form['password']
-
-    username = 'postgres'
-    password = 'postgres'
-
-    print("Username:", username)
-    print("Password:", password)
-
+    session['username'] = request.form['username']
+    session['password'] = request.form['password']
     try:
-        conn = psycopg2.connect(
-            dbname='statzy',
-            user=username,
-            password=password,
-            host='10.128.201.123',
-            port='5432'
-        )
-
-        cursor = conn.cursor()
-
-        # Get the list of tables in the database
-        cursor.execute(
-            "SELECT table_name FROM information_schema.tables WHERE table_schema='public' ORDER BY table_name")
-        tables = [table[0] for table in cursor.fetchall()]
-
-        # Store the username and password in the session
-        session['username'] = username
-        session['password'] = password
-        print("Session:", session['username'])
-        print("Session:", session['password'])
-        # Redirect to the datenbanken page with the dropdown menu
+        get_db()
         return redirect(url_for('start'))
-
     except Exception as e:
-        print("Exception:", e)
         return 'Database connection failed! Login'
 
 
 @statzy.route('/query', methods=['POST'])
 def query():
-    global conn, cursor
     table_name = request.form['table']
     try:
-        # Execute the SELECT * query on the selected table
+        cursor = get_cursor()
         cursor.execute(f"SELECT * FROM {table_name}")
         results = cursor.fetchall()
-
-        # Render the template with the query results
         return render_template('query.html', table_name=table_name, data=results, cursor=cursor)
     except Exception as e:
-        print("Exception:", e)
-        results = []  # initialize results as an empty list
+        results = []
         return f"Database query failed! {e}"
 
 
 @statzy.route('/datenbanken')
 def datenbanken():
-    global conn, cursor
     try:
-        # Get the username and password from the session
-        username = session.get('username', None)
-        password = session.get('password', None)
-
-        conn = psycopg2.connect(
-            dbname='statzy',
-            user=username,
-            password=password,
-            host='10.128.201.123',
-            port='5432'
-        )
-        cursor = conn.cursor()
-
-        # Get the list of tables in the database
+        cursor = get_cursor()
         cursor.execute(
             "SELECT table_name FROM information_schema.tables WHERE table_schema='public' ORDER BY table_name")
         tables = [table[0] for table in cursor.fetchall()]
-
         return render_template('datenbanken.html', tables=tables)
-
     except Exception as e:
-        print("Exception:", e)
         return 'Database connection failed! Datenbanken'
 
 
