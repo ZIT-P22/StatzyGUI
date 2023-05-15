@@ -10,8 +10,10 @@ def get_db():
     if 'db' not in g:
         g.db = psycopg2.connect(
             dbname='statzy',
-            user=session.get('username'),
-            password=session.get('password'),
+            # user=session.get('username'),
+            # password=session.get('password'),
+            password='postgres',
+            user='postgres',
             host='10.128.201.123',
             port='5432'
         )
@@ -45,9 +47,11 @@ def index():
 def start():
     return render_template('index.html')
 
+
 @statzy.route('/person')
 def person():
     return render_template('person.html')
+
 
 @statzy.route('/fachverfahrenSuche')
 def fachverfahrenSuche():
