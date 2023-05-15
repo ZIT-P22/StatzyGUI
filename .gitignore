@@ -1,0 +1,10 @@
+.statzy
+.venv
+.vscode
+./node_modules
+package-lock.json
+node_modules
+package.json
+statzy/static/build/theme.css
+./static/build
+statzy/static/build/theme.css
