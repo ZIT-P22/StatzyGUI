@@ -7,3 +7,4 @@ node_modules
 package.json
 statzy/static/build/theme.css
 ./static/build
+statzy/static/build/theme.css
