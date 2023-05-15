@@ -49,10 +49,49 @@ def start():
 def person():
     return render_template('person.html')
 
+@statzy.route('/personSuche')
+def personSuche():
+    return render_template('personSuche.html', warning=0)
+
+@statzy.route('/personAnsehen', methods=['GET', 'POST'])
+def personAnsehen():
+    if request.method == 'POST':
+        name = request.form['name']
+        try:
+            cursor = get_cursor()
+            query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name "
+            cursor.execute(query)
+            results = cursor.fetchall()
+
+            if not results:
+                return render_template('person.html', warning=1, name=name)
+
+            name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
+                0]
+            return render_template('personAnsehen.html', name=name,telefonnummer=telefonnummer, dez=dez, vornam=vornam,person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
+        except Exception as e:
+            return 'Fehler'
+    else:
+        tag = request.args.get('name')
+        try:
+            cursor = get_cursor()
+            query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name"
+            cursor.execute(query, (name,))
+            results = cursor.fetchall()
+
+            if not results:
+                return render_template('person.html', warning=1, tag=tag)
+
+            name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
+                0]
+            return render_template('personAnsehen.html', name=name,telefonnummer=telefonnummer, dez=dez, vornam=vornam,person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
+        except:
+            return 'Fehler'
+
+
 @statzy.route('/fachverfahrenSuche')
 def fachverfahrenSuche():
     return render_template('fachverfahrenSuche.html', warning=0)
-
 
 @statzy.route('/fachverfahrenAnsehen', methods=['GET', 'POST'])
 def fachverfahrenAnsehen():
