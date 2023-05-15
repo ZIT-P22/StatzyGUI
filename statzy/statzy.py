@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, g
+from flask import Flask, render_template, request, redirect, url_for, session, g
 import psycopg2
 import secrets
 
