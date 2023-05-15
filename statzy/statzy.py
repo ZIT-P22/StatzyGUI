@@ -45,6 +45,9 @@ def index():
 def start():
     return render_template('index.html')
 
+@statzy.route('/person')
+def person():
+    return render_template('person.html')
 
 @statzy.route('/fachverfahrenSuche')
 def fachverfahrenSuche():
