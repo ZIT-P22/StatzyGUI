@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 @media (min-width: 1200px) {
-  .active-link {
-    color: red;
+  .navbar-links a {
+    margin-bottom: -1.5rem;
+    padding: 10px 10px 1.5rem;
+  }
+  .navbar-links a.active-link {
+    color: rgb(17, 24, 39);
+    background-color: rgb(243 244 246);
   }
 }
 
