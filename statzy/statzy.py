@@ -51,23 +51,40 @@ def fachverfahrenSuche():
     return render_template('fachverfahrenSuche.html', warning=0)
 
 
-@statzy.route('/fachverfahrenAnsehen', methods=['POST'])
+@statzy.route('/fachverfahrenAnsehen', methods=['GET', 'POST'])
 def fachverfahrenAnsehen():
-    tag = request.form['tag']
-    try:
-        cursor = get_cursor()
-        query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
-        cursor.execute(query)
-        results = cursor.fetchall()
+    if request.method == 'POST':
+        tag = request.form['tag']
+        try:
+            cursor = get_cursor()
+            query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
+            cursor.execute(query)
+            results = cursor.fetchall()
 
-        if not results:
-            return render_template('fachverfahrenSuche.html', warning=1, tag=tag)
+            if not results:
+                return render_template('fachverfahrenSuche.html', warning=1, tag=tag)
 
-        name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
-            0]
-        return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
-    except:
-        return 'Fehler'
+            name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
+                0]
+            return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+        except:
+            return 'Fehler'
+    else:
+        tag = request.args.get('tag')
+        try:
+            cursor = get_cursor()
+            query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* %s ORDER BY name"
+            cursor.execute(query, (tag,))
+            results = cursor.fetchall()
+
+            if not results:
+                return render_template('fachverfahrenSuche.html', warning=1, tag=tag)
+
+            name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
+                0]
+            return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+        except:
+            return 'Fehler'
 
 
 @statzy.route('/fachverfahrenEditieren', methods=['POST'])
@@ -75,7 +92,7 @@ def fachverfahrenEditieren():
     tag = request.form['tag']
     try:
         cursor = get_cursor()
-        query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
+        query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
         cursor.execute(query)
         results = cursor.fetchall()
 
@@ -84,6 +101,30 @@ def fachverfahrenEditieren():
         return render_template('fachverfahrenEditieren.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
     except:
         return 'Fehler'
+
+
+@statzy.route('/fachverfahrenUpdate', methods=['POST'])
+def fachverfahrenUpdate():
+    name = request.form['it-verfahren-namen']
+    verf_id = request.form['verfahrens-id']
+    tag = request.form['tag']
+    vewendungszweck = request.form['verwendungszweck']
+    laufzeitverfahren = request.form['laufzeit']
+    auftraggeber = request.form['auftraggeber']
+    verf_betreuung = request.form['verf_bet']
+    kundenmanagement = request.form['kundenmanagement']
+    fachadministration = request.form['fachadministration']
+
+    try:
+        cursor = get_cursor()
+        query = """UPDATE fachverfahren SET name=%s, verf_id=%s, tag=%s, vewendungszweck=%s, laufzeitverfahren=%s, auftraggeber=%s, 
+                verf_betreuung=%s, kundenmanagement=%s, fachadministration=%s WHERE tag=%s"""
+        cursor.execute(query, (name, verf_id, tag, vewendungszweck, laufzeitverfahren,
+                       auftraggeber, verf_betreuung, kundenmanagement, fachadministration, tag))
+        get_db().commit()
+        return redirect(url_for('fachverfahrenAnsehen', tag=tag))
+    except Exception as e:
+        return 'Fehler: ' + str(e)
 
 
 @statzy.route('/fachverfahrenErstellen', methods=['POST'])
@@ -158,7 +199,7 @@ def datenbanken():
         tables = [table[0] for table in cursor.fetchall()]
         return render_template('datenbanken.html', tables=tables)
     except Exception as e:
-        return 'Database connection failed! Datenbanken'
+        return 'Database connection failed! Datenbanken' + str(e)
 
 
 if __name__ == '__main__':
