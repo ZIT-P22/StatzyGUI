@@ -8,10 +8,51 @@ cursor = None
 statzy.secret_key = secrets.token_hex(16)
 
 
+def get_db():
+    if 'db' not in g:
+        g.db = psycopg2.connect(
+            dbname='statzy',
+            # user=session.get('username'),
+            # password=session.get('password'),
+            password='postgres',
+            user='postgres',
+            host='10.128.201.123',
+            port='5432'
+        )
+    return g.db
+
+
+def get_cursor():
+    if 'cursor' not in g:
+        g.cursor = get_db().cursor()
+    return g.cursor
+
+
+@statzy.teardown_appcontext
+def close_db(e=None):
+    cursor = g.pop('cursor', None)
+    db = g.pop('db', None)
+
+    if cursor is not None:
+        cursor.close()
+    if db is not None:
+        db.close()
+
+
 @statzy.route('/')
 def index2():
     title = 'Statzy'
     return render_template('login.html', title=title)
+
+
+@statzy.route('/start')
+def start():
+    return render_template('index.html')
+
+
+@statzy.route('/person')
+def person():
+    return render_template('person.html')
 
 
 @statzy.route('/fachverfahrenSuche')
@@ -19,7 +60,7 @@ def fachverfahrenSuche():
     return render_template('fachverfahrenSuche.html', warning=0)
 
 
-@statzy.route('/fachverfahrenAnsehen', methods=['POST'])
+@statzy.route('/fachverfahrenAnsehen', methods=['GET', 'POST'])
 def fachverfahrenAnsehen():
     tag = request.form['tag']
     try:
@@ -73,7 +114,30 @@ def fachverfahrenEditieren():
 @statzy.route('/fachverfahrenErstellen', methods=['POST'])
 def fachverfahrenErstellen():
     tag = request.form['tag']
-    return render_template('fachverfahrenErstellen.html', tag=tag)
+    edit = request.form['edit']
+    if edit == '1':
+        name = request.form['name']
+        verf_id = request.form['verf_id']
+        vewendungszweck = request.form['vewendungszweck']
+        laufzeitverfahren = request.form['laufzeitverfahren']
+        auftraggeber = request.form['auftraggeber']
+        verf_betreuung = request.form['verf_betreuung']
+        kundenmanagement = request.form['kundenmanagement']
+        fachadministration = request.form['fachadministration']
+    else:
+        name = ''
+        verf_id = ''
+        vewendungszweck = ''
+        laufzeitverfahren = ''
+        auftraggeber = ''
+        verf_betreuung = ''
+        kundenmanagement = ''
+        fachadministration = ''
+
+    try:
+        return render_template('fachverfahrenErstellen.html', tag=tag, name=name, verf_id=verf_id, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+    except:
+        return 'Fehler'
 
 
 @statzy.route('/server')

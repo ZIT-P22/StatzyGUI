@@ -10,18 +10,18 @@
 
             <hr class="my-8 border-gray-300" />
 
-            <form action="{{ url_for('fachverfahrenAnsehen') }}" method="POST" class="max-w-3xl mx-auto">
+            <form action="{{ url_for('personAnsehen') }}" method="POST" class="max-w-3xl mx-auto">
                 <div class="flex flex-wrap">
                     <div class="w-full">
-                        <label class="block mb-2 font-bold" for="verfahrens-tag">
-                            Person ID:
+                        <label class="block mb-2 font-bold" for="name">
+                            Person Name:
                         </label>
                     </div>
                     <div class="w-4/6 md:w-5/6">
                         <input class="w-full px-3 py-2 leading-tight
                             text-gray-900 border
                             rounded shadow appearance-none focus:outline-none
-                            focus:shadow-outline" type="text" id="person_id" name="tag" value="{{ tag }}">
+                            focus:shadow-outline" type="text" id="name" name="name" value="{{ name }}">
                     </div>
 
                     <div class=" pl-4 w-2/6 md:w-1/6">
@@ -29,7 +29,7 @@
                             bg-blue-500 rounded hover:bg-blue-700
                             focus:outline-none
                             focus:shadow-outline" type="submit">
-                            Abschicken
+                            Suchen
                         </button>
                     </div>
             </form>
