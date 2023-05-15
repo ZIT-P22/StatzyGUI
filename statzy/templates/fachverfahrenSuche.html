@@ -38,6 +38,8 @@
                     <p class="text-red-500 font-bold text-center mb-4">Diesen Tag gibt es nicht!</p>
                     <form action="{{ url_for('fachverfahrenErstellen') }}" method="POST" class="flex items-center justify-center">
                         <input class="hidden" type="text" id="verfahrens-tag" name="tag" value="{{ tag }}">
+                        <!--? input der hidden ist und die information weitergibt das zum ersten mal die seite erstellen aufgerufen wird-->
+                        <input class="hidden" type="text" id="edit-info" name="edit" value="0">
                         <button
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             type="submit">
