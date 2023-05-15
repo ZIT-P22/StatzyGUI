@@ -1,3 +1,4 @@
 .statzy
 .venv
 .vscode
+statzy/static/build/theme.css
