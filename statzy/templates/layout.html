@@ -18,7 +18,7 @@
 
 <body class="bg-gray-100">
   <!--! Navbar start-->
-  <nav class="flex flex-wrap items-center justify-between p-6 bg-blue-500">
+  <nav class="fixed top-0 left-0 right-0 z-50 flex flex-wrap items-center justify-between p-6 bg-blue-500">
     <div class="flex items-center flex-shrink-0 mr-6 text-white">
       <a href="/start">
         <span class="text-xl font-semibold tracking-tight">Statzy</span>
@@ -53,7 +53,7 @@
   </nav>
   <!--! Navbar end-->
 
-  <main>{% block content %} {% endblock %}</main>
+  <main class="pt-16">{% block content %} {% endblock %}</main>
 
   <!-- Footer -->
   <footer class="text-white bg-blue-500">

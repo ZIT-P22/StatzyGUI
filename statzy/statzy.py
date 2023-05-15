@@ -31,7 +31,7 @@ def fachverfahrenAnsehen():
         print("Test 0")
         cursor = conn.cursor()
         print("Test 1")
-        query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag = '" + tag + "' ORDER BY name "
+        query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
         print("Test 2")
         cursor.execute(query)
         print("Test 3")
@@ -59,7 +59,7 @@ def fachverfahrenEditieren():
         print("Test 0")
         cursor = conn.cursor()
         print("Test 1")
-        query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag = '" + tag + "' ORDER BY name "
+        query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
         print("Test 2")
         cursor.execute(query)
         print("Test 3")
@@ -77,8 +77,37 @@ def fachverfahrenEditieren():
 
 @statzy.route('/fachverfahrenErstellen', methods=['POST'])
 def fachverfahrenErstellen():
+    # ? folgenden Tag gibt es nicht deswegen wird er Standertmäßig übergeben
     tag = request.form['tag']
-    return render_template('fachverfahrenErstellen.html', tag=tag)
+    edit = request.form['edit']
+    if edit == '1':
+        # ? falls irgendeine validation fehl schlägt, dann wird die Seite neu geladen und die Werte werden wieder in die Felder eingetragen / Stadnardmäßig wird der Tag auf "" gesetzt
+        name = request.form['name']
+        verf_id = request.form['verf_id']
+        vewendungszweck = request.form['vewendungszweck']
+        laufzeitverfahren = request.form['laufzeitverfahren']
+        auftraggeber = request.form['auftraggeber']
+        verf_betreuung = request.form['verf_betreuung']
+        kundenmanagement = request.form['kundenmanagement']
+        fachadministration = request.form['fachadministration']
+    else:
+        name = ''
+        verf_id = ''
+        vewendungszweck = ''
+        laufzeitverfahren = ''
+        auftraggeber = ''
+        verf_betreuung = ''
+        kundenmanagement = ''
+        fachadministration = ''
+
+    try:
+        # todo SQL-Querys zur Validierung
+        # ? aus personendatenbank
+
+        return render_template('fachverfahrenErstellen.html', tag=tag, name=name, verf_id=verf_id, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+
+    except:
+        return 'Fehler'
 
 
 @statzy.route('/server')
