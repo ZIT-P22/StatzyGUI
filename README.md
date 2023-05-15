@@ -27,7 +27,11 @@
 
 1. Run the `statzy.py` file with Python:
     ```
-    python3 /path/to/statzy.py
+    python statzy/statzy.py
+    ```
+2. Run the css watcher:
+    ```
+    npx tailwindcss -i statzy/static/css/theme.css -o statzy/static/build/theme.css --watch
     ```
     
 ---
