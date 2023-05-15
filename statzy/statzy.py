@@ -6,10 +6,9 @@ statzy = Flask(__name__)
 statzy.secret_key = secrets.token_hex(16)
 
 
-
 #! def zone start
 
-#? Only ones used
+# ? Only ones used
 def get_db():
     if 'db' not in g:
         g.db = psycopg2.connect(
@@ -23,16 +22,18 @@ def get_db():
         )
     return g.db
 
+
 def personValidate(person_id):
     cursor = get_cursor()
     query = "SELECT count(*) FROM person WHERE person_id = '" + person_id + "'"
     cursor.execute(query)
     results = cursor.fetchall()
-    
+
     if results[0][0] == 1:
         return True
     else:
         return False
+
 
 def get_cursor():
     if 'cursor' not in g:
@@ -40,6 +41,7 @@ def get_cursor():
     return g.cursor
 
 #! def zone end
+
 
 @statzy.teardown_appcontext
 def close_db(e=None):
@@ -67,10 +69,12 @@ def start():
 def person():
     return render_template('person.html')
 
+
 @statzy.route('/personSuche')
 def personSuche():
     return render_template('personSuche.html', warning=0)
-    
+
+
 @statzy.route('/personAnsehen', methods=['GET', 'POST'])
 def personAnsehen():
     if request.method == 'POST':
@@ -84,7 +88,7 @@ def personAnsehen():
                 return render_template('person.html', warning=1, name=name)
             name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
                 0]
-            return render_template('personAnsehen.html', name=name,telefonnummer=telefonnummer, dez=dez, vornam=vornam,person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
+            return render_template('personAnsehen.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam, person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
         except Exception as e:
             return 'Fehler'
     else:
@@ -98,13 +102,15 @@ def personAnsehen():
                 return render_template('person.html', warning=1, tag=tag)
             name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
                 0]
-            return render_template('personAnsehen.html', name=name,telefonnummer=telefonnummer, dez=dez, vornam=vornam,person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
+            return render_template('personAnsehen.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam, person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
         except:
             return 'Fehler'
+
 
 @statzy.route('/fachverfahrenSuche')
 def fachverfahrenSuche():
     return render_template('fachverfahrenSuche.html', warning=0)
+
 
 @statzy.route('/fachverfahrenAnsehen', methods=['GET', 'POST'])
 def fachverfahrenAnsehen():
@@ -195,14 +201,16 @@ def fachverfahrenErstellen():
         verf_betreuung = request.form['verf_betreuung']
         kundenmanagement = request.form['kundenmanagement']
         fachadministration = request.form['fachadministration']
-        #? wenn auftraggeber, verf_betreuung, kundenmanagement, fachadministration in der person Datenbank vorhanden sind, dann wird das form in die Datenbank fachverfahren geschrieben
-        
-        
+        # ? wenn auftraggeber, verf_betreuung, kundenmanagement, fachadministration in der person Datenbank vorhanden sind, dann wird das form in die Datenbank fachverfahren geschrieben
+
         if personValidate(auftraggeber) and personValidate(verf_betreuung) and personValidate(kundenmanagement) and personValidate(fachadministration):
             try:
                 cursor = get_cursor()
                 print('test 1')
-                query = "INSERT INTO fachverfahren (name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration) VALUES ('" + name + "', '" + verf_id + "', '" + tag + "', '" + vewendungszweck + "', '" + laufzeitverfahren + "', '" + auftraggeber + "', '" + verf_betreuung + "', '" + kundenmanagement + "', '" + fachadministration + "')"
+                query = "INSERT INTO fachverfahren (name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration) VALUES ('" + name + "', '" + \
+                    verf_id + "', '" + tag + "', '" + vewendungszweck + "', '" + laufzeitverfahren + "', '" + \
+                        auftraggeber + "', '" + verf_betreuung + "', '" + \
+                    kundenmanagement + "', '" + fachadministration + "')"
                 print("test 2")
                 cursor.execute(query)
                 print("test 3")
@@ -215,8 +223,8 @@ def fachverfahrenErstellen():
             except Exception as e:
                 return 'Fehler: ' + str(e)
         else:
-                return 'Diese Personen gibt es nicht '
-        
+            return 'Diese Personen gibt es nicht '
+
     else:
         name = ''
         verf_id = ''
@@ -227,7 +235,7 @@ def fachverfahrenErstellen():
         kundenmanagement = ''
         fachadministration = ''
     try:
-        #? wenn ein fehler bei der validierung auftritt werden die bereits eingetragen daten wieder angezeigt
+        # ? wenn ein fehler bei der validierung auftritt werden die bereits eingetragen daten wieder angezeigt
         return render_template('fachverfahrenErstellen.html', tag=tag, name=name, verf_id=verf_id, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
     except:
         return 'Fehler'
@@ -279,19 +287,21 @@ def datenbanken():
         return 'Database connection failed! Datenbanken' + str(e)
 
 
-if __name__ == '__main__':
-    statzy.run(debug=True, host="0.0.0.0", port=5000)
-
 @statzy.route('/fachverfahrenIndex')
 def indexfachverfahren():
     try:
         cursor = get_cursor()
-        cursor.execute("SELECT name, verf_id, tag FROM fachverfahren ORDER BY name")
+        cursor.execute(
+            "SELECT name, verf_id, tag FROM fachverfahren ORDER BY name")
         fachverfahren_data = cursor.fetchall()
-        
-        print(fachverfahren_data) 
+
+        print(fachverfahren_data)
         return render_template('index.html', fachverfahren_data=fachverfahren_data)
 
     except Exception as e:
-        #print("Error:", e)
+        # print("Error:", e)
         return 'Fehler AAAAAAAAAAHHHHHHHHHHHHHHHH!!!!!'
+
+
+if __name__ == '__main__':
+    statzy.run(debug=True, host="0.0.0.0", port=5000)
