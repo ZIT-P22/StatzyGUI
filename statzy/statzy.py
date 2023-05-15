@@ -8,6 +8,25 @@ cursor = None
 statzy.secret_key = secrets.token_hex(16)
 
 
+
+#! def zone start
+
+def personValidate(person_id):
+    cursor = conn.cursor()
+    query = "SELECT count(*) FROM person WHERE person_id = '" + person_id + "'"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    
+    if results[0][0] == 1:
+        return True
+    else:
+        return False
+    
+
+#! def zone end
+
+
+
 @statzy.route('/')
 def index():
     title = 'Statzy'
@@ -90,6 +109,19 @@ def fachverfahrenErstellen():
         verf_betreuung = request.form['verf_betreuung']
         kundenmanagement = request.form['kundenmanagement']
         fachadministration = request.form['fachadministration']
+        #? wenn auftraggeber, verf_betreuung, kundenmanagement, fachadministration in der person Datenbank vorhanden sind, dann wird das form in die Datenbank fachverfahren geschrieben
+        
+        
+        if personValidate(auftraggeber) and personValidate(verf_betreuung) and personValidate(kundenmanagement) and personValidate(fachadministration):
+            try:
+                cursor = conn.cursor()
+                query = "INSERT INTO fachverfahren (name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation) VALUES ('" + name + "', '" + verf_id + "', '" + tag + "', '" + vewendungszweck + "', '" + laufzeitverfahren + "', '" + auftraggeber + "', '" + verf_betreuung + "', '" + kundenmanagement + "', '" + fachadministration + "')"
+                cursor.execute(query)
+                conn.commit()
+                return render_template('fachverfahrenErstellen.html', tag=tag, name=name, verf_id=verf_id, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+            except:
+                return 'Diese Personen gibt es nicht '
+        
     else:
         name = ''
         verf_id = ''
@@ -99,7 +131,6 @@ def fachverfahrenErstellen():
         verf_betreuung = ''
         kundenmanagement = ''
         fachadministration = ''
-    
     try:
         #todo SQL-Querys zur Validierung
         #? aus personendatenbank
