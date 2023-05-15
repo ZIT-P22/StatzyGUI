@@ -305,3 +305,17 @@ def datenbanken():
 
 if __name__ == '__main__':
     statzy.run(debug=True, host="0.0.0.0", port=5000)
+
+@statzy.route('/fachverfahrenIndex')
+def indexfachverfahren():
+    try:
+        cursor = get_cursor()
+        cursor.execute("SELECT name, verf_id, tag FROM fachverfahren ORDER BY name")
+        fachverfahren_data = cursor.fetchall()
+        
+        print(fachverfahren_data) 
+        return render_template('index.html', fachverfahren_data=fachverfahren_data)
+
+    except Exception as e:
+        #print("Error:", e)
+        return 'Fehler AAAAAAAAAAHHHHHHHHHHHHHHHH!!!!!'
