@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (min-width: 1200px) {
+  .active-link {
+    color: red;
+  }
+}
+
 .flex-grow-2 {
   flex-grow: 2;
 }
