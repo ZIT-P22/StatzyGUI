@@ -34,11 +34,23 @@ def personValidate(person_id):
     else:
         return False
 
+# ? funktion die in der person Datenbank die Id sucht un den dazugehörigen Namen zurückgibt
+
+
+def personIdToName(person_id):
+    cursor = get_cursor()
+    query = "SELECT name FROM person WHERE person_id = '" + \
+        str(person_id) + "'"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    return results[0][0]
+
 
 def get_cursor():
     if 'cursor' not in g:
         g.cursor = get_db().cursor()
     return g.cursor
+
 
 #! def zone end
 
@@ -114,6 +126,7 @@ def fachverfahrenSuche():
 
 @statzy.route('/fachverfahrenAnsehen', methods=['GET', 'POST'])
 def fachverfahrenAnsehen():
+    # ? Wenn die Methode POST ist, wird der Tag aus dem Formular genommen
     if request.method == 'POST':
         tag = request.form['tag']
         try:
@@ -127,9 +140,16 @@ def fachverfahrenAnsehen():
 
             name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
                 0]
+
+            auftraggeber = personIdToName(auftraggeber)
+            verf_betreuung = personIdToName(verf_betreuung)
+            kundenmanagement = personIdToName(kundenmanagement)
+            fachadministration = personIdToName(fachadministration)
+
             return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
-        except:
-            return 'Fehler'
+        except Exception as e:
+            return 'Fehler' + str(e)
+    # ? Wenn die Methode GET ist, wird der Tag aus der URL genommen
     else:
         tag = request.args.get('tag')
         try:
@@ -143,6 +163,12 @@ def fachverfahrenAnsehen():
 
             name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
                 0]
+
+            auftraggeber = personIdToName(auftraggeber)
+            verf_betreuung = personIdToName(verf_betreuung)
+            kundenmanagement = personIdToName(kundenmanagement)
+            fachadministration = personIdToName(fachadministration)
+
             return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
         except:
             return 'Fehler'
