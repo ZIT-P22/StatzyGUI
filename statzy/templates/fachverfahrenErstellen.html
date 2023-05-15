@@ -34,7 +34,7 @@
                     border rounded
                     shadow appearance-none focus:outline-none
                     focus:shadow-outline" type="text" id="it-verfahren-namen"
-                    name="it-verfahren-namen" value="{{ name }}" />
+                    name="name" value="{{ name }}" />
             </div>
 
             <div class="mb-6">
@@ -45,7 +45,7 @@
                     border rounded
                     shadow appearance-none focus:outline-none
                     focus:shadow-outline" type="text" id="verfahrens-id"
-                    name="verfahrens-id" value="{{ verf_id }}" />
+                    name="verf_id" value="{{ verf_id }}" />
             </div>
 
             <div class="mb-6">
@@ -58,8 +58,8 @@
                     rounded shadow appearance-none focus:outline-none
                     focus:shadow-outline" type="text"
                     id="berichtstellungszeitpunkt"
-                    name="berichtstellungszeitpunkt"
-                    value="{{ laufzeitverfahren }}" ">
+                    name="vewendungszweck"
+                    value="{{ vewendungszweck }}" ">
             </div>
 
             <div class=" mb-6">
@@ -69,7 +69,7 @@
                     border
                     rounded shadow appearance-none focus:outline-none
                     focus:shadow-outline" type="text" id="laufzeit"
-                    name="laufzeit" value="{{
+                    name="laufzeitverfahren" value="{{
                     laufzeitverfahren
                     }}"">
             </div>
@@ -91,7 +91,7 @@
                     border
                     rounded shadow appearance-none focus:outline-none
                     focus:shadow-outline" type="text" id="verf_bet"
-                    name="verf_bet" value="{{
+                    name="verf_betreuung" value="{{
                     verf_betreuung
                     }}"">
             </div>
@@ -119,6 +119,10 @@
             </div>
 
             <hr class=" my-8 border-gray-300" />
+
+
+            <!--? input der hidden ist und die information weitergibt das zum ersten mal die seite erstellen aufgerufen wird-->
+            <input class="hidden" type="text" id="edit-info" name="edit" value="1">
 
             <div class="flex items-center justify-center">
                 <button class="px-4 py-2 font-bold text-white bg-blue-500
