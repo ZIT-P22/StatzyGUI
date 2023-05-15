@@ -9,41 +9,7 @@ statzy.secret_key = secrets.token_hex(16)
 
 #! def zone start
 
-def personValidate(person_id):
-    cursor = conn.cursor()
-    query = "SELECT count(*) FROM person WHERE person_id = '" + person_id + "'"
-    cursor.execute(query)
-    results = cursor.fetchall()
-    
-    if results[0][0] == 1:
-        return True
-    else:
-        return False
-    
-
-#! def zone end
-
-
-
-
-#! def zone start
-
-def personValidate(person_id):
-    cursor = conn.cursor()
-    query = "SELECT count(*) FROM person WHERE person_id = '" + person_id + "'"
-    cursor.execute(query)
-    results = cursor.fetchall()
-    
-    if results[0][0] == 1:
-        return True
-    else:
-        return False
-    
-
-#! def zone end
-
-
-
+#? Only ones used
 def get_db():
     if 'db' not in g:
         g.db = psycopg2.connect(
@@ -57,12 +23,23 @@ def get_db():
         )
     return g.db
 
+def personValidate(person_id):
+    cursor = get_cursor()
+    query = "SELECT count(*) FROM person WHERE person_id = '" + person_id + "'"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    
+    if results[0][0] == 1:
+        return True
+    else:
+        return False
 
 def get_cursor():
     if 'cursor' not in g:
         g.cursor = get_db().cursor()
     return g.cursor
 
+#! def zone end
 
 @statzy.teardown_appcontext
 def close_db(e=None):
@@ -90,11 +67,44 @@ def start():
 def person():
     return render_template('person.html')
 
+@statzy.route('/personSuche')
+def personSuche():
+    return render_template('personSuche.html', warning=0)
+    
+@statzy.route('/personAnsehen', methods=['GET', 'POST'])
+def personAnsehen():
+    if request.method == 'POST':
+        name = request.form['name']
+        try:
+            cursor = get_cursor()
+            query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name "
+            cursor.execute(query)
+            results = cursor.fetchall()
+            if not results:
+                return render_template('person.html', warning=1, name=name)
+            name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
+                0]
+            return render_template('personAnsehen.html', name=name,telefonnummer=telefonnummer, dez=dez, vornam=vornam,person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
+        except Exception as e:
+            return 'Fehler'
+    else:
+        tag = request.args.get('name')
+        try:
+            cursor = get_cursor()
+            query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name"
+            cursor.execute(query, (name,))
+            results = cursor.fetchall()
+            if not results:
+                return render_template('person.html', warning=1, tag=tag)
+            name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
+                0]
+            return render_template('personAnsehen.html', name=name,telefonnummer=telefonnummer, dez=dez, vornam=vornam,person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
+        except:
+            return 'Fehler'
 
 @statzy.route('/fachverfahrenSuche')
 def fachverfahrenSuche():
     return render_template('fachverfahrenSuche.html', warning=0)
-
 
 @statzy.route('/fachverfahrenAnsehen', methods=['GET', 'POST'])
 def fachverfahrenAnsehen():
@@ -190,12 +200,21 @@ def fachverfahrenErstellen():
         
         if personValidate(auftraggeber) and personValidate(verf_betreuung) and personValidate(kundenmanagement) and personValidate(fachadministration):
             try:
-                cursor = conn.cursor()
-                query = "INSERT INTO fachverfahren (name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministation) VALUES ('" + name + "', '" + verf_id + "', '" + tag + "', '" + vewendungszweck + "', '" + laufzeitverfahren + "', '" + auftraggeber + "', '" + verf_betreuung + "', '" + kundenmanagement + "', '" + fachadministration + "')"
+                cursor = get_cursor()
+                print('test 1')
+                query = "INSERT INTO fachverfahren (name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration) VALUES ('" + name + "', '" + verf_id + "', '" + tag + "', '" + vewendungszweck + "', '" + laufzeitverfahren + "', '" + auftraggeber + "', '" + verf_betreuung + "', '" + kundenmanagement + "', '" + fachadministration + "')"
+                print("test 2")
                 cursor.execute(query)
-                conn.commit()
-                return render_template('fachverfahrenErstellen.html', tag=tag, name=name, verf_id=verf_id, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
-            except:
+                print("test 3")
+                cursor.connection.commit()
+                print("test 4")
+                cursor.close()
+                # debug print(query rückgabe)
+                print('Fachverfahren wurde erstellt')
+                return render_template('fachverfahrenAnsehen.html', tag=tag, name=name, verf_id=verf_id, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+            except Exception as e:
+                return 'Fehler: ' + str(e)
+        else:
                 return 'Diese Personen gibt es nicht '
         
     else:
@@ -208,6 +227,7 @@ def fachverfahrenErstellen():
         kundenmanagement = ''
         fachadministration = ''
     try:
+        #? wenn ein fehler bei der validierung auftritt werden die bereits eingetragen daten wieder angezeigt
         return render_template('fachverfahrenErstellen.html', tag=tag, name=name, verf_id=verf_id, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
     except:
         return 'Fehler'
