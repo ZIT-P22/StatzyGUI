@@ -325,9 +325,9 @@ def fachverfahrenErstellen():
         return 'Fehler'
 
 
-@statzy.route('/server')
-def server():
-    return render_template('server.html')
+@statzy.route('/serverSuche')
+def serverSuche():
+    return render_template('serverSuche.html', warning=0)
 
 
 @statzy.route('/komponenteServer')
