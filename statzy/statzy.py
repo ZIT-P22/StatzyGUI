@@ -13,7 +13,7 @@ statzy.secret_key = secrets.token_hex(16)
 # Create a connection pool
 connection_pool = psycopg2.pool.SimpleConnectionPool(
     minconn=1,
-    maxconn=20,
+    maxconn=40,
     dbname='statzy',
     user='postgres',
     password='postgres',
@@ -263,6 +263,15 @@ def fachverfahrenEditieren():
 
         name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
             0]
+        print("name:", name)
+        print("verf_id:", verf_id)
+        print("tag:", tag)
+        print("vewendungszweck:", vewendungszweck)
+        print("laufzeitverfahren:", laufzeitverfahren)
+        print("auftraggeber:", auftraggeber)
+        print("verf_betreuung:", verf_betreuung)
+        print("kundenmanagement:", kundenmanagement)
+        print("fachadministration:", fachadministration)
         return render_template('fachverfahrenEditieren.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
     except:
         return 'Fehler'
