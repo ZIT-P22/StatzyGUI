@@ -496,23 +496,29 @@ def serverErstellen():
 
 @statzy.route('/serverEditieren', methods=['POST'])
 def serverEditieren():
-    name = request.form['name']
     try:
-        query = "SELECT name, verf_id, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* '" + name + "' ORDER BY name "
-        results = db_execute(query)
+        name = request.form.get('name', '')
+        query = "SELECT server_id, fachverfahren, name, umgebung, laufzeit_server, bereitstellungszeitpunkt, verwendungszweck, typ, netzwerk, ram, cpu, os, speichertyp, kapazität, erreichbarkeit, hochverfügbarkeit, vertraulichkeit, verfügbarkeit, integrität, anmerkungen, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM server WHERE name ~* %s ORDER BY name"
+        results = db_execute(query, (name,))
 
-        name, verf_id, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
-            0]
-        return render_template('serverEditieren.html', name=name, verf_id=verf_id, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
-    except:
-        return 'Fehler'
+        if results:
+            server_id, fachverfahren, name, umgebung, laufzeit_server, bereitstellungszeitpunkt, verwendungszweck, typ, netzwerk, ram, cpu, os, speichertyp, kapazität, erreichbarkeit, hochverfügbarkeit, vertraulichkeit, verfügbarkeit, integrität, anmerkungen, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[0]
+
+            return render_template('serverEditieren.html', name=name, server_id=server_id, fachverfahren=fachverfahren, umgebung=umgebung, laufzeit_server=laufzeit_server, bereitstellungszeitpunkt=bereitstellungszeitpunkt, verwendungszweck=verwendungszweck, typ=typ, netzwerk=netzwerk, ram=ram, cpu=cpu, os=os, speichertyp=speichertyp, kapazität=kapazität, erreichbarkeit=erreichbarkeit, hochverfügbarkeit=hochverfügbarkeit, vertraulichkeit=vertraulichkeit, verfügbarkeit=verfügbarkeit, integrität=integrität, anmerkungen=anmerkungen, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
+
+        return 'No results found.'
+    except KeyError:
+        return 'Bad Request: Missing "name" parameter.'
+    except Exception as e:
+        return f'Error: {str(e)}'
+
 
     
 @statzy.route('/serverUpdate', methods=['POST'])
 def serverUpdate():
     name = request.form['it-verfahren-namen']
     verf_id = request.form['verfahrens-id']
-    vewendungszweck = request.form['verwendungszweck']
+    verwendungszweck = request.form['verwendungszweck']
     laufzeitverfahren = request.form['laufzeit']
     auftraggeber = request.form['auftraggeber']
     verf_betreuung = request.form['verf_bet']
@@ -526,9 +532,10 @@ def serverUpdate():
         cursor.execute(query, (name, verf_id, vewendungszweck, laufzeitverfahren,
                                auftraggeber, verf_betreuung, kundenmanagement, fachadministration, name))
         get_db().commit()
-        return redirect(url_for('fachverfahrenAnsehen', name=name))
+        return redirect(url_for('serverAnsehen', name=name))
     except Exception as e:
         return 'Fehler: ' + str(e)
+
 
 
 
