@@ -54,3 +54,16 @@
 .flex-grow-2 {
   flex-grow: 2;
 }
+
+
+
+.show-user-info {
+  max-width: 2.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.5s ease;
+}
+
+.show-user-info:hover {
+  max-width: 13rem;
+}
