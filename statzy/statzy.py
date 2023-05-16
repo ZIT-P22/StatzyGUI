@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, session, g
+from flask import Flask, render_template, request, redirect, url_for, session, g, jsonify
 import psycopg2
 import secrets
+import json
 
 statzy = Flask(__name__)
 statzy.secret_key = secrets.token_hex(16)
@@ -86,6 +87,16 @@ def start():
     except Exception as e:
         # print("Error:", e)
         return 'Fehler AAAAAAAAAAHHHHHHHHHHHHHHHH!!!!!'
+
+
+@statzy.route('/getnames', methods=['GET'])
+def getnames():
+    input = request.args.get('input')
+    cursor = get_cursor()
+    cursor.execute("SELECT person_id, vornam, name, dez FROM person WHERE name ILIKE %s OR vornam ILIKE %s OR dez ILIKE %s", (f"%{input}%", f"%{input}%", f"%{input}%",))
+    results = cursor.fetchall()
+    names = [{"person_id": result[0], "vornam": result[1], "name": result[2], "dez": result[3]} for result in results]
+    return json.dumps(names)
 
 
 @statzy.route('/person')
@@ -214,6 +225,7 @@ def fachverfahrenEditieren():
         return 'Fehler'
 
 
+
 @statzy.route('/fachverfahrenUpdate', methods=['POST'])
 def fachverfahrenUpdate():
     name = request.form['it-verfahren-namen']
@@ -221,21 +233,28 @@ def fachverfahrenUpdate():
     tag = request.form['tag']
     vewendungszweck = request.form['verwendungszweck']
     laufzeitverfahren = request.form['laufzeit']
-    auftraggeber = request.form['auftraggeber']
-    verf_betreuung = request.form['verf_bet']
-    kundenmanagement = request.form['kundenmanagement']
-    fachadministration = request.form['fachadministration']
+    auftraggeber_id = request.form['auftraggeber-id']
+    verf_betreuung_id = request.form['verf_bet-id']
+    kundenmanagement_id = request.form['kundenmanagement-id']
+    fachadministration_id = request.form['fachadmin-id']
+
+    print("auftraggeber_id:", auftraggeber_id)
+    print("verf_betreuung_id:", verf_betreuung_id)
+    print("kundenmanagement_id:", kundenmanagement_id)
+    print("fachadministration_id:", fachadministration_id)
+
 
     try:
         cursor = get_cursor()
         query = """UPDATE fachverfahren SET name=%s, verf_id=%s, tag=%s, vewendungszweck=%s, laufzeitverfahren=%s, auftraggeber=%s, 
                 verf_betreuung=%s, kundenmanagement=%s, fachadministration=%s WHERE tag=%s"""
         cursor.execute(query, (name, verf_id, tag, vewendungszweck, laufzeitverfahren,
-                       auftraggeber, verf_betreuung, kundenmanagement, fachadministration, tag))
+                       auftraggeber_id, verf_betreuung_id, kundenmanagement_id, fachadministration_id, tag))
         get_db().commit()
         return redirect(url_for('fachverfahrenAnsehen', tag=tag))
     except Exception as e:
         return 'Fehler: ' + str(e)
+
 
 
 @statzy.route('/fachverfahrenErstellen', methods=['POST'])
