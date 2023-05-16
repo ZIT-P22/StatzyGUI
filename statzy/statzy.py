@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, session, g
+from flask import Flask, render_template, request, redirect, url_for, session, g, jsonify
 import psycopg2
 from psycopg2 import pool
 import secrets
+import json
 
 statzy = Flask(__name__)
 statzy.secret_key = secrets.token_hex(16)
@@ -12,7 +13,7 @@ statzy.secret_key = secrets.token_hex(16)
 # Create a connection pool
 connection_pool = psycopg2.pool.SimpleConnectionPool(
     minconn=1,
-    maxconn=20,
+    maxconn=40,
     dbname='statzy',
     user='postgres',
     password='postgres',
@@ -55,8 +56,7 @@ def personValidate(person_id):
 
 
 def personIdToName(person_id):
-    query = "SELECT name FROM person WHERE person_id = '" + \
-        str(person_id) + "'"
+    query = "SELECT name FROM person WHERE person_id = '" + str(person_id) + "'"
     results = db_execute(query)
     return results[0][0]
 
@@ -99,6 +99,16 @@ def start():
     except Exception as e:
         # print("Error:", e)
         return 'Fehler AAAAAAAAAAHHHHHHHHHHHHHHHH!!!!!'
+
+
+@statzy.route('/getnames', methods=['GET'])
+def getnames():
+    input = request.args.get('input')
+    cursor = get_cursor()
+    cursor.execute("SELECT person_id, vornam, name, dez FROM person WHERE name ILIKE %s OR vornam ILIKE %s OR dez ILIKE %s", (f"%{input}%", f"%{input}%", f"%{input}%",))
+    results = cursor.fetchall()
+    names = [{"person_id": result[0], "vornam": result[1], "name": result[2], "dez": result[3]} for result in results]
+    return json.dumps(names)
 
 
 @statzy.route('/person')
@@ -251,6 +261,10 @@ def fachverfahrenAnsehen():
             verf_betreuung = personIdToName(verf_betreuung)
             kundenmanagement = personIdToName(kundenmanagement)
             fachadministration = personIdToName(fachadministration)
+            
+            
+            
+            
 
             return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
         except Exception as e:
@@ -272,6 +286,7 @@ def fachverfahrenAnsehen():
             verf_betreuung = personIdToName(verf_betreuung)
             kundenmanagement = personIdToName(kundenmanagement)
             fachadministration = personIdToName(fachadministration)
+            
 
             return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
         except:
@@ -287,9 +302,19 @@ def fachverfahrenEditieren():
 
         name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
             0]
+        print("name:", name)
+        print("verf_id:", verf_id)
+        print("tag:", tag)
+        print("vewendungszweck:", vewendungszweck)
+        print("laufzeitverfahren:", laufzeitverfahren)
+        print("auftraggeber:", auftraggeber)
+        print("verf_betreuung:", verf_betreuung)
+        print("kundenmanagement:", kundenmanagement)
+        print("fachadministration:", fachadministration)
         return render_template('fachverfahrenEditieren.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
     except:
         return 'Fehler'
+
 
 
 @statzy.route('/fachverfahrenUpdate', methods=['POST'])
@@ -299,21 +324,28 @@ def fachverfahrenUpdate():
     tag = request.form['tag']
     vewendungszweck = request.form['verwendungszweck']
     laufzeitverfahren = request.form['laufzeit']
-    auftraggeber = request.form['auftraggeber']
-    verf_betreuung = request.form['verf_bet']
-    kundenmanagement = request.form['kundenmanagement']
-    fachadministration = request.form['fachadministration']
+    auftraggeber_id = request.form['auftraggeber-id']
+    verf_betreuung_id = request.form['verf_bet-id']
+    kundenmanagement_id = request.form['kundenmanagement-id']
+    fachadministration_id = request.form['fachadmin-id']
+
+    print("auftraggeber_id:", auftraggeber_id)
+    print("verf_betreuung_id:", verf_betreuung_id)
+    print("kundenmanagement_id:", kundenmanagement_id)
+    print("fachadministration_id:", fachadministration_id)
+
 
     try:
         cursor = get_cursor()
         query = """UPDATE fachverfahren SET name=%s, verf_id=%s, tag=%s, vewendungszweck=%s, laufzeitverfahren=%s, auftraggeber=%s, 
                 verf_betreuung=%s, kundenmanagement=%s, fachadministration=%s WHERE tag=%s"""
         cursor.execute(query, (name, verf_id, tag, vewendungszweck, laufzeitverfahren,
-                               auftraggeber, verf_betreuung, kundenmanagement, fachadministration, tag))
+                       auftraggeber_id, verf_betreuung_id, kundenmanagement_id, fachadministration_id, tag))
         get_db().commit()
         return redirect(url_for('fachverfahrenAnsehen', tag=tag))
     except Exception as e:
         return 'Fehler: ' + str(e)
+
 
 
 @statzy.route('/fachverfahrenErstellen', methods=['POST'])
@@ -375,48 +407,35 @@ def serverSuche():
 
 @statzy.route('/serverAnsehen', methods=['GET', 'POST'])
 def serverAnsehen():
-    # ? Wenn die Methode POST ist, wird der Tag aus dem Formular genommen
     if request.method == 'POST':
-        tag = request.form['tag']
+        name = request.form['name']
         try:
-            query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
+            query = "SELECT server_id, fachverfahren, name, umgebung, laufzeit_server, bereitstellungszeitpunkt, verwendungszweck, typ, netzwerk, ram, cpu, os, speichertyp, ""kapazität"", erreichbarkeit, ""hochverfügbarkeit"", vertraulichkeit, ""verfügbarkeit"", ""integrität"", anmerkungen, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd  FROM server WHERE name ~* '" + name + "' ORDER BY name "
             results = db_execute(query)
 
             if not results:
-                return render_template('ServerSuche.html', warning=1, tag=tag)
+                return render_template('serverSuche.html', warning=1, name=name)
 
-            name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
-                0]
+            server_id, fachverfahren, name, umgebung, laufzeit_server, bereitstellungszeitpunkt, verwendungszweck, typ, netzwerk, ram, cpu, os, speichertyp, kapazität, erreichbarkeit, hochverfügbarkeit, vertraulichkeit, verfügbarkeit, integrität, anmerkungen, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[0]
 
-            auftraggeber = personIdToName(auftraggeber)
-            verf_betreuung = personIdToName(verf_betreuung)
-            kundenmanagement = personIdToName(kundenmanagement)
-            fachadministration = personIdToName(fachadministration)
-
-            return render_template('serverAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+            return render_template('serverAnsehen.html', name=name, server_id=server_id, fachverfahren=fachverfahren, umgebung=umgebung, laufzeit_server=laufzeit_server, bereitstellungszeitpunkt=bereitstellungszeitpunkt, verwendungszweck=verwendungszweck, typ=typ, netzwerk=netzwerk, ram=ram, cpu=cpu, os=os, speichertyp=speichertyp, kapazität=kapazität, erreichbarkeit=erreichbarkeit, hochverfügbarkeit=hochverfügbarkeit, vertraulichkeit=vertraulichkeit, verfügbarkeit=verfügbarkeit, integrität=integrität, anmerkungen=anmerkungen, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
         except Exception as e:
-            return 'Fehler' + str(e)
-    # ? Wenn die Methode GET ist, wird der Tag aus der URL genommen
+            return 'Fehler: ' + str(e)
     else:
-        tag = request.args.get('tag')
+        name = request.args.get('name')
         try:
-            query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* %s ORDER BY name"
-            results = db_execute(query, (tag,))
+            query = "SELECT server_id, fachverfahren, name, umgebung, laufzeit_server, bereitstellungszeitpunkt, verwendungszweck, typ, netzwerk, ram, cpu, os, speichertyp, ""kapazität"", erreichbarkeit, ""hochverfügbarkeit"", vertraulichkeit, ""verfügbarkeit"", ""integrität"", anmerkungen, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd  FROM server WHERE name ~* '" + name + "' ORDER BY name "
+            results = db_execute(query)
 
             if not results:
-                return render_template('ServerSuche.html', warning=1, tag=tag)
+                return render_template('serverSuche.html', warning=1, name=name)
 
-            name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
-                0]
+            server_id, fachverfahren, name, umgebung, laufzeit_server, bereitstellungszeitpunkt, verwendungszweck, typ, netzwerk, ram, cpu, os, speichertyp, kapazität, erreichbarkeit, hochverfügbarkeit, vertraulichkeit, verfügbarkeit, integrität, anmerkungen, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[0]
 
-            auftraggeber = personIdToName(auftraggeber)
-            verf_betreuung = personIdToName(verf_betreuung)
-            kundenmanagement = personIdToName(kundenmanagement)
-            fachadministration = personIdToName(fachadministration)
-
-            return render_template('serverAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
-        except:
-            return 'Fehler'
+            return render_template('serverAnsehen.html', name=name, server_id=server_id, fachverfahren=fachverfahren, umgebung=umgebung, laufzeit_server=laufzeit_server, bereitstellungszeitpunkt=bereitstellungszeitpunkt, verwendungszweck=verwendungszweck, typ=typ, netzwerk=netzwerk, ram=ram, cpu=cpu, os=os, speichertyp=speichertyp, kapazität=kapazität, erreichbarkeit=erreichbarkeit, hochverfügbarkeit=hochverfügbarkeit, vertraulichkeit=vertraulichkeit, verfügbarkeit=verfügbarkeit, integrität=integrität, anmerkungen=anmerkungen, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
+        except Exception as e:
+            return 'Fehler: ' + str(e)
+   
    
         
 @statzy.route('/serverErstellen', methods=['POST'])
