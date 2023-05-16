@@ -113,25 +113,25 @@ def personAnsehen():
                 0]
             return render_template('personAnsehen.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam, person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
         except Exception as e:
-            return 'Fehler'
+            return 'Fehler', e
     else:
-        tag = request.args.get('name')
+        name = request.args.get('name')
         try:
             cursor = get_cursor()
             query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name"
             cursor.execute(query, (name,))
             results = cursor.fetchall()
             if not results:
-                return render_template('person.html', warning=1, tag=tag)
+                return render_template('person.html', warning=1, name=name)
             name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
                 0]
             return render_template('personAnsehen.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam, person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
-        except:
-            return 'Fehler'
+        except Exception as e:
+            return 'Fehler', e
 
 @statzy.route('/personEditieren', methods=['POST'])
 def personEditieren():
-    name = request.form['tag']
+    name = request.form['name']
     try:
         cursor = get_cursor()
         query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name"
@@ -142,6 +142,29 @@ def personEditieren():
         return render_template('personEditieren.html', name=name,telefonnummer=telefonnummer, dez=dez, vornam=vornam,person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
     except:
         return 'Fehler'
+
+@statzy.route('/personUpdate', methods=['POST'])
+def personUpdate():
+    name = request.form['name']
+    telefonnummer = request.form['telefonnummer']
+    dez = request.form['dez']
+    vornam = request.form['vornam']
+    zeitpunkt_ins = request.form['zeitpunkt_ins']
+    user_ins = request.form['user_ins']
+    zeitpunkt_upd = request.form['zeitpunkt_upd']
+    user_upd = request.form['user_upd']
+
+    try:
+        cursor = get_cursor()
+        query = """UPDATE person SET name=%s, telefonnummer=%s, dez=%s, vornam=%s, zeitpunkt_ins=%s, user_ins=%s, 
+                zeitpunkt_upd=%s, user_upd=%s WHERE name=%s"""
+        cursor.execute(query, (name, telefonnummer, dez, vornam, zeitpunkt_ins,
+                       user_ins,zeitpunkt_upd, user_upd, name))
+        get_db().commit()
+        return redirect(url_for('personAnsehen', name=name))
+    except Exception as e:
+        return 'Fehler: ' + str(e)
+
 
 @statzy.route('/fachverfahrenSuche')
 def fachverfahrenSuche():
