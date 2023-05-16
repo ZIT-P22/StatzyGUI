@@ -74,7 +74,18 @@ def index():
 
 @statzy.route('/start')
 def start():
-    return render_template('index.html')
+    try:
+        cursor = get_cursor()
+        cursor.execute(
+            "SELECT name, verf_id, tag FROM fachverfahren ORDER BY name")
+        fachverfahren_data = cursor.fetchall()
+
+        print(fachverfahren_data)
+        return render_template('index.html', fachverfahren_data=fachverfahren_data)
+
+    except Exception as e:
+        # print("Error:", e)
+        return 'Fehler AAAAAAAAAAHHHHHHHHHHHHHHHH!!!!!'
 
 
 @statzy.route('/person')
@@ -324,22 +335,6 @@ def datenbanken():
         return render_template('datenbanken.html', tables=tables)
     except Exception as e:
         return 'Database connection failed! Datenbanken' + str(e)
-
-
-@statzy.route('/fachverfahrenIndex')
-def indexfachverfahren():
-    try:
-        cursor = get_cursor()
-        cursor.execute(
-            "SELECT name, verf_id, tag FROM fachverfahren ORDER BY name")
-        fachverfahren_data = cursor.fetchall()
-
-        print(fachverfahren_data)
-        return render_template('index.html', fachverfahren_data=fachverfahren_data)
-
-    except Exception as e:
-        # print("Error:", e)
-        return 'Fehler AAAAAAAAAAHHHHHHHHHHHHHHHH!!!!!'
 
 
 if __name__ == '__main__':
