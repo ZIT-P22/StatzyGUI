@@ -461,24 +461,41 @@ def serverErstellen():
     name = request.form['name']
     edit = request.form['edit']
     if edit == '1':
-        name = request.form['name']
-        verf_id = request.form['verf_id']
-        vewendungszweck = request.form['vewendungszweck']
-        laufzeitverfahren = request.form['laufzeitverfahren']
-        auftraggeber = request.form['auftraggeber']
-        verf_betreuung = request.form['verf_betreuung']
-        kundenmanagement = request.form['kundenmanagement']
-        fachadministration = request.form['fachadministration']
+        server_id = request.form['server_id']
+        fachverfahren = request.form['fachverfahren']
+        umgebung = request.form['umgebung']
+        laufzeit_server = request.form['laufzeit_server']
+        bereitstellungszeitpunkt = request.form['bereitstellungszeitpunkt']
+        verwendungszweck = request.form['vewendungszweck']
+        typ = request.form['typ']
+        netzwerk = request.form['netzwerk']
+        ram = request.form['ram']
+        cpu = request.form['cpu']
+        os = request.form['os']
+        speichertyp = request.form['speichertyp']
+        kapazität = request.form['kapazität']
+        erreichbarkeit = request.form['erreichbarkeit']
+        hochverfügbarkeit = request.form['hochverfügbarkeit']
+        vertraulichkeit = request.form['vertraulichkeit']
+        verfügbarkeit = request.form['verfügbarkeit']
+        integrität = request.form['integrität']
+        anmerkungen = request.form['anmerkungen']
+        zeitpunkt_ins = request.form['zeitpunkt_ins']
+        user_ins = request.form['user_ins']
+        zeitpunkt_upd = request.form['zeitpunkt_upd']
+        user_upd = request.form['user_upd']
         # ? wenn auftraggeber, verf_betreuung, kundenmanagement, fachadministration in der person Datenbank vorhanden sind, dann wird das form in die Datenbank fachverfahren geschrieben
 
-        if personValidate(auftraggeber) and personValidate(verf_betreuung) and personValidate(kundenmanagement) and personValidate(fachadministration):
+        if personValidate(user_ins) and personValidate(user_upd):
             try:
                 cursor = get_cursor()
                 print('test 1')
-                query = "INSERT INTO fachverfahren (name, verf_id, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration) VALUES ('" + name + "', '" + \
-                    verf_id + "', '" + name + "', '" + vewendungszweck + "', '" + laufzeitverfahren + "', '" + \
-                        auftraggeber + "', '" + verf_betreuung + "', '" + \
-                    kundenmanagement + "', '" + fachadministration + "')"
+                query = "INSERT INTO server (server_id, fachverfahren, name, umgebung, laufzeit_server, bereitstellungszeitpunkt, verwendungszweck, typ, netzwerk, ram, cpu, os, speichertyp, ""kapazität"", erreichbarkeit, ""hochverfügbarkeit"", vertraulichkeit, ""verfügbarkeit"", ""integrität"", anmerkungen, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd) VALUES ('" + server_id + "', '" + \
+                    fachverfahren + "', '" + name + "', '" + umgebung + "', '" + laufzeit_server + "', '" + bereitstellungszeitpunkt + "', '" + verwendungszweck + "', '" + \
+                        typ + "', '" + netzwerk + "', '" + ram + "', '" + cpu + "', '" + os + "', '" + speichertyp + "', '" + \
+                        kapazität + "', '" + erreichbarkeit + "', '" + hochverfügbarkeit + "', '" + hochverfügbarkeit + "', '" + vertraulichkeit + "', '" + \
+                        verfügbarkeit + "', '" + integrität + "', '" + anmerkungen + "', '" + zeitpunkt_ins + "', '"+ \
+                        user_ins + "', '" + zeitpunkt_upd + "', '" + user_upd +"')"
                 print("test 2")
                 cursor.execute(query)
                 print("test 3")
@@ -487,7 +504,7 @@ def serverErstellen():
                 cursor.close()
                 # debug print(query rückgabe)
                 print('Server wurde erstellt')
-                return render_template('serverAnsehen.html', name=name, verf_id=verf_id, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+                return render_template('serverAnsehen.html', name=name, server_id=server_id, fachverfahren=fachverfahren, umgebung=umgebung, laufzeit_server=laufzeit_server, bereitstellungszeitpunkt=bereitstellungszeitpunkt, verwendungszweck=verwendungszweck, typ=typ, netzwerk=netzwerk, ram=ram, cpu=cpu, os=os, speichertyp=speichertyp, kapazität=kapazität, erreichbarkeit=erreichbarkeit, hochverfügbarkeit=hochverfügbarkeit, vertraulichkeit=vertraulichkeit, verfügbarkeit=verfügbarkeit, integrität=integrität, anmerkungen=anmerkungen, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
             except Exception as e:
                 return 'Fehler: ' + str(e)
         else:
