@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, g
 import psycopg2
+from psycopg2 import pool
 import secrets
 
 statzy = Flask(__name__)
@@ -8,19 +9,27 @@ statzy.secret_key = secrets.token_hex(16)
 
 #! def zone start
 
-# ? Only ones used
+# Create a connection pool
+connection_pool = psycopg2.pool.SimpleConnectionPool(
+    minconn=1,
+    maxconn=20,
+    dbname='statzy',
+    user='postgres',
+    password='postgres',
+    host='10.128.201.123',
+    port='5432'
+)
+
 def get_db():
     if 'db' not in g:
-        g.db = psycopg2.connect(
-            dbname='statzy',
-            # user=session.get('username'),
-            # password=session.get('password'),
-            password='postgres',
-            user='postgres',
-            host='10.128.201.123',
-            port='5432'
-        )
+        g.db = connection_pool.getconn()
     return g.db
+
+@statzy.teardown_appcontext
+def close_db(e=None):
+    db = g.pop('db', None)
+    if db is not None:
+        connection_pool.putconn(db)  # Release the connection back to the pool
 
 
 def personValidate(person_id):

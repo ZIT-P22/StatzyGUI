@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
   .navbar-links a {
     margin-bottom: -1.5rem;
     padding: 0 25px 1.5rem;
