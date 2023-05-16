@@ -56,8 +56,7 @@ def personValidate(person_id):
 
 
 def personIdToName(person_id):
-    query = "SELECT name FROM person WHERE person_id = '" + \
-        str(person_id) + "'"
+    query = "SELECT name FROM person WHERE person_id = '" + str(person_id) + "'"
     results = db_execute(query)
     return results[0][0]
 
@@ -227,6 +226,10 @@ def fachverfahrenAnsehen():
             verf_betreuung = personIdToName(verf_betreuung)
             kundenmanagement = personIdToName(kundenmanagement)
             fachadministration = personIdToName(fachadministration)
+            
+            
+            
+            
 
             return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
         except Exception as e:
@@ -248,6 +251,7 @@ def fachverfahrenAnsehen():
             verf_betreuung = personIdToName(verf_betreuung)
             kundenmanagement = personIdToName(kundenmanagement)
             fachadministration = personIdToName(fachadministration)
+            
 
             return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
         except:
