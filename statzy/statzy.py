@@ -113,10 +113,8 @@ def personAnsehen():
     if request.method == 'POST':
         name = request.form['name']
         try:
-            cursor = get_cursor()
             query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name "
-            cursor.execute(query)
-            results = cursor.fetchall()
+            db_execute(query)
             if not results:
                 return render_template('person.html', warning=1, name=name)
             name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
