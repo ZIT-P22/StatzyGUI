@@ -35,7 +35,7 @@
             {% if warning == 1 %}
             <div class="max-w-md mx-auto mt-8">
                 <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <p class="text-red-500 font-bold text-center mb-4">Diesen Tag gibt es nicht!</p>
+                    <p class="text-red-500 font-bold text-center mb-4">Diesen Server gibt es nicht!</p>
                     <form action="{{ url_for('serverErstellen') }}" method="POST" class="flex items-center justify-center">
                         <input class="hidden" type="text" id="server_id" name="id" value="{{ server_id }}">
                         <!--? input der hidden ist und die information weitergibt das zum ersten mal die seite erstellen aufgerufen wird-->

@@ -131,10 +131,15 @@ def personAnsehen():
             query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name "
             cursor.execute(query)
             results = cursor.fetchall()
+            #print(results)
+
             if not results:
+                #print("No results")
                 return render_template('person.html', warning=1, name=name)
+    
             name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
                 0]
+
             return render_template('personAnsehen.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam, person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
         except Exception as e:
             return 'Fehler', e
@@ -160,6 +165,8 @@ def personAnsehen():
             return render_template('personAnsehen.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam, person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
         except Exception as e:
             return 'Fehler', e
+
+
 @statzy.route('/personEditieren', methods=['POST'])
 def personEditieren():
     print("Test 1")
@@ -198,6 +205,34 @@ def personUpdate():
         cursor.execute(query, (name, telefonnummer, dez, vornam, person_id))
         get_db().commit()
         return redirect(url_for('personAnsehen', name=name))
+    except Exception as e:
+        return 'Fehler: ' + str(e)
+
+@statzy.route('/personValidate', methods=['POST'])
+def personValidate():
+    return render_template('personErstellen.html')
+
+@statzy.route('/personErstellen', methods=['POST'])
+def personErstellen():
+    name = request.form['name']
+    telefonnummer = request.form['telefonnummer']
+    dez = request.form['dez']
+    vornam = request.form['vornam']
+    print("test 0")
+    try:
+        cursor = get_cursor()
+        print('test 1')
+        query = "INSERT INTO person (name, telefonnummer, dez, vornam) VALUES ('" + name + "', '" + \
+            telefonnummer + "', '" + dez + "', '" + vornam + "')"
+        print("test 2")
+        cursor.execute(query)
+        print("test 3")
+        cursor.connection.commit()
+        print("test 4")
+        cursor.close()
+        # debug print(query rückgabe)
+        print('Person wurde erstellt')
+        return render_template('personAnsehen.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam)
     except Exception as e:
         return 'Fehler: ' + str(e)
 
