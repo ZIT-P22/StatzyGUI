@@ -321,8 +321,8 @@ def fachverfahrenErstellen():
 def serverSuche():
     return render_template('serverSuche.html', warning=0)
 
-@statzy.route('/ServerAnsehen', methods=['GET', 'POST'])
-def ServerAnsehen():
+@statzy.route('/serverAnsehen', methods=['GET', 'POST'])
+def serverAnsehen():
     # ? Wenn die Methode POST ist, wird der Tag aus dem Formular genommen
     if request.method == 'POST':
         tag = request.form['tag']
@@ -341,7 +341,7 @@ def ServerAnsehen():
             kundenmanagement = personIdToName(kundenmanagement)
             fachadministration = personIdToName(fachadministration)
 
-            return render_template('ServerAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+            return render_template('serverAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
         except Exception as e:
             return 'Fehler' + str(e)
     # ? Wenn die Methode GET ist, wird der Tag aus der URL genommen
@@ -362,7 +362,7 @@ def ServerAnsehen():
             kundenmanagement = personIdToName(kundenmanagement)
             fachadministration = personIdToName(fachadministration)
 
-            return render_template('ServerAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+            return render_template('serverAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
         except:
             return 'Fehler'
 
