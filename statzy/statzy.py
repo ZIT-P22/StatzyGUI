@@ -125,10 +125,8 @@ def personAnsehen():
     else:
         name = request.args.get('name')
         try:
-            cursor = get_cursor()
             query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name"
-            cursor.execute(query, (name,))
-            results = cursor.fetchall()
+            results = db_execute(query, (name,))
             if not results:
                 return render_template('person.html', warning=1, name=name)
             name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
