@@ -20,10 +20,12 @@ connection_pool = psycopg2.pool.SimpleConnectionPool(
     port='5432'
 )
 
+
 def get_db():
     if 'db' not in g:
         g.db = connection_pool.getconn()
     return g.db
+
 
 @statzy.teardown_appcontext
 def close_db(e=None):
@@ -36,6 +38,7 @@ def db_execute(query, *args):
     cursor = get_cursor()
     cursor.execute(query, *args)
     return cursor.fetchall()
+
 
 def personValidate(person_id):
     cursor = get_cursor()
@@ -134,7 +137,6 @@ def personAnsehen():
             return render_template('personAnsehen.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam, person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
         except Exception as e:
             return 'Fehler', e
-        
 
 
 @statzy.route('/personEditieren', methods=['POST'])
@@ -150,6 +152,7 @@ def personEditieren():
         return render_template('personEditieren.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam, person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
     except:
         return 'Fehler'
+
 
 @statzy.route('/personUpdate', methods=['POST'])
 def personUpdate():
@@ -167,7 +170,7 @@ def personUpdate():
         query = """UPDATE person SET name=%s, telefonnummer=%s, dez=%s, vornam=%s, zeitpunkt_ins=%s, user_ins=%s, 
                 zeitpunkt_upd=%s, user_upd=%s WHERE name=%s"""
         cursor.execute(query, (name, telefonnummer, dez, vornam, zeitpunkt_ins,
-                       user_ins,zeitpunkt_upd, user_upd, name))
+                       user_ins, zeitpunkt_upd, user_upd, name))
         get_db().commit()
         return redirect(url_for('personAnsehen', name=name))
     except Exception as e:
