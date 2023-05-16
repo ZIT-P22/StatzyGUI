@@ -190,10 +190,8 @@ def fachverfahrenAnsehen():
     if request.method == 'POST':
         tag = request.form['tag']
         try:
-            cursor = get_cursor()
             query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
-            cursor.execute(query)
-            results = cursor.fetchall()
+            results = db_execute(query)
 
             if not results:
                 return render_template('fachverfahrenSuche.html', warning=1, tag=tag)
