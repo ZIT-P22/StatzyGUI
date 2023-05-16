@@ -214,7 +214,12 @@ def fachverfahrenSuche():
 
 @statzy.route('/persServRelAnsehen')
 def persServRelAnsehen():
-    return render_template('persServRelAnsehen.html', warning=0)
+    try:
+        results = db_execute("SELECT * FROM person")
+        return render_template('persServRelAnsehen.html', data=results)
+    except Exception as e:
+        results = []
+        return f"Database query failed! {e}"
 
 
 @statzy.route('/fachverfahrenAnsehen', methods=['GET', 'POST'])
