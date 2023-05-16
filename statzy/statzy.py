@@ -53,11 +53,9 @@ def personValidate(person_id):
 
 
 def personIdToName(person_id):
-    cursor = get_cursor()
     query = "SELECT name FROM person WHERE person_id = '" + \
         str(person_id) + "'"
-    cursor.execute(query)
-    results = cursor.fetchall()
+    results = db_execute(query)
     return results[0][0]
 
 
