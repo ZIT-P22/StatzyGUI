@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @media (min-width: 1024px) {
+  .navbar-padding {
+    padding: 1.5rem 1.5rem 0.87rem 1.5rem;
+  }
+
   .navbar-links a {
     margin-bottom: -1.5rem;
     padding: 0 25px 1.5rem;
@@ -54,8 +58,6 @@
 .flex-grow-2 {
   flex-grow: 2;
 }
-
-
 
 .show-user-info {
   max-width: 2.5rem;
