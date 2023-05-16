@@ -20,16 +20,24 @@ connection_pool = psycopg2.pool.SimpleConnectionPool(
     port='5432'
 )
 
+
 def get_db():
     if 'db' not in g:
         g.db = connection_pool.getconn()
     return g.db
+
 
 @statzy.teardown_appcontext
 def close_db(e=None):
     db = g.pop('db', None)
     if db is not None:
         connection_pool.putconn(db)  # Release the connection back to the pool
+
+
+def db_execute(query, *args):
+    cursor = get_cursor()
+    cursor.execute(query, *args)
+    return cursor.fetchall()
 
 
 def personValidate(person_id):
@@ -47,11 +55,9 @@ def personValidate(person_id):
 
 
 def personIdToName(person_id):
-    cursor = get_cursor()
     query = "SELECT name FROM person WHERE person_id = '" + \
         str(person_id) + "'"
-    cursor.execute(query)
-    results = cursor.fetchall()
+    results = db_execute(query)
     return results[0][0]
 
 
@@ -84,10 +90,8 @@ def index():
 @statzy.route('/start')
 def start():
     try:
-        cursor = get_cursor()
-        cursor.execute(
-            "SELECT name, verf_id, tag FROM fachverfahren ORDER BY name")
-        fachverfahren_data = cursor.fetchall()
+        query = "SELECT name, verf_id, tag FROM fachverfahren ORDER BY name"
+        fachverfahren_data = db_execute(query)
 
         print(fachverfahren_data)
         return render_template('index.html', fachverfahren_data=fachverfahren_data)
@@ -112,10 +116,8 @@ def personAnsehen():
     if request.method == 'POST':
         name = request.form['name']
         try:
-            cursor = get_cursor()
             query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name "
-            cursor.execute(query)
-            results = cursor.fetchall()
+            db_execute(query)
             if not results:
                 return render_template('person.html', warning=1, name=name)
             name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
@@ -126,10 +128,8 @@ def personAnsehen():
     else:
         name = request.args.get('name')
         try:
-            cursor = get_cursor()
             query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name"
-            cursor.execute(query, (name,))
-            results = cursor.fetchall()
+            results = db_execute(query, (name,))
             if not results:
                 return render_template('person.html', warning=1, name=name)
             name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
@@ -137,22 +137,20 @@ def personAnsehen():
             return render_template('personAnsehen.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam, person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
         except Exception as e:
             return 'Fehler', e
-        
 
 
 @statzy.route('/personEditieren', methods=['POST'])
 def personEditieren():
     name = request.form['name']
     try:
-        cursor = get_cursor()
         query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name"
-        cursor.execute(query)
-        results = cursor.fetchall()
+        results = db_execute(query)
         name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
             0]
         return render_template('personEditieren.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam, person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
     except:
         return 'Fehler'
+
 
 @statzy.route('/personUpdate', methods=['POST'])
 def personUpdate():
@@ -170,7 +168,7 @@ def personUpdate():
         query = """UPDATE person SET name=%s, telefonnummer=%s, dez=%s, vornam=%s, zeitpunkt_ins=%s, user_ins=%s, 
                 zeitpunkt_upd=%s, user_upd=%s WHERE name=%s"""
         cursor.execute(query, (name, telefonnummer, dez, vornam, zeitpunkt_ins,
-                       user_ins,zeitpunkt_upd, user_upd, name))
+                       user_ins, zeitpunkt_upd, user_upd, name))
         get_db().commit()
         return redirect(url_for('personAnsehen', name=name))
     except Exception as e:
@@ -188,10 +186,8 @@ def fachverfahrenAnsehen():
     if request.method == 'POST':
         tag = request.form['tag']
         try:
-            cursor = get_cursor()
             query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
-            cursor.execute(query)
-            results = cursor.fetchall()
+            results = db_execute(query)
 
             if not results:
                 return render_template('fachverfahrenSuche.html', warning=1, tag=tag)
@@ -211,10 +207,8 @@ def fachverfahrenAnsehen():
     else:
         tag = request.args.get('tag')
         try:
-            cursor = get_cursor()
             query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* %s ORDER BY name"
-            cursor.execute(query, (tag,))
-            results = cursor.fetchall()
+            results = db_execute(query, (tag,))
 
             if not results:
                 return render_template('fachverfahrenSuche.html', warning=1, tag=tag)
@@ -236,10 +230,8 @@ def fachverfahrenAnsehen():
 def fachverfahrenEditieren():
     tag = request.form['tag']
     try:
-        cursor = get_cursor()
         query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
-        cursor.execute(query)
-        results = cursor.fetchall()
+        results = db_execute(query)
 
         name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
             0]
@@ -325,10 +317,54 @@ def fachverfahrenErstellen():
         return 'Fehler'
 
 
-@statzy.route('/server')
-def server():
-    return render_template('server.html')
+@statzy.route('/serverSuche')
+def serverSuche():
+    return render_template('serverSuche.html', warning=0)
 
+@statzy.route('/serverAnsehen', methods=['GET', 'POST'])
+def serverAnsehen():
+    # ? Wenn die Methode POST ist, wird der Tag aus dem Formular genommen
+    if request.method == 'POST':
+        tag = request.form['tag']
+        try:
+            query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
+            results = db_execute(query)
+
+            if not results:
+                return render_template('ServerSuche.html', warning=1, tag=tag)
+
+            name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
+                0]
+
+            auftraggeber = personIdToName(auftraggeber)
+            verf_betreuung = personIdToName(verf_betreuung)
+            kundenmanagement = personIdToName(kundenmanagement)
+            fachadministration = personIdToName(fachadministration)
+
+            return render_template('serverAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+        except Exception as e:
+            return 'Fehler' + str(e)
+    # ? Wenn die Methode GET ist, wird der Tag aus der URL genommen
+    else:
+        tag = request.args.get('tag')
+        try:
+            query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* %s ORDER BY name"
+            results = db_execute(query, (tag,))
+
+            if not results:
+                return render_template('ServerSuche.html', warning=1, tag=tag)
+
+            name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
+                0]
+
+            auftraggeber = personIdToName(auftraggeber)
+            verf_betreuung = personIdToName(verf_betreuung)
+            kundenmanagement = personIdToName(kundenmanagement)
+            fachadministration = personIdToName(fachadministration)
+
+            return render_template('serverAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+        except:
+            return 'Fehler'
 
 @statzy.route('/komponenteServer')
 def komponenteServer():
