@@ -458,8 +458,8 @@ def serverAnsehen():
         
 @statzy.route('/serverErstellen', methods=['POST'])
 def serverErstellen():
-    name = request.form['name']
-    edit = request.form['edit']
+    name = request.form.get('name', '')
+    edit = request.form.get('edit', '')
     if edit == '1':
         server_id = request.form['server_id']
         fachverfahren = request.form['fachverfahren']
@@ -508,7 +508,37 @@ def serverErstellen():
             except Exception as e:
                 return 'Fehler: ' + str(e)
         else:
-            return 'Diesen Server gibt es nicht '
+            return 'Diese Person gibt es nicht '
+    else:
+        server_id = ''
+        fachverfahren = ''
+        name = ''
+        umgebung = ''
+        laufzeit_server = ''
+        bereitstellungszeitpunkt = ''
+        verwendungszweck = ''
+        typ = ''
+        netzwerk= ''
+        ram	= ''
+        cpu	= ''
+        os = ''
+        speichertyp	= ''
+        kapazität = ''	
+        erreichbarkeit = ''
+        hochverfügbarkeit = ''
+        vertraulichkeit	= ''
+        verfügbarkeit = ''
+        integrität	= ''
+        anmerkungen	= ''
+        zeitpunkt_ins = ''
+        user_ins = ''
+        zeitpunkt_upd	= ''
+        user_upd = ''
+    try:
+        # ? wenn ein fehler bei der validierung auftritt werden die bereits eingetragen daten wieder angezeigt
+        return render_template('serverAnsehen.html', name=name, server_id=server_id, fachverfahren=fachverfahren, umgebung=umgebung, laufzeit_server=laufzeit_server, bereitstellungszeitpunkt=bereitstellungszeitpunkt, verwendungszweck=verwendungszweck, typ=typ, netzwerk=netzwerk, ram=ram, cpu=cpu, os=os, speichertyp=speichertyp, kapazität=kapazität, erreichbarkeit=erreichbarkeit, hochverfügbarkeit=hochverfügbarkeit, vertraulichkeit=vertraulichkeit, verfügbarkeit=verfügbarkeit, integrität=integrität, anmerkungen=anmerkungen, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
+    except:
+        return 'Fehler'
 
 
 @statzy.route('/serverEditieren', methods=['POST'])
