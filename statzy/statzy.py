@@ -58,7 +58,7 @@ def personValidate(person_id):
 def personIdToName(person_id):
     query = "SELECT name FROM person WHERE person_id = '" + str(person_id) + "'"
     results = db_execute(query)
-    return results[0][0]
+    return results[0][0] if results else None
 
 
 def get_cursor():
@@ -265,8 +265,12 @@ def fachverfahrenEditieren():
         query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
         results = db_execute(query)
 
-        name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
-            0]
+        name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber_id, verf_betreuung_id, kundenmanagement_id, fachadministration_id = results[0]
+        auftraggeber = personIdToName(auftraggeber_id)
+        verf_betreuung = personIdToName(verf_betreuung_id)
+        kundenmanagement = personIdToName(kundenmanagement_id)
+        fachadministration = personIdToName(fachadministration_id)
+        
         print("name:", name)
         print("verf_id:", verf_id)
         print("tag:", tag)
@@ -276,6 +280,7 @@ def fachverfahrenEditieren():
         print("verf_betreuung:", verf_betreuung)
         print("kundenmanagement:", kundenmanagement)
         print("fachadministration:", fachadministration)
+        
         return render_template('fachverfahrenEditieren.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
     except:
         return 'Fehler'
@@ -284,24 +289,35 @@ def fachverfahrenEditieren():
 
 @statzy.route('/fachverfahrenUpdate', methods=['POST'])
 def fachverfahrenUpdate():
-    name = request.form['it-verfahren-namen']
-    verf_id = request.form['verfahrens-id']
-    tag = request.form['tag']
-    vewendungszweck = request.form['verwendungszweck']
-    laufzeitverfahren = request.form['laufzeit']
-    auftraggeber_id = request.form['auftraggeber-id']
-    verf_betreuung_id = request.form['verf_bet-id']
-    kundenmanagement_id = request.form['kundenmanagement-id']
-    fachadministration_id = request.form['fachadmin-id']
+    tag = request.form['tag'] if request.form['tag'] else None
+    if not tag:
+        return 'Fehler: Kein Tag bereitgestellt.'
+
+    # Fetch current data for this row.
+    cursor = get_cursor()
+    query = """SELECT * FROM fachverfahren WHERE tag=%s"""
+    cursor.execute(query, (tag,))
+    current_data = cursor.fetchone()
+
+    # Convert the result tuple to a dictionary.
+    current_data_dict = {desc[0]: value for desc, value in zip(cursor.description, current_data)}
+
+    # Replace any None values with current data.
+    name = request.form['it-verfahren-namen'] if request.form['it-verfahren-namen'] else current_data_dict['name']
+    verf_id = request.form['verfahrens-id'] if request.form['verfahrens-id'] else current_data_dict['verf_id']
+    vewendungszweck = request.form['verwendungszweck'] if request.form['verwendungszweck'] else current_data_dict['vewendungszweck']
+    laufzeitverfahren = request.form['laufzeit'] if request.form['laufzeit'] else current_data_dict['laufzeitverfahren']
+    auftraggeber_id = request.form['auftraggeber-id'] if request.form['auftraggeber-id'] else current_data_dict['auftraggeber']
+    verf_betreuung_id = request.form['verf_bet-id'] if request.form['verf_bet-id'] else current_data_dict['verf_betreuung']
+    kundenmanagement_id = request.form['kundenmanagement-id'] if request.form['kundenmanagement-id'] else current_data_dict['kundenmanagement']
+    fachadministration_id = request.form['fachadmin-id'] if request.form['fachadmin-id'] else current_data_dict['fachadministration']
 
     print("auftraggeber_id:", auftraggeber_id)
     print("verf_betreuung_id:", verf_betreuung_id)
     print("kundenmanagement_id:", kundenmanagement_id)
     print("fachadministration_id:", fachadministration_id)
 
-
     try:
-        cursor = get_cursor()
         query = """UPDATE fachverfahren SET name=%s, verf_id=%s, tag=%s, vewendungszweck=%s, laufzeitverfahren=%s, auftraggeber=%s, 
                 verf_betreuung=%s, kundenmanagement=%s, fachadministration=%s WHERE tag=%s"""
         cursor.execute(query, (name, verf_id, tag, vewendungszweck, laufzeitverfahren,
@@ -310,6 +326,8 @@ def fachverfahrenUpdate():
         return redirect(url_for('fachverfahrenAnsehen', tag=tag))
     except Exception as e:
         return 'Fehler: ' + str(e)
+
+
 
 
 
