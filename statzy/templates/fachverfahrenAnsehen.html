@@ -83,40 +83,42 @@
                         type="submit" name="showUser" value="..." data-info="User Info" />
                 </div>
             </div>
-            <div class="mb-6 ">
+            <!-- Verfahrens Betreuung -->
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="laufzeit"> Verfahrens Betreuung: </label>
                 <div class="flex flex-wrap gap-4 w-full">
                     <input
-                        class="flex-grow-2 px-3 py-2 leading-tight text-gray-900 borderrounded shadow appearance-none focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed"
+                        class="flex-grow-2 px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed"
                         type="text" id="verf_bet" name="verf_bet" value="{{verf_betreuung}}" readonly disabled>
-                    <input class="px-4 py-2 font-bold text-white bg-blue-500 rounded
-                        hover:bg-blue-700 focus:outline-none focus:shadow-outline" type="submit" name="showUser"
-                        value="User Info anzeigen" />
-
+                    <input
+                        class="show-user-info px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                        type="submit" name="showUser" value="..." data-info="User Info" />
                 </div>
             </div>
-            <div class="mb-6 ">
+
+            <!-- Kundenmanagement -->
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="laufzeit"> Kundenmanagement: </label>
                 <div class="flex flex-wrap gap-4 w-full">
                     <input
-                        class="flex-grow-2 px-3 py-2 leading-tight text-gray-900 borderrounded shadow appearance-none focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed"
+                        class="flex-grow-2 px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed"
                         type="text" id="verf_bet" name="verf_bet" value="{{verf_betreuung}}" readonly disabled>
-                    <input class="px-4 py-2 font-bold text-white bg-blue-500 rounded
-                        hover:bg-blue-700 focus:outline-none focus:shadow-outline" type="submit" name="showUser"
-                        value="User Info anzeigen" />
-
+                    <input
+                        class="show-user-info px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                        type="submit" name="showUser" value="..." data-info="User Info" />
                 </div>
             </div>
-            <div class="mb-6 ">
+
+            <!-- Fachadministration -->
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="laufzeit"> Fachadministration: </label>
                 <div class="flex flex-wrap gap-4 w-full">
                     <input
-                        class="flex-grow-2 px-3 py-2 leading-tight text-gray-900 borderrounded shadow appearance-none focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed"
+                        class="flex-grow-2 px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed"
                         type="text" id="verf_bet" name="verf_bet" value="{{verf_betreuung}}" readonly disabled>
-                    <input class="px-4 py-2 font-bold text-white bg-blue-500 rounded
-                        hover:bg-blue-700 focus:outline-none focus:shadow-outline" type="submit" name="showUser"
-                        value="User Info anzeigen" />
-
+                    <input
+                        class="show-user-info px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                        type="submit" name="showUser" value="..." data-info="User Info" />
                 </div>
             </div>
 
@@ -139,18 +141,20 @@
 
 
 <script>
-    const showUserInfoBtn = document.querySelector(".show-user-info");
+    const showUserInfoBtns = document.querySelectorAll(".show-user-info");
 
-    showUserInfoBtn.addEventListener("mouseover", () => {
-        showUserInfoBtn.classList.add("expanded");
-        showUserInfoBtn.value = showUserInfoBtn.dataset.info;
-    });
+    showUserInfoBtns.forEach((showUserInfoBtn) => {
+        showUserInfoBtn.addEventListener("mouseover", () => {
+            showUserInfoBtn.classList.add("expanded");
+            showUserInfoBtn.value = showUserInfoBtn.dataset.info;
+        });
 
-    showUserInfoBtn.addEventListener("mouseout", () => {
-        showUserInfoBtn.classList.remove("expanded");
-        setTimeout(() => {
-            showUserInfoBtn.value = "...";
-        }, 500);
+        showUserInfoBtn.addEventListener("mouseout", () => {
+            showUserInfoBtn.classList.remove("expanded");
+            setTimeout(() => {
+                showUserInfoBtn.value = "...";
+            }, 500);
+        });
     });
 </script>
 
