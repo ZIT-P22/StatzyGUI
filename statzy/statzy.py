@@ -321,6 +321,50 @@ def fachverfahrenErstellen():
 def serverSuche():
     return render_template('serverSuche.html', warning=0)
 
+@statzy.route('/ServerAnsehen', methods=['GET', 'POST'])
+def ServerAnsehen():
+    # ? Wenn die Methode POST ist, wird der Tag aus dem Formular genommen
+    if request.method == 'POST':
+        tag = request.form['tag']
+        try:
+            query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
+            results = db_execute(query)
+
+            if not results:
+                return render_template('ServerSuche.html', warning=1, tag=tag)
+
+            name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
+                0]
+
+            auftraggeber = personIdToName(auftraggeber)
+            verf_betreuung = personIdToName(verf_betreuung)
+            kundenmanagement = personIdToName(kundenmanagement)
+            fachadministration = personIdToName(fachadministration)
+
+            return render_template('ServerAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+        except Exception as e:
+            return 'Fehler' + str(e)
+    # ? Wenn die Methode GET ist, wird der Tag aus der URL genommen
+    else:
+        tag = request.args.get('tag')
+        try:
+            query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* %s ORDER BY name"
+            results = db_execute(query, (tag,))
+
+            if not results:
+                return render_template('ServerSuche.html', warning=1, tag=tag)
+
+            name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
+                0]
+
+            auftraggeber = personIdToName(auftraggeber)
+            verf_betreuung = personIdToName(verf_betreuung)
+            kundenmanagement = personIdToName(kundenmanagement)
+            fachadministration = personIdToName(fachadministration)
+
+            return render_template('ServerAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+        except:
+            return 'Fehler'
 
 @statzy.route('/komponenteServer')
 def komponenteServer():
