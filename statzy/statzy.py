@@ -143,7 +143,6 @@ def personAnsehen():
 def personEditieren():
     name = request.form['name']
     try:
-        cursor = get_cursor()
         query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name"
         results = db_execute(query)
         name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
