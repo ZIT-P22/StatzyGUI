@@ -88,10 +88,8 @@ def index():
 @statzy.route('/start')
 def start():
     try:
-        cursor = get_cursor()
-        cursor.execute(
-            "SELECT name, verf_id, tag FROM fachverfahren ORDER BY name")
-        fachverfahren_data = cursor.fetchall()
+        query = "SELECT name, verf_id, tag FROM fachverfahren ORDER BY name"
+        fachverfahren_data = db_execute(query)
 
         print(fachverfahren_data)
         return render_template('index.html', fachverfahren_data=fachverfahren_data)
