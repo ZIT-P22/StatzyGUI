@@ -32,6 +32,12 @@ def close_db(e=None):
         connection_pool.putconn(db)  # Release the connection back to the pool
 
 
+def db_execute(query):
+    cursor = get_cursor()
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
 def personValidate(person_id):
     cursor = get_cursor()
     query = "SELECT count(*) FROM person WHERE person_id = '" + person_id + "'"
