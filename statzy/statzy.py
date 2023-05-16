@@ -118,6 +118,19 @@ def personAnsehen():
         except:
             return 'Fehler'
 
+@statzy.route('/personEditieren', methods=['POST'])
+def personEditieren():
+    name = request.form['tag']
+    try:
+        cursor = get_cursor()
+        query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name"
+        cursor.execute(query)
+        results = cursor.fetchall()
+        name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
+            0]
+        return render_template('personEditieren.html', name=name,telefonnummer=telefonnummer, dez=dez, vornam=vornam,person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
+    except:
+        return 'Fehler'
 
 @statzy.route('/fachverfahrenSuche')
 def fachverfahrenSuche():
