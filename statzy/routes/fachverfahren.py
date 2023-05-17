@@ -23,17 +23,17 @@ def fachverfahrenAnsehen():
 
             name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
                 0]
-
+            # ? Die ID's werden in Namen umgewandelt um sie anzuzeigen | die ids der Personen werden trotzdem in der Session gespeichert
+            idAuftraggeber = auftraggeber
+            idVerfBetreuung = verf_betreuung
+            idKundenmanagement = kundenmanagement
+            idFachadministration = fachadministration
             auftraggeber = personIdToName(auftraggeber)
             verf_betreuung = personIdToName(verf_betreuung)
             kundenmanagement = personIdToName(kundenmanagement)
             fachadministration = personIdToName(fachadministration)
-            
-            
-            
-            
 
-            return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+            return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration, idAuftraggeber=idAuftraggeber, idVerfBetreuung=idVerfBetreuung, idKundenmanagement=idKundenmanagement, idFachadministration=idFachadministration)
         except Exception as e:
             return 'Fehler' + str(e)
     # ? Wenn die Methode GET ist, wird der Tag aus der URL genommen
@@ -49,13 +49,16 @@ def fachverfahrenAnsehen():
             name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
                 0]
 
+            idAuftraggeber = auftraggeber
+            idVerfBetreuung = verf_betreuung
+            idKundenmanagement = kundenmanagement
+            idFachadministration = fachadministration
             auftraggeber = personIdToName(auftraggeber)
             verf_betreuung = personIdToName(verf_betreuung)
             kundenmanagement = personIdToName(kundenmanagement)
             fachadministration = personIdToName(fachadministration)
-            
 
-            return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+            return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration, idAuftraggeber=idAuftraggeber, idVerfBetreuung=idVerfBetreuung, idKundenmanagement=idKundenmanagement, idFachadministration=idFachadministration)
         except:
             return 'Fehler'
 
@@ -67,12 +70,13 @@ def fachverfahrenEditieren():
         query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* '" + tag + "' ORDER BY name "
         results = db_execute(query)
 
-        name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber_id, verf_betreuung_id, kundenmanagement_id, fachadministration_id = results[0]
+        name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber_id, verf_betreuung_id, kundenmanagement_id, fachadministration_id = results[
+            0]
         auftraggeber = personIdToName(auftraggeber_id)
         verf_betreuung = personIdToName(verf_betreuung_id)
         kundenmanagement = personIdToName(kundenmanagement_id)
         fachadministration = personIdToName(fachadministration_id)
-        
+
         print("name:", name)
         print("verf_id:", verf_id)
         print("tag:", tag)
@@ -82,11 +86,10 @@ def fachverfahrenEditieren():
         print("verf_betreuung:", verf_betreuung)
         print("kundenmanagement:", kundenmanagement)
         print("fachadministration:", fachadministration)
-        
+
         return render_template('fachverfahrenEditieren.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
     except:
         return 'Fehler'
-
 
 
 @bp_fachverfahren.route('/fachverfahrenUpdate', methods=['POST'])
@@ -102,12 +105,14 @@ def fachverfahrenUpdate():
     current_data = cursor.fetchone()
 
     # Convert the result tuple to a dictionary.
-    current_data_dict = {desc[0]: value for desc, value in zip(cursor.description, current_data)}
+    current_data_dict = {desc[0]: value for desc,
+                         value in zip(cursor.description, current_data)}
 
     # Replace any None values with current data.
     name = request.form['it-verfahren-namen'] if request.form['it-verfahren-namen'] else current_data_dict['name']
     verf_id = request.form['verfahrens-id'] if request.form['verfahrens-id'] else current_data_dict['verf_id']
-    vewendungszweck = request.form['verwendungszweck'] if request.form['verwendungszweck'] else current_data_dict['vewendungszweck']
+    vewendungszweck = request.form['verwendungszweck'] if request.form[
+        'verwendungszweck'] else current_data_dict['vewendungszweck']
     laufzeitverfahren = request.form['laufzeit'] if request.form['laufzeit'] else current_data_dict['laufzeitverfahren']
     auftraggeber_id = request.form['auftraggeber-id'] if request.form['auftraggeber-id'] else current_data_dict['auftraggeber']
     verf_betreuung_id = request.form['verf_bet-id'] if request.form['verf_bet-id'] else current_data_dict['verf_betreuung']
@@ -128,9 +133,6 @@ def fachverfahrenUpdate():
         return redirect(url_for('fachverfahren.fachverfahrenAnsehen', tag=tag))
     except Exception as e:
         return 'Fehler: ' + str(e)
-
-
-
 
 
 @bp_fachverfahren.route('/fachverfahrenErstellen', methods=['POST'])
