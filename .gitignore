@@ -1,6 +1,7 @@
 .statzy
 .venv
 .vscode
+./__pycache__
 ./node_modules
 package-lock.json
 node_modules
