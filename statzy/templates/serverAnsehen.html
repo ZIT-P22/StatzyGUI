@@ -8,7 +8,7 @@
 
             <hr class="my-8 border-gray-300" />
 
-            <form action="{{ url_for('serverAnsehen') }}" method="POST" class="max-w-3xl mx-auto">
+            <form action="{{ url_for('server.serverAnsehen') }}" method="POST" class="max-w-3xl mx-auto">
                 <div class="flex flex-wrap">
                     <div class="w-full">
                         <label class="block mb-2 font-bold" for="name">
@@ -16,17 +16,15 @@
                         </label>
                     </div>
                     <div class="w-4/6 md:w-5/6">
-                        <input class="w-full px-3 py-2 leading-tight
-                            text-gray-900 border
-                            rounded shadow appearance-none focus:outline-none
-                            focus:shadow-outline" type="text" id="name" name="name" value="{{ name }}">
+                        <input
+                            class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                            type="text" id="name" name="name" value="{{ name }}">
                     </div>
 
-                    <div class=" pl-4 w-2/6 md:w-1/6">
-                        <button class=" px-4 py-2 font-bold text-white
-                            bg-blue-500 rounded hover:bg-blue-700
-                            focus:outline-none
-                            focus:shadow-outline" type="submit">
+                    <div class="w-2/6 pl-4 md:w-1/6">
+                        <button
+                            class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                            type="submit">
                             Abschicken
                         </button>
                     </div>
@@ -72,8 +70,8 @@
                 </label>
                 <input
                     class="w-full px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed focus:outline-none focus:shadow-outline"
-                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt"
-                    value="{{ umgebung }}" readonly disabled>
+                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt" value="{{ umgebung }}"
+                    readonly disabled>
             </div>
 
             <div class="mb-6">
@@ -112,8 +110,8 @@
                 </label>
                 <input
                     class="w-full px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed focus:outline-none focus:shadow-outline"
-                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt"
-                    value="{{ typ }}" readonly disabled>
+                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt" value="{{ typ }}"
+                    readonly disabled>
             </div>
 
             <div class="mb-6">
@@ -122,8 +120,8 @@
                 </label>
                 <input
                     class="w-full px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed focus:outline-none focus:shadow-outline"
-                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt"
-                    value="{{ netzwerk }}" readonly disabled>
+                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt" value="{{ netzwerk }}"
+                    readonly disabled>
             </div>
 
             <div class="mb-6">
@@ -132,8 +130,8 @@
                 </label>
                 <input
                     class="w-full px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed focus:outline-none focus:shadow-outline"
-                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt"
-                    value="{{ ram }}" readonly disabled>
+                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt" value="{{ ram }}"
+                    readonly disabled>
             </div>
 
             <div class="mb-6">
@@ -142,8 +140,8 @@
                 </label>
                 <input
                     class="w-full px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed focus:outline-none focus:shadow-outline"
-                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt"
-                    value="{{ cpu }}" readonly disabled>
+                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt" value="{{ cpu }}"
+                    readonly disabled>
             </div>
 
             <div class="mb-6">
@@ -152,8 +150,8 @@
                 </label>
                 <input
                     class="w-full px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed focus:outline-none focus:shadow-outline"
-                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt"
-                    value="{{ os }}" readonly disabled>
+                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt" value="{{ os }}"
+                    readonly disabled>
             </div>
 
             <div class="mb-6">
@@ -172,8 +170,8 @@
                 </label>
                 <input
                     class="w-full px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed focus:outline-none focus:shadow-outline"
-                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt"
-                    value="{{ kapazität }}" readonly disabled>
+                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt" value="{{ kapazität }}"
+                    readonly disabled>
             </div>
 
             <div class="mb-6">
@@ -222,8 +220,8 @@
                 </label>
                 <input
                     class="w-full px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed focus:outline-none focus:shadow-outline"
-                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt"
-                    value="{{ integrität }}" readonly disabled>
+                    type="text" id="berichtstellungszeitpunkt" name="berichtstellungszeitpunkt" value="{{ integrität }}"
+                    readonly disabled>
             </div>
 
             <div class="mb-6">
@@ -248,13 +246,13 @@
 
             <div class="mb-6 ">
                 <label class="block mb-2 font-bold" for="laufzeit"> user_ins: </label>
-                <div class="flex flex-wrap gap-4 w-full">
+                <div class="flex flex-wrap w-full gap-4">
                     <input
-                        class="flex-grow-2 px-3 py-2 leading-tight text-gray-900 borderrounded shadow appearance-none focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed"
+                        class="px-3 py-2 leading-tight text-gray-900 bg-gray-100 shadow appearance-none cursor-not-allowed flex-grow-2 borderrounded focus:outline-none focus:shadow-outline"
                         type="text" id="verf_bet" name="verf_bet" value="{{user_ins}}" readonly disabled>
-                    <input class="px-4 py-2 font-bold text-white bg-blue-500 rounded
-                        hover:bg-blue-700 focus:outline-none focus:shadow-outline" type="submit" name="showUser"
-                        value="User Info anzeigen" />
+                    <input
+                        class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                        type="submit" name="showUser" value="User Info anzeigen" />
                 </div>
             </div>
 
@@ -270,13 +268,13 @@
 
             <div class="mb-6 ">
                 <label class="block mb-2 font-bold" for="laufzeit"> user_upd: </label>
-                <div class="flex flex-wrap gap-4 w-full">
+                <div class="flex flex-wrap w-full gap-4">
                     <input
-                        class="flex-grow-2 px-3 py-2 leading-tight text-gray-900 borderrounded shadow appearance-none focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed"
+                        class="px-3 py-2 leading-tight text-gray-900 bg-gray-100 shadow appearance-none cursor-not-allowed flex-grow-2 borderrounded focus:outline-none focus:shadow-outline"
                         type="text" id="verf_bet" name="verf_bet" value="{{user_upd}}" readonly disabled>
-                    <input class="px-4 py-2 font-bold text-white bg-blue-500 rounded
-                        hover:bg-blue-700 focus:outline-none focus:shadow-outline" type="submit" name="showUser"
-                        value="User Info anzeigen" />
+                    <input
+                        class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                        type="submit" name="showUser" value="User Info anzeigen" />
                 </div>
             </div>
 
@@ -284,7 +282,7 @@
             <hr class="my-8 border-gray-300 " />
 
         </form>
-        <form action="{{ url_for('serverEditieren') }}" method="POST">
+        <form action="{{ url_for('server.serverEditieren') }}" method="POST">
             <div class="flex items-center justify-center">
                 <input class="hidden" type="text" id="verfahrens-tag" name="tag" value="{{ tag }}">
                 <button
