@@ -1,16 +1,13 @@
 .statzy
 .venv
 .vscode
+./__pycache__
 ./node_modules
 package-lock.json
 node_modules
 package.json
 statzy/static/build/theme.css
 ./static/build
-<<<<<<< Updated upstream
-statzy/static/build/theme.css
-statzy/static/build/theme.css
-=======
 *.pyc
 .DS_Store
 .env
@@ -112,5 +109,5 @@ migrations/
 *.sqlite3-journal
 /static/build
 .vscode/
-statzy/routes/__pycache__/*
->>>>>>> Stashed changes
+statzy/__pycache__/helper.cpython-311.pyc
+statzy/routes/__pycache__/__init__.cpython-311.pyc
