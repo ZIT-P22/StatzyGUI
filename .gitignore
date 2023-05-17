@@ -109,3 +109,5 @@ migrations/
 *.sqlite3-journal
 /static/build
 .vscode/
+statzy/__pycache__/helper.cpython-311.pyc
+statzy/routes/__pycache__/__init__.cpython-311.pyc
