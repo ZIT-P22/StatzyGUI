@@ -11,7 +11,7 @@
 
         </div>
         <!--! form start-->
-        <form action="" method="POST" class="max-w-3xl mx-auto">
+        <form action="{{ url_for('server.serverErstellen') }}" method="POST" class="max-w-3xl mx-auto">
 
 
             <div class="mb-6">
@@ -40,7 +40,7 @@
 
             <div class=" mb-6">
                 <label class="block mb-2 font-bold" for="fachverfahren">
-                    Fachverfahren: </label>
+                    fachverfahren: </label>
                 <input class="w-full px-3 py-2 leading-tight text-gray-900
                     border
                     rounded shadow appearance-none focus:outline-none
@@ -51,7 +51,7 @@
 
             <div class=" mb-6">
                 <label class="block mb-2 font-bold" for="umgebung">
-                    Umgebung: </label>
+                    umgebung: </label>
                 <input class="w-full px-3 py-2 leading-tight text-gray-900
                     border
                     rounded shadow appearance-none focus:outline-none
@@ -62,7 +62,7 @@
 
             <div class=" mb-6">
                 <label class="block mb-2 font-bold" for="laufzeit">
-                    Serverlaufzeit: </label>
+                    laufzeit_server: </label>
                 <input class="w-full px-3 py-2 leading-tight text-gray-900
                     border
                     rounded shadow appearance-none focus:outline-none
@@ -74,7 +74,7 @@
             <div class="mb-6">
                 <label class="block mb-2 font-bold"
                     for="berichtstellungszeitpunkt">
-                    Verwendungszweck:
+                    verwendungszweck:
                 </label>
                 <input class="w-full px-3 py-2 leading-tight text-gray-900
                     border
@@ -89,150 +89,177 @@
             <div class=" mb-6">
                 <label class="block mb-2 font-bold" for="typ">
                     Typ: </label>
-                <input class="w-full px-3 py-2 leading-tight text-gray-900
-                    border
-                    rounded shadow appearance-none focus:outline-none
-                    focus:shadow-outline" type="text" id="typ"
-                    name="typ" value="{{typ}}" />
+                    <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="typ" name="typ">
+                        {% for option in typ_options %}
+                          {% if option == typ %}
+                            <option value="{{ option }}" selected>{{ option }}</option>
+                          {% else %}
+                            <option value="{{ option }}">{{ option }}</option>
+                          {% endif %}
+                        {% endfor %}
+                    </select>
             </div>
 
 
-            <div class=" mb-6">
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="netzwerk">
-                    Netzwerk: </label>
-                <input class="w-full px-3 py-2 leading-tight text-gray-900
-                    border
-                    rounded shadow appearance-none focus:outline-none
-                    focus:shadow-outline" type="text" id="netzwerk"
-                    name="netzwerk" value="{{netzwerk}}" />
-            </div>
+                  netzwerk:
+                </label>
+                <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="netzwerk" name="netzwerk">
+                  {% for option in nic_options %}
+                    {% if option == netzwerk %}
+                      <option value="{{ option }}" selected>{{ option }}</option>
+                    {% else %}
+                      <option value="{{ option }}">{{ option }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+            </div>   
 
 
-            <div class=" mb-6">
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="ram">
-                    Arbeitsspeicher: </label>
-                <input class="w-full px-3 py-2 leading-tight text-gray-900
-                    border
-                    rounded shadow appearance-none focus:outline-none
-                    focus:shadow-outline" type="text" id="ram"
-                    name="ram" value="{{ram}}" />
+                  RAM:
+                </label>
+                <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="ram" name="ram">
+                  {% for option in ram_options %}
+                    {% if option == ram %}
+                      <option value="{{ option }}" selected>{{ option }}</option>
+                    {% else %}
+                      <option value="{{ option }}">{{ option }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
             </div>
 
 
-            <div class=" mb-6">
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="cpu">
-                    Prozessor: </label>
-                <input class="w-full px-3 py-2 leading-tight text-gray-900
-                    border
-                    rounded shadow appearance-none focus:outline-none
-                    focus:shadow-outline" type="text" id="cpu"
-                    name="cpu" value="{{cpu}}" />
+                  CPU:
+                </label>
+                <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="cpu" name="cpu">
+                  {% for option in cpu_options %}
+                    {% if option == selected_cpu %}
+                      <option value="{{ option }}" selected>{{ option }}</option>
+                    {% else %}
+                      <option value="{{ option }}">{{ option }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
             </div>
 
 
-            <div class=" mb-6">
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="os">
-                    Betriebssystem: </label>
-                <input class="w-full px-3 py-2 leading-tight text-gray-900
-                    border
-                    rounded shadow appearance-none focus:outline-none
-                    focus:shadow-outline" type="text" id="os"
-                    name="os" value="{{os}}" />
+                  Operating System:
+                </label>
+                <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="os" name="os">
+                  {% for option in os_options %}
+                    {% if option == os %}
+                      <option value="{{ option }}" selected>{{ option }}</option>
+                    {% else %}
+                      <option value="{{ option }}">{{ option }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
             </div>
 
 
-            <div class=" mb-6">
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="speichertyp">
-                    Speichertyp: </label>
-                <input class="w-full px-3 py-2 leading-tight text-gray-900
-                    border
-                    rounded shadow appearance-none focus:outline-none
-                    focus:shadow-outline" type="text" id="speichertyp"
-                    name="speichertyp" value="{{speichertyp}}" />
-            </div>
+                  Speicher:
+                </label>
+                <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="speichertyp" name="speichertyp">
+                  {% for option in speicher_options %}
+                    {% if option == speichertyp %}
+                      <option value="{{ option }}" selected>{{ option }}</option>
+                    {% else %}
+                      <option value="{{ option }}">{{ option }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
 
 
-            <div class=" mb-6">
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="kapazität">
-                    Kapazität: </label>
-                <input class="w-full px-3 py-2 leading-tight text-gray-900
-                    border
-                    rounded shadow appearance-none focus:outline-none
-                    focus:shadow-outline" type="text" id="kapazität"
-                    name="kapazität" value="{{kapazität}}" />
+                  kapazität:
+                </label>
+                <input
+                  class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  type="text" id="kapazität" name="kapazität" value="{{ kapazität }}" />
             </div>
 
 
-            <div class=" mb-6">
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="erreichbarkeit">
-                    Erreichbarkeit: </label>
-                <input class="w-full px-3 py-2 leading-tight text-gray-900
-                    border
-                    rounded shadow appearance-none focus:outline-none
-                    focus:shadow-outline" type="text" id="erreichbarkeit"
-                    name="erreichbarkeit" value="{{erreichbarkeit}}" />
+                  erreichbarkeit:
+                </label>
+                <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="erreichbarkeit" name="erreichbarkeit">
+                  {% for option in erreichbarkeit_options %}
+                    {% if option == erreichbarkeit %}
+                      <option value="{{ option }}" selected>{{ option }}</option>
+                    {% else %}
+                      <option value="{{ option }}">{{ option }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
             </div>
 
 
-            <div class=" mb-6">
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="hochverfügbarkeit">
-                    Hochverfügbarkeit: </label>
-                <input class="w-full px-3 py-2 leading-tight text-gray-900
-                    border
-                    rounded shadow appearance-none focus:outline-none
-                    focus:shadow-outline" type="text" id="hochverfügbarkeit"
-                    name="hochverfügbarkeit" value="{{hochverfügbarkeit}}" />
+                  hochverfügbarkeit:
+                </label>
+                <input
+                  class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  type="text" id="hochverfügbarkeit" name="hochverfügbarkeit" value="{{ hochverfügbarkeit }}" />
             </div>
 
 
-            <div class=" mb-6">
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="vertraulichkeit">
-                    Vertraulichkeit: </label>
-                <input class="w-full px-3 py-2 leading-tight text-gray-900
-                    border
-                    rounded shadow appearance-none focus:outline-none
-                    focus:shadow-outline" type="text" id="vertraulichkeit"
-                    name="vertraulichkeit" value="{{vertraulichkeit}}" />
+                  vertraulichkeit:
+                </label>
+                <input
+                  class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  type="text" id="vertraulichkeit" name="vertraulichkeit" value="{{ vertraulichkeit }}" />
             </div>
 
 
-            <div class=" mb-6">
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="verfügbarkeit">
-                    Verfügbarkeit: </label>
-                <input class="w-full px-3 py-2 leading-tight text-gray-900
-                    border
-                    rounded shadow appearance-none focus:outline-none
-                    focus:shadow-outline" type="text" id="verfügbarkeit"
-                    name="verfügbarkeit" value="{{verfügbarkeit}}" />
+                  verfügbarkeit:
+                </label>
+                <input
+                  class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  type="text" id="verfügbarkeit" name="verfügbarkeit" value="{{ verfügbarkeit }}" />
             </div>
 
 
-            <div class=" mb-6">
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="integrität">
-                    Integrität: </label>
-                <input class="w-full px-3 py-2 leading-tight text-gray-900
-                    border
-                    rounded shadow appearance-none focus:outline-none
-                    focus:shadow-outline" type="text" id="integrität"
-                    name="integrität" value="{{integrität}}" />
+                  integrität:
+                </label>
+                <input
+                  class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  type="text" id="integrität" name="integrität" value="{{ integrität }}" />
             </div>
 
 
-            <div class=" mb-6">
+            <div class="mb-6">
                 <label class="block mb-2 font-bold" for="anmerkungen">
-                    Anmerkungen: </label>
-                <input class="w-full px-3 py-2 leading-tight text-gray-900
-                    border
-                    rounded shadow appearance-none focus:outline-none
-                    focus:shadow-outline" type="text" id="anmerkungen"
-                    name="anmerkungen" value="{{anmerkungen}}" />
+                  anmerkungen:
+                </label>
+                <input
+                  class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  type="text" id="anmerkungen" name="anmerkungen" value="{{ anmerkungen }}" />
             </div>
             
 
             <hr class=" my-8 border-gray-300" />
             <!--? input der hidden ist und die information weitergibt das zum ersten mal die seite erstellen aufgerufen wird-->
             <input class="hidden" type="text" id="edit-info" name="edit" value="1">
-
             <div class="flex items-center justify-center">
                 <button class="px-4 py-2 font-bold text-white bg-blue-500
                     rounded

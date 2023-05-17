@@ -68,6 +68,33 @@ def serverErstellen():
         anmerkungen = request.form['anmerkungen']
         # ? wenn auftraggeber, verf_betreuung, kundenmanagement, fachadministration in der person Datenbank vorhanden sind, dann wird das form in die Datenbank fachverfahren geschrieben
 
+        cursor = get_cursor()
+        cursor.execute("SELECT cpu FROM auswahl_cpu")
+        cpu_options = [row[0] for row in cursor.fetchall()]
+            
+        cursor.execute("SELECT erreichbarkeit FROM auswahl_erreichbarkeit")
+        erreichbarkeit_options = [row[0] for row in cursor.fetchall()]
+
+        cursor.execute("SELECT nic FROM auswahl_nic")
+        nic_options = [row[0] for row in cursor.fetchall()]
+
+        cursor.execute("SELECT os FROM auswahl_os")
+        os_options = [row[0] for row in cursor.fetchall()]
+
+        cursor.execute("SELECT ram FROM auswahl_ram")
+        ram_options = [row[0] for row in cursor.fetchall()]
+
+        cursor.execute("SELECT speicher FROM auswahl_speicher")
+        speicher_options = [row[0] for row in cursor.fetchall()]
+
+        cursor.execute("SELECT typ FROM auswahl_typ")
+        typ_options = [row[0] for row in cursor.fetchall()]
+            
+        selected_cpu = cpu if cpu in cpu_options else None
+
+        return render_template('serverAnsehen.html', name=name, server_id=server_id, fachverfahren=fachverfahren, umgebung=umgebung, laufzeit_server=laufzeit_server, verwendungszweck=verwendungszweck, typ=typ, netzwerk=netzwerk, ram=ram, cpu_options=cpu_options, selected_cpu=selected_cpu, os=os, speichertyp=speichertyp, kapazität=kapazität, erreichbarkeit=erreichbarkeit, hochverfügbarkeit=hochverfügbarkeit, vertraulichkeit=vertraulichkeit, verfügbarkeit=verfügbarkeit, integrität=integrität, anmerkungen=anmerkungen, erreichbarkeit_options=erreichbarkeit_options, nic_options=nic_options, os_options=os_options, ram_options=ram_options, speicher_options=speicher_options, typ_options=typ_options)
+
+
     else:
         server_id = ''
         fachverfahren = ''
