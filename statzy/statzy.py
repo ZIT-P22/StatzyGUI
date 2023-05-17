@@ -119,7 +119,7 @@ def getnames():
 
 @statzy.route('/person')
 def person():
-    return render_template('person.html')
+    return render_template('person.html') 
 
 
 @statzy.route('/personSuche')
