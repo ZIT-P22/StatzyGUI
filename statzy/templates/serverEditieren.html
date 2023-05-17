@@ -80,56 +80,92 @@
 
       <div class="mb-6">
         <label class="block mb-2 font-bold" for="typ">
-          typ:
+          Typ:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="typ" name="typ" value="{{ typ }}" />
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="typ" name="typ">
+          {% for option in typ_options %}
+            {% if option == typ %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
       </div>
 
       <div class="mb-6">
         <label class="block mb-2 font-bold" for="netzwerk">
           netzwerk:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="netzwerk" name="netzwerk" value="{{ netzwerk }}" />
-      </div>
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="netzwerk" name="netzwerk">
+          {% for option in nic_options %}
+            {% if option == netzwerk %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>    
 
       <div class="mb-6">
         <label class="block mb-2 font-bold" for="ram">
-          ram:
+          RAM:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="ram" name="ram" value="{{ ram }}" />
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="ram" name="ram">
+          {% for option in ram_options %}
+            {% if option == ram %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
       </div>
 
       <div class="mb-6">
         <label class="block mb-2 font-bold" for="cpu">
-          cpu:
+          CPU:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="cpu" name="cpu" value="{{ cpu }}" />
-      </div>
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="cpu" name="cpu">
+          {% for option in cpu_options %}
+            {% if option == selected_cpu %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>  
 
       <div class="mb-6">
         <label class="block mb-2 font-bold" for="os">
-          os:
+          Operating System:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="os" name="os" value="{{ os }}" />
-      </div>
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="os" name="os">
+          {% for option in os_options %}
+            {% if option == os %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>      
 
       <div class="mb-6">
         <label class="block mb-2 font-bold" for="speichertyp">
-          speichertyp:
+          Speicher:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="speichertyp" name="speichertyp" value="{{ speichertyp }}" />
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="speichertyp" name="speichertyp">
+          {% for option in speicher_options %}
+            {% if option == speichertyp %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
       </div>
 
       <div class="mb-6">
@@ -145,10 +181,16 @@
         <label class="block mb-2 font-bold" for="erreichbarkeit">
           erreichbarkeit:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="erreichbarkeit" name="erreichbarkeit" value="{{ erreichbarkeit }}" />
-      </div>
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="erreichbarkeit" name="erreichbarkeit">
+          {% for option in erreichbarkeit_options %}
+            {% if option == erreichbarkeit %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>      
 
       <div class="mb-6">
         <label class="block mb-2 font-bold" for="hochverfügbarkeit">
