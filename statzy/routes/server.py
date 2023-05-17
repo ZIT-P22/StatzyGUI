@@ -45,14 +45,13 @@ def serverAnsehen():
 
 @bp_server.route('/serverErstellen', methods=['POST'])
 def serverErstellen():
-    name = request.form.get('name', '')
-    edit = request.form.get('edit', '')
+    name = request.form['name']
+    edit = request.form['edit']
     if edit == '1':
         server_id = request.form['server_id']
         fachverfahren = request.form['fachverfahren']
         umgebung = request.form['umgebung']
         laufzeit_server = request.form['laufzeit_server']
-        bereitstellungszeitpunkt = request.form['bereitstellungszeitpunkt']
         verwendungszweck = request.form['vewendungszweck']
         typ = request.form['typ']
         netzwerk = request.form['netzwerk']
@@ -77,8 +76,8 @@ def serverErstellen():
             try:
                 cursor = get_cursor()
                 print('test 1')
-                query = "INSERT INTO server (server_id, fachverfahren, name, umgebung, laufzeit_server, bereitstellungszeitpunkt, verwendungszweck, typ, netzwerk, ram, cpu, os, speichertyp, ""kapazität"", erreichbarkeit, ""hochverfügbarkeit"", vertraulichkeit, ""verfügbarkeit"", ""integrität"", anmerkungen, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd) VALUES ('" + server_id + "', '" + \
-                    fachverfahren + "', '" + name + "', '" + umgebung + "', '" + laufzeit_server + "', '" + bereitstellungszeitpunkt + "', '" + verwendungszweck + "', '" + \
+                query = "INSERT INTO server (server_id, fachverfahren, name, umgebung, laufzeit_server, verwendungszweck, typ, netzwerk, ram, cpu, os, speichertyp, ""kapazität"", erreichbarkeit, ""hochverfügbarkeit"", vertraulichkeit, ""verfügbarkeit"", ""integrität"", anmerkungen, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd) VALUES ('" + server_id + "', '" + \
+                    fachverfahren + "', '" + name + "', '" + umgebung + "', '" + laufzeit_server + "', '" + verwendungszweck + "', '" + \
                         typ + "', '" + netzwerk + "', '" + ram + "', '" + cpu + "', '" + os + "', '" + speichertyp + "', '" + \
                         kapazität + "', '" + erreichbarkeit + "', '" + hochverfügbarkeit + "', '" + hochverfügbarkeit + "', '" + vertraulichkeit + "', '" + \
                         verfügbarkeit + "', '" + integrität + "', '" + anmerkungen + "', '" + zeitpunkt_ins + "', '" + \
@@ -91,7 +90,7 @@ def serverErstellen():
                 cursor.close()
                 # debug print(query rückgabe)
                 print('Server wurde erstellt')
-                return render_template('serverAnsehen.html', name=name, server_id=server_id, fachverfahren=fachverfahren, umgebung=umgebung, laufzeit_server=laufzeit_server, bereitstellungszeitpunkt=bereitstellungszeitpunkt, verwendungszweck=verwendungszweck, typ=typ, netzwerk=netzwerk, ram=ram, cpu=cpu, os=os, speichertyp=speichertyp, kapazität=kapazität, erreichbarkeit=erreichbarkeit, hochverfügbarkeit=hochverfügbarkeit, vertraulichkeit=vertraulichkeit, verfügbarkeit=verfügbarkeit, integrität=integrität, anmerkungen=anmerkungen, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
+                return render_template('serverAnsehen.html', name=name, server_id=server_id, fachverfahren=fachverfahren, umgebung=umgebung, laufzeit_server=laufzeit_server, verwendungszweck=verwendungszweck, typ=typ, netzwerk=netzwerk, ram=ram, cpu=cpu, os=os, speichertyp=speichertyp, kapazität=kapazität, erreichbarkeit=erreichbarkeit, hochverfügbarkeit=hochverfügbarkeit, vertraulichkeit=vertraulichkeit, verfügbarkeit=verfügbarkeit, integrität=integrität, anmerkungen=anmerkungen, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
             except Exception as e:
                 return 'Fehler: ' + str(e)
         else:
@@ -99,10 +98,8 @@ def serverErstellen():
     else:
         server_id = ''
         fachverfahren = ''
-        name = ''
         umgebung = ''
         laufzeit_server = ''
-        bereitstellungszeitpunkt = ''
         verwendungszweck = ''
         typ = ''
         netzwerk = ''
@@ -123,7 +120,7 @@ def serverErstellen():
         user_upd = ''
     try:
         # ? wenn ein fehler bei der validierung auftritt werden die bereits eingetragen daten wieder angezeigt
-        return render_template('serverErstellen.html', name=name, server_id=server_id, fachverfahren=fachverfahren, umgebung=umgebung, laufzeit_server=laufzeit_server, bereitstellungszeitpunkt=bereitstellungszeitpunkt, verwendungszweck=verwendungszweck, typ=typ, netzwerk=netzwerk, ram=ram, cpu=cpu, os=os, speichertyp=speichertyp, kapazität=kapazität, erreichbarkeit=erreichbarkeit, hochverfügbarkeit=hochverfügbarkeit, vertraulichkeit=vertraulichkeit, verfügbarkeit=verfügbarkeit, integrität=integrität, anmerkungen=anmerkungen, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
+        return render_template('serverErstellen.html', name=name, server_id=server_id, fachverfahren=fachverfahren, umgebung=umgebung, laufzeit_server=laufzeit_server, verwendungszweck=verwendungszweck, typ=typ, netzwerk=netzwerk, ram=ram, cpu=cpu, os=os, speichertyp=speichertyp, kapazität=kapazität, erreichbarkeit=erreichbarkeit, hochverfügbarkeit=hochverfügbarkeit, vertraulichkeit=vertraulichkeit, verfügbarkeit=verfügbarkeit, integrität=integrität, anmerkungen=anmerkungen, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
     except:
         return 'Fehler'
 
