@@ -36,7 +36,7 @@
                     <p class="mb-4 font-bold text-center text-red-500">Diesen Server gibt es nicht!</p>
                     <form action="{{ url_for('server.serverErstellen') }}" method="POST"
                         class="flex items-center justify-center">
-                        <input class="hidden" type="text" id="server_id" name="id" value="{{ server_id }}">
+                        <input class="hidden" type="text" id="name" name="name" value="{{ name }}">
                         <!--? input der hidden ist und die information weitergibt das zum ersten mal die seite erstellen aufgerufen wird-->
                         <input class="hidden" type="text" id="edit-info" name="edit" value="0">
                         <button
