@@ -1,101 +1,117 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="font-sans text-gray-900 bg-gray-100">
-    <div class="py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="px-4 py-6 sm:px-0">
-            <h1 class="mb-8 text-3xl font-bold text-center">
-                Person Suchen
-            </h1>
+    <div class="font-sans text-gray-900 bg-gray-100">
+        <div class="py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="px-4 py-6 sm:px-0">
+                <h1 class="mb-8 text-3xl font-bold text-center">
+                    Person Suchen
+                </h1>
 
-            <hr class="my-8 border-gray-300" />
+                <hr class="my-8 border-gray-300" />
 
-            <form action="{{ url_for('personAnsehen') }}" method="POST" class="max-w-3xl mx-auto">
-                <div class="flex flex-wrap">
-                    <div class="w-full">
-                        <label class="block mb-2 font-bold" for="name">
-                            Person Name:
-                        </label>
-                    </div>
-                    <div class="w-4/6 md:w-5/6">
-                        <input class="w-full px-3 py-2 leading-tight
-                            text-gray-900 border
-                            rounded shadow appearance-none focus:outline-none
-                            focus:shadow-outline" type="text" id="name" name="name" value="{{ name }}">
-                    </div>
+                <form action="{{ url_for('personAnsehen') }}" method="POST" class="max-w-3xl mx-auto">
+                    <div class="flex flex-wrap">
+                        <div class="w-full">
+                            <label class="block mb-2 font-bold" for="name">
+                                Person Name:
+                            </label>
+                        </div>
+                        <div class="w-4/6 md:w-5/6">
+                            <input class="w-full px-3 py-2 leading-tight
+                                text-gray-900 border
+                                rounded shadow appearance-none focus:outline-none
+                                focus:shadow-outline" type="text" id="name" name="name" value="{{ name }}">
+                        </div>
 
-                    <div class=" pl-4 w-2/6 md:w-1/6">
-                        <button class=" px-4 py-2 font-bold text-white
-                            bg-blue-500 rounded hover:bg-blue-700
-                            focus:outline-none
-                            focus:shadow-outline" type="submit">
-                            Suchen
-                        </button>
-                    </div>
-            </form>
-
-            {% if warning == 1 %}
+                        <div class=" pl-4 w-2/6 md:w-1/6">
+                            <button class=" px-4 py-2 font-bold text-white
+                                bg-blue-500 rounded hover:bg-blue-700
+                                focus:outline-none
+                                focus:shadow-outline" type="submit">
+                                Suchen
+                            </button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% if warning == 1 %}
+        <div class="max-w-md mx-auto mt-8">
+            <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <p class="text-red-500 font-bold text-center mb-4">Diese Person gibt es nicht!</p>
+                <form action="{{ url_for('personValidate') }}" method="POST" class="flex items-center justify-center">
+                    <input class="hidden" type="text" id="name" name="name" value="{{ name }}">
+                    <input class="hidden" type="text" id="telefonnummer" name="telefonnummer" value="{{ telefonnummer }}">
+                    <input class="hidden" type="text" id="vornam" name="vornam" value="{{ vornam }}">
+                    <input class="hidden" type="text" id="dez" name="dez" value="{{ dez }}">
+                    <button
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="submit">
+                        Erstellen
+                    </button>
+                </form>
+            </div>
+        </div>
+    {% elif count == 1 %}
+        <p class="text-red-500 font-bold text-center mb-4 text-xl"> Ihre Suche ergab folgende Ergebnisse:  </p>
             <div class="max-w-md mx-auto mt-8">
                 <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <p class="text-red-500 font-bold text-center mb-4">Diese Person gibt es nicht!</p>
-                    <form action="{{ url_for('personValidate') }}" method="POST" class="flex items-center justify-center">
-                        <input class="hidden" type="text" id="name" name="name" value="{{ name }}">
-                        <input class="hidden" type="text" id="telefonnummer" name="telefonnummer" value="{{ telefonnummer }}">
-                        <input class="hidden" type="text" id="vornam" name="vornam" value="{{ vornam }}">
-                        <input class="hidden" type="text" id="dez" name="dez" value="{{ dez }}">
-                        <button
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            type="submit">
-                            Erstellen
-                        </button>
+                    <form action="{{ url_for('personAnsehen') }}" method="POST" class="flex justify-center">
+                        <table class="table-auto">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" class="text-left underline text-lg">Name - Vorname - Dez - ID</th>
+                                </tr>
+                                <tr>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in result %}
+                                <tr>
+                                    <td>
+                                        {{ item }}
+                                    </td>
+                                    <td>
+                                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-2 mx-6 rounded focus:outline-none focus:shadow-outline" type="submit" name="id" id="id" value="{{ id }}">Auswählen</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </form>
                 </div>
             </div>
+    {% endif %}
 
-            {% endif %}
-
+    <!--    Tabllenstruktur für Übericht
+        <div class="flex justify-center">
+            <table class="table-auto border-collapse border border-slate-400 mx-10 shadow-xl">
+                <thead class="border-1 border-gray-300">
+                    <tr class="bg-blue-300 ">
+                    <th class="px-6 py-3"> Name </th>
+                    <th class="px-6 py-3"> Vorname </th>
+                    <th class="px-6 py-3"> Dezernat </th>
+                    <th class="px-6 py-3"> Telefonnummer </th>
+                    <th class="px-6 py-3"> Erstellt am</th>
+                    <th class="px-6 py-3"> Erstellt von </th>
+                    <th class="px-6 py-3"> Letzte Änderung am </th>
+                    <th class="px-6 py-3"> Letzte Änderung von </th>   
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200 text-center border-2 border-gray-300">
+                    <tr class="hover:bg-blue-500 hover:text-white hover:scale-105 duration-300">
+                        <td> Name</td>
+                        <td> Vorname</td>
+                        <td> Dezernat</td>
+                        <td> Telefonnummer</td>
+                        <td> Erstellt am</td>
+                        <td> Erstellt von</td>
+                        <td> Letzte Änderung am</td>
+                        <td> Letzte Änderung von</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-<!--    Tabllenstruktur für Übericht
-    <div class="flex justify-center">
-        <table class="table-auto border-collapse border border-slate-400 mx-10 shadow-xl">
-            <thead class="border-1 border-gray-300">
-                <tr class="bg-blue-300 ">
-                <th class="px-6 py-3"> Name </th>
-                <th class="px-6 py-3"> Vorname </th>
-                <th class="px-6 py-3"> Dezernat </th>
-                <th class="px-6 py-3"> Telefonnummer </th>
-                <th class="px-6 py-3"> Erstellt am</th>
-                <th class="px-6 py-3"> Erstellt von </th>
-                <th class="px-6 py-3"> Letzte Änderung am </th>
-                <th class="px-6 py-3"> Letzte Änderung von </th>   
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200 text-center border-2 border-gray-300">
-                <tr class="hover:bg-blue-500 hover:text-white hover:scale-105 duration-300">
-                    <td> Name</td>
-                    <td> Vorname</td>
-                    <td> Dezernat</td>
-                    <td> Telefonnummer</td>
-                    <td> Erstellt am</td>
-                    <td> Erstellt von</td>
-                    <td> Letzte Änderung am</td>
-                    <td> Letzte Änderung von</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
--->
-
-
+    -->
 {% endblock content %}

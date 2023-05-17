@@ -132,16 +132,24 @@ def personAnsehen():
     if request.method == 'POST':
         # print("Post")
         name = request.form['name']
+
         try:
             cursor = get_cursor()
             query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name "
             cursor.execute(query)
             results = cursor.fetchall()
-            # print(results)
+            #print(results)
 
             if not results:
                 # print("No results")
                 return render_template('person.html', warning=1, name=name)
+            elif len(results) > 1:
+                try:
+                    search = db_execute("Select name, vornam, dez, person_id from person where name ~* '" + name + "'")
+                    #print(search)
+                    return render_template('person.html', count=1, result=search)
+                except Exception as e:
+                    return 'Fehler', e
 
             name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
                 0]
