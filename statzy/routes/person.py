@@ -18,14 +18,17 @@ def personSuche():
 @bp_person.route('/personAnsehen', methods=['GET', 'POST'])
 def personAnsehen():
     if request.method == 'POST':
+        # print("Post")
         name = request.form['name']
         try:
             cursor = get_cursor()
             query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name "
             cursor.execute(query)
             results = cursor.fetchall()
+            # print(results)
 
             if not results:
+                # print("No results")
                 return render_template('person.html', warning=1, name=name)
 
             name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
@@ -35,34 +38,27 @@ def personAnsehen():
         except Exception as e:
             return 'Fehler', e
     else:
-        #? falls eine id übergeben wird nach id suchen
-        if request.args.get('id'):
-            id = request.args.get('id')
-            try:
-                cursor = get_cursor()
-                query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE person_id = '" + id + "' ORDER BY name"
-                cursor.execute(query, (id,))
-                results = cursor.fetchall()
-                if not results:
-                    return render_template('person.html', warning=1, name=name)
-                name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[0]
-                return render_template('personAnsehen.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam, person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
-            except Exception as e:
-                return 'Fehler', e
-        else:    
-            name = request.args.get('name')
-            try:
-                cursor = get_cursor()
-                query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name"
-                cursor.execute(query, (name,))
-                results = cursor.fetchall()
-                if not results:
-                    return render_template('person.html', warning=1, name=name)
-                name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
-                    0]
-                return render_template('personAnsehen.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam, person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
-            except Exception as e:
-                return 'Fehler', e
+        # print("Get")
+        name = request.args.get('name')
+        # print(name)
+        try:
+            cursor = get_cursor()
+            # print("test1")
+            query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name"
+            # print("test2")
+            cursor.execute(query, (name,))
+            # print("test3")
+            results = cursor.fetchall()
+            # print(results)
+            if not results:
+                # print("test5")
+                return render_template('person.html', warning=1, name=name)
+            name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
+                0]
+            # print("test6")
+            return render_template('personAnsehen.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam, person_id=person_id, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd)
+        except Exception as e:
+            return 'Fehler', e
 
 
 @bp_person.route('/personEditieren', methods=['POST'])
