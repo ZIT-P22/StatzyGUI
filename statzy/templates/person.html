@@ -37,9 +37,12 @@
             {% if warning == 1 %}
             <div class="max-w-md mx-auto mt-8">
                 <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <p class="text-red-500 font-bold text-center mb-4">Diese Personen ID gibt es nicht!</p>
-                    <form action="{{ url_for('personenErstellung') }}" method="POST" class="flex items-center justify-center">
-                        <input class="hidden" type="text" id="person_id" name="id" value="{{ person_id }}">
+                    <p class="text-red-500 font-bold text-center mb-4">Diese Person gibt es nicht!</p>
+                    <form action="{{ url_for('personValidate') }}" method="POST" class="flex items-center justify-center">
+                        <input class="hidden" type="text" id="name" name="name" value="{{ name }}">
+                        <input class="hidden" type="text" id="telefonnummer" name="telefonnummer" value="{{ telefonnummer }}">
+                        <input class="hidden" type="text" id="vornam" name="vornam" value="{{ vornam }}">
+                        <input class="hidden" type="text" id="dez" name="dez" value="{{ dez }}">
                         <button
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             type="submit">
