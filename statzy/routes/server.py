@@ -157,8 +157,10 @@ def serverEditieren():
 
             cursor.execute("SELECT typ FROM auswahl_typ")
             typ_options = [row[0] for row in cursor.fetchall()]
+            
+            selected_cpu = cpu if cpu in cpu_options else None
 
-            return render_template('serverEditieren.html', name=name, server_id=server_id, fachverfahren=fachverfahren, umgebung=umgebung, laufzeit_server=laufzeit_server, bereitstellungszeitpunkt=bereitstellungszeitpunkt, verwendungszweck=verwendungszweck, typ=typ, netzwerk=netzwerk, ram=ram, cpu_options=cpu_options, os=os, speichertyp=speichertyp, kapazität=kapazität, erreichbarkeit=erreichbarkeit, hochverfügbarkeit=hochverfügbarkeit, vertraulichkeit=vertraulichkeit, verfügbarkeit=verfügbarkeit, integrität=integrität, anmerkungen=anmerkungen, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd, erreichbarkeit_options=erreichbarkeit_options, nic_options=nic_options, os_options=os_options, ram_options=ram_options, speicher_options=speicher_options, typ_options=typ_options)
+            return render_template('serverEditieren.html', name=name, server_id=server_id, fachverfahren=fachverfahren, umgebung=umgebung, laufzeit_server=laufzeit_server, bereitstellungszeitpunkt=bereitstellungszeitpunkt, verwendungszweck=verwendungszweck, typ=typ, netzwerk=netzwerk, ram=ram, cpu_options=cpu_options, selected_cpu=selected_cpu, os=os, speichertyp=speichertyp, kapazität=kapazität, erreichbarkeit=erreichbarkeit, hochverfügbarkeit=hochverfügbarkeit, vertraulichkeit=vertraulichkeit, verfügbarkeit=verfügbarkeit, integrität=integrität, anmerkungen=anmerkungen, zeitpunkt_ins=zeitpunkt_ins, user_ins=user_ins, zeitpunkt_upd=zeitpunkt_upd, user_upd=user_upd, erreichbarkeit_options=erreichbarkeit_options, nic_options=nic_options, os_options=os_options, ram_options=ram_options, speicher_options=speicher_options, typ_options=typ_options)
 
         return 'No results found.'
     except KeyError:
