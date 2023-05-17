@@ -79,10 +79,16 @@
                     <input
                         class="flex-grow-2 px-3 py-2 leading-tight text-gray-900 borderrounded shadow appearance-none focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed"
                         type="text" id="auftraggeber" name="auftraggeber" value="{{auftraggeber}}" readonly disabled>
+                    <input type="hidden" id="idAuftraggeber" name="idAuftraggeber" value="{{idAuftraggeber}}">
                     <input
+<<<<<<< Updated upstream
                         class="show-user-info px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                         type="submit" name="showUser" value="..." data-info="User Info" 
                         onclick="auftraggeberAnsehen"/>
+=======
+                        class="px-4 py-2 font-bold text-white bg-blue-500 rounded show-user-info hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                        type="button" name="showUser" value="..." data-info="User Info" onclick="auftraggeberAnsehen()" />
+>>>>>>> Stashed changes
                 </div>
             </div>
             <!-- Verfahrens Betreuung -->
@@ -90,12 +96,23 @@
                 <label class="block mb-2 font-bold" for="laufzeit"> Verfahrens Betreuung: </label>
                 <div class="flex flex-wrap gap-4 w-full">
                     <input
+<<<<<<< Updated upstream
                         class="flex-grow-2 px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed"
                         type="text" id="verf_betreuung" name="verf_betreuung" value="{{verf_betreuung}}" readonly disabled>
                     <input
                         class="show-user-info px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                         type="submit" name="showUser" value="..." data-info="User Info" 
                         onclick="verf_betreuungAnsehen"/>
+=======
+                        class="px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed flex-grow-2 focus:outline-none focus:shadow-outline"
+                        type="text" id="verf_betreuung" name="verf_betreuung" value="{{verf_betreuung}}" readonly
+                        disabled>
+                    <input type="hidden" id="idVerfBetreuung" name="idVerfBetreuung" value="{{idVerfBetreuung}}">
+                    <input
+                        class="px-4 py-2 font-bold text-white bg-blue-500 rounded show-user-info hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                        type="button" name="showUser" value="..." data-info="User Info"
+                        onclick="verf_betreuungAnsehen()" />
+>>>>>>> Stashed changes
                 </div>
             </div>
 
@@ -104,12 +121,23 @@
                 <label class="block mb-2 font-bold" for="laufzeit"> Kundenmanagement: </label>
                 <div class="flex flex-wrap gap-4 w-full">
                     <input
+<<<<<<< Updated upstream
                         class="flex-grow-2 px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed"
                         type="text" id="kundenmanagement" name="kundenmanagement" value="{{kundenmanagement}}" readonly disabled>
                     <input
                         class="show-user-info px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                         type="submit" name="showUser" value="..." data-info="User Info" 
                         onclick="kundenmanagementAnsehen"/>
+=======
+                        class="px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed flex-grow-2 focus:outline-none focus:shadow-outline"
+                        type="text" id="kundenmanagement" name="kundenmanagement" value="{{kundenmanagement}}" readonly
+                        disabled>
+                    <input type="hidden" id="idKundenmanagement" name="idKundenmanagement" value="{{idKundenmanagement}}">
+                    <input
+                        class="px-4 py-2 font-bold text-white bg-blue-500 rounded show-user-info hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                        type="button" name="showUser" value="..." data-info="User Info"
+                        onclick="kundenmanagementAnsehen()" />
+>>>>>>> Stashed changes
                 </div>
             </div>
 
@@ -118,12 +146,23 @@
                 <label class="block mb-2 font-bold" for="laufzeit"> Fachadministration: </label>
                 <div class="flex flex-wrap gap-4 w-full">
                     <input
+<<<<<<< Updated upstream
                         class="flex-grow-2 px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed"
                         type="text" id="fachadministration" name="fachadministration" value="{{fachadministration}}" readonly disabled>
                     <input
                         class="show-user-info px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                         type="submit" name="showUser" value="..." data-info="User Info" 
                         onclick="fachadministrationAnsehen"/>
+=======
+                        class="px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed flex-grow-2 focus:outline-none focus:shadow-outline"
+                        type="text" id="fachadministration" name="fachadministration" value="{{fachadministration}}"
+                        readonly disabled>
+                    <input type="hidden" id="idFachadministration" name="idFachadministration" value="{{idFachadministration}}">
+                    <input
+                        class="px-4 py-2 font-bold text-white bg-blue-500 rounded show-user-info hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                        type="button" name="showUser" value="..." data-info="User Info"
+                        onclick="fachadministrationAnsehen()" />
+>>>>>>> Stashed changes
                 </div>
             </div>
 
@@ -165,10 +204,22 @@
 
     //? Person ansehen von dem Namen der vor der inputbox steht
     function auftraggeberAnsehen() {
-        const auftraggeber = document.getElementById("auftraggeber").value;
-        window.location.href = "/personAnsehen/" + auftraggeber;
+        // wenn der knopf gedrückt wird, wird eine anfrage an peronAnsehen gesendet mit dem anhang ?id= der id des auftraggebers
+        window.location.href = "{{ url_for('person.personAnsehen') }}?id=" + document.getElementById("idAuftraggeber").value;
+        
     }
-
+    function verf_betreuungAnsehen() {
+        window.location.href = "{{ url_for('person.personAnsehen') }}?id=" + document.getElementById("idVerfBetreuung").value;
+        
+    }
+    function kundenmanagementAnsehen() {
+        window.location.href = "{{ url_for('person.personAnsehen') }}?id=" + document.getElementById("idKundenmanagement").value;
+        
+    }
+    function fachadministrationAnsehen() {
+        window.location.href = "{{ url_for('person.personAnsehen') }}?id=" + document.getElementById("idFachadministration").value;
+        
+    }
 
 </script>
 
