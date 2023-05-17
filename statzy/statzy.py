@@ -3,73 +3,11 @@ import psycopg2
 from psycopg2 import pool
 import secrets
 import json
+from helper import get_cursor, connection_pool
+from routes import home, person, fachverfahren, server, komponente, login, query, datenbank
 
 statzy = Flask(__name__)
 statzy.secret_key = secrets.token_hex(16)
-
-
-#! def zone start
-
-# Create a connection pool
-connection_pool = psycopg2.pool.SimpleConnectionPool(
-    minconn=1,
-    maxconn=40,
-    dbname='statzy',
-    user='postgres',
-    password='postgres',
-    host='10.128.201.123',
-    port='5432'
-)
-
-
-def get_db():
-    if 'db' not in g:
-        g.db = connection_pool.getconn()
-    return g.db
-
-
-@statzy.teardown_appcontext
-def close_db(e=None):
-    db = g.pop('db', None)
-    if db is not None:
-        connection_pool.putconn(db)  # Release the connection back to the pool
-
-
-def db_execute(query, *args):
-    cursor = get_cursor()
-    cursor.execute(query, *args)
-    return cursor.fetchall()
-
-
-def personValidate(person_id):
-    cursor = get_cursor()
-    query = "SELECT count(*) FROM person WHERE person_id = '" + person_id + "'"
-    cursor.execute(query)
-    results = cursor.fetchall()
-
-    if results[0][0] == 1:
-        return True
-    else:
-        return False
-
-# ? funktion die in der person Datenbank die Id sucht un den dazugehörigen Namen zurückgibt
-
-
-def personIdToName(person_id):
-    query = "SELECT name FROM person WHERE person_id = '" + \
-        \
-        str(person_id) + "'"
-    results = db_execute(query)
-    return results[0][0] if results else None
-
-
-def get_cursor():
-    if 'cursor' not in g:
-        g.cursor = get_db().cursor()
-    return g.cursor
-
-
-#! def zone end
 
 
 @statzy.teardown_appcontext
@@ -132,24 +70,16 @@ def personAnsehen():
     if request.method == 'POST':
         # print("Post")
         name = request.form['name']
-
         try:
             cursor = get_cursor()
             query = "SELECT name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd FROM person WHERE name ~* '" + name + "' ORDER BY name "
             cursor.execute(query)
             results = cursor.fetchall()
-            #print(results)
+            # print(results)
 
             if not results:
                 # print("No results")
                 return render_template('person.html', warning=1, name=name)
-            elif len(results) > 1:
-                try:
-                    search = db_execute("Select name, vornam, dez, person_id from person where name ~* '" + name + "'")
-                    #print(search)
-                    return render_template('person.html', count=1, result=search)
-                except Exception as e:
-                    return 'Fehler', e
 
             name, telefonnummer, dez, vornam, person_id, zeitpunkt_ins, user_ins, zeitpunkt_upd, user_upd = results[
                 0]

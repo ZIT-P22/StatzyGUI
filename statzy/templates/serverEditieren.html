@@ -11,7 +11,7 @@
 
     </div>
     <!--! form start-->
-    <form action="{{ url_for('serverUpdate') }}" method="POST" class="max-w-3xl mx-auto">
+    <form action="{{ url_for('server.serverUpdate') }}" method="POST" class="max-w-3xl mx-auto">
 
 
 
@@ -23,50 +23,50 @@
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="name" name="name" value="{{ name }}">
       </div>
-      
+
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="it-verfahren-namen">
+        <label class="block mb-2 font-bold" for="server_id">
           Server-ID:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="it-verfahren-namen" name="it-verfahren-namen" value="{{ server_id }}" />
+          type="text" id="server_id" name="server_id" value="{{ server_id }}" />
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verfahrens-id">
+        <label class="block mb-2 font-bold" for="fachverfahren">
           fachverfahren:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verfahrens-id" name="verfahrens-id" value="{{ fachverfahren }}" />
+          type="text" id="fachverfahren" name="fachverfahren" value="{{ fachverfahren }}" />
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
+        <label class="block mb-2 font-bold" for="umgebung">
           umgebung:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ umgebung }}" />
+          type="text" id="umgebung" name="umgebung" value="{{ umgebung }}" />
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
+        <label class="block mb-2 font-bold" for="laufzeit_server">
           laufzeit_server:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ laufzeit_server }}" />
+          type="text" id="laufzeit_server" name="laufzeit_server" value="{{ laufzeit_server }}" />
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
+        <label class="block mb-2 font-bold" for="bereitstellungszeitpunkt">
           bereitstellungszeitpunkt:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ bereitstellungszeitpunkt }}" />
+          type="text" id="bereitstellungszeitpunkt" name="bereitstellungszeitpunkt" value="{{ bereitstellungszeitpunkt }}" />
       </div>
 
       <div class="mb-6">
@@ -79,120 +79,162 @@
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          typ:
+        <label class="block mb-2 font-bold" for="typ">
+          Typ:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ typ }}" />
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="typ" name="typ">
+          {% for option in typ_options %}
+            {% if option == typ %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
+        <label class="block mb-2 font-bold" for="netzwerk">
           netzwerk:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ netzwerk }}" />
-      </div>
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="netzwerk" name="netzwerk">
+          {% for option in nic_options %}
+            {% if option == netzwerk %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>    
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          ram:
+        <label class="block mb-2 font-bold" for="ram">
+          RAM:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ ram }}" />
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="ram" name="ram">
+          {% for option in ram_options %}
+            {% if option == ram %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          cpu:
+        <label class="block mb-2 font-bold" for="cpu">
+          CPU:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ cpu }}" />
-      </div>
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="cpu" name="cpu">
+          {% for option in cpu_options %}
+            {% if option == selected_cpu %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>  
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          os:
+        <label class="block mb-2 font-bold" for="os">
+          Operating System:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ os }}" />
-      </div>
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="os" name="os">
+          {% for option in os_options %}
+            {% if option == os %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>      
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          speichertyp:
+        <label class="block mb-2 font-bold" for="speichertyp">
+          Speicher:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ speichertyp }}" />
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="speichertyp" name="speichertyp">
+          {% for option in speicher_options %}
+            {% if option == speichertyp %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
+        <label class="block mb-2 font-bold" for="kapazität">
           kapazität:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ kapazität }}" />
+          type="text" id="kapazität" name="kapazität" value="{{ kapazität }}" />
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
+        <label class="block mb-2 font-bold" for="erreichbarkeit">
           erreichbarkeit:
         </label>
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ erreichbarkeit }}" />
-      </div>
+        <select class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="erreichbarkeit" name="erreichbarkeit">
+          {% for option in erreichbarkeit_options %}
+            {% if option == erreichbarkeit %}
+              <option value="{{ option }}" selected>{{ option }}</option>
+            {% else %}
+              <option value="{{ option }}">{{ option }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>      
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
+        <label class="block mb-2 font-bold" for="hochverfügbarkeit">
           hochverfügbarkeit:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ hochverfügbarkeit }}" />
+          type="text" id="hochverfügbarkeit" name="hochverfügbarkeit" value="{{ hochverfügbarkeit }}" />
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
+        <label class="block mb-2 font-bold" for="vertraulichkeit">
           vertraulichkeit:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ vertraulichkeit }}" />
+          type="text" id="vertraulichkeit" name="vertraulichkeit" value="{{ vertraulichkeit }}" />
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
+        <label class="block mb-2 font-bold" for="verfügbarkeit">
           verfügbarkeit:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ verfügbarkeit }}" />
+          type="text" id="verfügbarkeit" name="verfügbarkeit" value="{{ verfügbarkeit }}" />
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
+        <label class="block mb-2 font-bold" for="integrität">
           integrität:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ integrität }}" />
+          type="text" id="integrität" name="integrität" value="{{ integrität }}" />
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
+        <label class="block mb-2 font-bold" for="anmerkungen">
           anmerkungen:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          type="text" id="verwendungszweck" name="verwendungszweck" value="{{ anmerkungen }}" />
+          type="text" id="anmerkungen" name="anmerkungen" value="{{ anmerkungen }}" />
       </div>
 
         <hr class=" my-8 border-gray-300 " />
