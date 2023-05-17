@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from helper import get_cursor, get_db
+from helper import get_cursor, get_db, db_execute
 
 
 bp_person = Blueprint('person', __name__)
@@ -131,3 +131,13 @@ def personErstellen():
         return render_template('personAnsehen.html', name=name, telefonnummer=telefonnummer, dez=dez, vornam=vornam)
     except Exception as e:
         return 'Fehler: ' + str(e)
+
+
+@bp_person.route('/persServRelAnsehen')
+def persServRelAnsehen():
+    try:
+        results = db_execute("SELECT * FROM person")
+        return render_template('persServRelAnsehen.html', data=results)
+    except Exception as e:
+        results = []
+        return f"Database query failed! {e}"

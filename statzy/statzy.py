@@ -19,8 +19,6 @@ def close_db(e=None):
         cursor.close()
     if db is not None:
         db.close()
-        
-
 
 
 statzy.register_blueprint(home.bp_home)

@@ -72,15 +72,16 @@
             laufzeitverfahren
             }}" readonly disabled>
             </div>
+            <!-- Auftraggeber -->
             <div class="mb-6 ">
                 <label class="block mb-2 font-bold" for="laufzeit"> Auftraggeber: </label>
                 <div class="flex flex-wrap w-full gap-4">
                     <input
                         class="px-3 py-2 leading-tight text-gray-900 bg-gray-100 shadow appearance-none cursor-not-allowed flex-grow-2 borderrounded focus:outline-none focus:shadow-outline"
-                        type="text" id="verf_bet" name="verf_bet" value="{{auftraggeber}}" readonly disabled>
+                        type="text" id="auftraggeber" name="auftraggeber" value="{{auftraggeber}}" readonly disabled>
                     <input
                         class="px-4 py-2 font-bold text-white bg-blue-500 rounded show-user-info hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-                        type="submit" name="showUser" value="..." data-info="User Info" />
+                        type="submit" name="showUser" value="..." data-info="User Info" onclick="auftraggeberAnsehen" />
                 </div>
             </div>
             <!-- Verfahrens Betreuung -->
@@ -89,10 +90,12 @@
                 <div class="flex flex-wrap w-full gap-4">
                     <input
                         class="px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed flex-grow-2 focus:outline-none focus:shadow-outline"
-                        type="text" id="verf_bet" name="verf_bet" value="{{verf_betreuung}}" readonly disabled>
+                        type="text" id="verf_betreuung" name="verf_betreuung" value="{{verf_betreuung}}" readonly
+                        disabled>
                     <input
                         class="px-4 py-2 font-bold text-white bg-blue-500 rounded show-user-info hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-                        type="submit" name="showUser" value="..." data-info="User Info" />
+                        type="submit" name="showUser" value="..." data-info="User Info"
+                        onclick="verf_betreuungAnsehen" />
                 </div>
             </div>
 
@@ -102,10 +105,12 @@
                 <div class="flex flex-wrap w-full gap-4">
                     <input
                         class="px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed flex-grow-2 focus:outline-none focus:shadow-outline"
-                        type="text" id="verf_bet" name="verf_bet" value="{{kundenmanagement}}" readonly disabled>
+                        type="text" id="kundenmanagement" name="kundenmanagement" value="{{kundenmanagement}}" readonly
+                        disabled>
                     <input
                         class="px-4 py-2 font-bold text-white bg-blue-500 rounded show-user-info hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-                        type="submit" name="showUser" value="..." data-info="User Info" />
+                        type="submit" name="showUser" value="..." data-info="User Info"
+                        onclick="kundenmanagementAnsehen" />
                 </div>
             </div>
 
@@ -115,10 +120,12 @@
                 <div class="flex flex-wrap w-full gap-4">
                     <input
                         class="px-3 py-2 leading-tight text-gray-900 bg-gray-100 border rounded shadow appearance-none cursor-not-allowed flex-grow-2 focus:outline-none focus:shadow-outline"
-                        type="text" id="verf_bet" name="verf_bet" value="{{fachadministration}}" readonly disabled>
+                        type="text" id="fachadministration" name="fachadministration" value="{{fachadministration}}"
+                        readonly disabled>
                     <input
                         class="px-4 py-2 font-bold text-white bg-blue-500 rounded show-user-info hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-                        type="submit" name="showUser" value="..." data-info="User Info" />
+                        type="submit" name="showUser" value="..." data-info="User Info"
+                        onclick="fachadministrationAnsehen" />
                 </div>
             </div>
 
@@ -156,6 +163,15 @@
             }, 500);
         });
     });
+
+
+    //? Person ansehen von dem Namen der vor der inputbox steht
+    function auftraggeberAnsehen() {
+        const auftraggeber = document.getElementById("auftraggeber").value;
+        window.location.href = "/personAnsehen/" + auftraggeber;
+    }
+
+
 </script>
 
 {% endblock %}
