@@ -10,7 +10,7 @@ import json
 # Create a connection pool
 connection_pool = psycopg2.pool.SimpleConnectionPool(
     minconn=1,
-    maxconn=40,
+    maxconn=80,
     dbname='statzy',
     user='postgres',
     password='postgres',

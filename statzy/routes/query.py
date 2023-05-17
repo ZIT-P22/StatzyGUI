@@ -26,4 +26,5 @@ def getnames():
     cursor.execute("SELECT person_id, vornam, name, dez FROM person WHERE name ILIKE %s OR vornam ILIKE %s OR dez ILIKE %s", (f"%{input}%", f"%{input}%", f"%{input}%",))
     results = cursor.fetchall()
     names = [{"person_id": result[0], "vornam": result[1], "name": result[2], "dez": result[3]} for result in results]
+    print(json.dumps(names))
     return json.dumps(names)
