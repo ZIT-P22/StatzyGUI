@@ -11,7 +11,7 @@
 
     </div>
     <!--! form start-->
-    <form action="{{ url_for('serverUpdate') }}" method="POST" class="max-w-3xl mx-auto">
+    <form action="{{ url_for('server.serverUpdate') }}" method="POST" class="max-w-3xl mx-auto">
 
 
 
@@ -23,7 +23,7 @@
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="name" name="name" value="{{ name }}">
       </div>
-      
+
       <div class="mb-6">
         <label class="block mb-2 font-bold" for="it-verfahren-namen">
           Server-ID:
@@ -51,144 +51,144 @@
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ umgebung }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          laufzeit_server:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        laufzeit_server:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ laufzeit_server }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          bereitstellungszeitpunkt:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        bereitstellungszeitpunkt:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ bereitstellungszeitpunkt }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          verwendungszweck:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        verwendungszweck:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ verwendungszweck }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          typ:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        typ:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ typ }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          netzwerk:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        netzwerk:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ netzwerk }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          ram:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        ram:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ ram }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          cpu:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        cpu:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ cpu }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          os:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        os:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ os }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          speichertyp:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        speichertyp:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ speichertyp }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          kapazität:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        kapazität:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ kapazität }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          erreichbarkeit:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        erreichbarkeit:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ erreichbarkeit }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          hochverfügbarkeit:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        hochverfügbarkeit:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ hochverfügbarkeit }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          vertraulichkeit:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        vertraulichkeit:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ vertraulichkeit }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          verfügbarkeit:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        verfügbarkeit:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ verfügbarkeit }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          integrität:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        integrität:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           type="text" id="verwendungszweck" name="verwendungszweck" value="{{ integrität }}" />
       </div>
 
-      <div class="mb-6">
-        <label class="block mb-2 font-bold" for="verwendungszweck">
-          anmerkungen:
+      <div class=" mb-6 ">
+        <label class=" block mb-2 font-bold" for="verwendungszweck">
+        anmerkungen:
         </label>
         <input
           class="w-full px-3 py-2 leading-tight text-gray-900 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
