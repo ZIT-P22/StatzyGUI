@@ -47,9 +47,10 @@ def personValidate(person_id):
 
 
 def personIdToName(person_id):
-    query = "SELECT name FROM person WHERE person_id = '" + str(person_id) + "'"
+    query = "SELECT vornam, name, dez FROM person WHERE person_id = '" + str(person_id) + "'"
     results = db_execute(query)
-    return results[0][0] if results else None
+    print(results[0][0] + " " + results[0][1] + " " + results[0][2])
+    return results[0][0] + " " + results[0][1] + " | Dez: " + results[0][2] if results else None
 
 
 def get_cursor():
