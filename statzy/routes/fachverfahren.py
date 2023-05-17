@@ -23,7 +23,11 @@ def fachverfahrenAnsehen():
 
             name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
                 0]
-
+            #? Die ID's werden in Namen umgewandelt um sie anzuzeigen | die ids der Personen werden trotzdem in der Session gespeichert
+            idAuftraggeber = auftraggeber
+            idVerfBetreuung = verf_betreuung
+            idKundenmanagement = kundenmanagement
+            idFachadministration = fachadministration
             auftraggeber = personIdToName(auftraggeber)
             verf_betreuung = personIdToName(verf_betreuung)
             kundenmanagement = personIdToName(kundenmanagement)
@@ -33,7 +37,7 @@ def fachverfahrenAnsehen():
             
             
 
-            return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+            return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration, idAuftraggeber=idAuftraggeber, idVerfBetreuung=idVerfBetreuung, idKundenmanagement=idKundenmanagement, idFachadministration=idFachadministration)
         except Exception as e:
             return 'Fehler' + str(e)
     # ? Wenn die Methode GET ist, wird der Tag aus der URL genommen
@@ -49,13 +53,17 @@ def fachverfahrenAnsehen():
             name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
                 0]
 
+            idAuftraggeber = auftraggeber
+            idVerfBetreuung = verf_betreuung
+            idKundenmanagement = kundenmanagement
+            idFachadministration = fachadministration
             auftraggeber = personIdToName(auftraggeber)
             verf_betreuung = personIdToName(verf_betreuung)
             kundenmanagement = personIdToName(kundenmanagement)
             fachadministration = personIdToName(fachadministration)
             
 
-            return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+            return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration, idAuftraggeber=idAuftraggeber, idVerfBetreuung=idVerfBetreuung, idKundenmanagement=idKundenmanagement, idFachadministration=idFachadministration)
         except:
             return 'Fehler'
 
