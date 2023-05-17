@@ -149,14 +149,32 @@ def serverEditieren():
 
 @bp_server.route('/serverUpdate', methods=['POST'])
 def serverUpdate():
-    name = request.form['it-verfahren-namen']
-    verf_id = request.form['verfahrens-id']
+    name = request.form['name']
+    server_id = request.form['server_id']
     verwendungszweck = request.form['verwendungszweck']
-    laufzeitverfahren = request.form['laufzeit']
-    auftraggeber = request.form['auftraggeber']
-    verf_betreuung = request.form['verf_bet']
-    kundenmanagement = request.form['kundenmanagement']
-    fachadministration = request.form['fachadministration']
+    fachverfahren = request.form['fachverfahren']
+    umgebung = request.form['umgebung']
+    laufzeit_server = request.form['laufzeit_server']
+    bereitstellungszeitpunkt = request.form['bereitstellungszeitpunkt']
+    verwendungszweck = request.form['verwendungszweck']
+    typ = request.form['typ']
+    netzwerk = request.form['netzwerk']
+    ram = request.form['ram']
+    cpu = request.form['cpu']
+    os = request.form['os']
+    speichertyp = request.form['speichertyp']
+    kapazität = request.form['kapazität']
+    erreichbarkeit = request.form['erreichbarkeit']
+    hochverfügbarkeit = request.form['hochverfügbarkeit']
+    vertraulichkeit = request.form['vertraulichkeit']
+    verfügbarkeit = request.form['verfügbarkeit']
+    integrität = request.form['integrität']
+    anmerkungen = request.form['anmerkungen']
+    zeitpunkt_ins = request.form['zeitpunkt_ins']
+    user_ins = request.form['user_ins']
+    zeitpunkt_upd = request.form['zeitpunkt_upd']
+    user_upd = request.form['user_upd']
+
 
     try:
         cursor = get_cursor()
