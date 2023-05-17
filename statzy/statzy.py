@@ -57,6 +57,7 @@ def personValidate(person_id):
 
 def personIdToName(person_id):
     query = "SELECT name FROM person WHERE person_id = '" + \
+        \
         str(person_id) + "'"
     results = db_execute(query)
     return results[0][0] if results else None
@@ -107,9 +108,11 @@ def getnames():
     input = request.args.get('input')
     cursor = get_cursor()
     cursor.execute("SELECT person_id, vornam, name, dez FROM person WHERE name ILIKE %s OR vornam ILIKE %s OR dez ILIKE %s",
+
                    (f"%{input}%", f"%{input}%", f"%{input}%",))
     results = cursor.fetchall()
     names = [{"person_id": result[0], "vornam": result[1],
+
               "name": result[2], "dez": result[3]} for result in results]
     return json.dumps(names)
 
@@ -247,41 +250,44 @@ def fachverfahrenSuche():
     return render_template('fachverfahrenSuche.html', warning=0)
 
 
+@statzy.route('/persServRelAnsehen')
+def persServRelAnsehen():
+    try:
+        results = db_execute("SELECT * FROM person")
+        return render_template('persServRelAnsehen.html', data=results)
+    except Exception as e:
+        results = []
+        return f"Database query failed! {e}"
+
+
 @statzy.route('/fachverfahrenAnsehen', methods=['GET', 'POST'])
 def fachverfahrenAnsehen():
-    try:
-        if request.method == 'POST':
-            # get tag from form
-            tag = request.form['tag']
-        else:
-            # get tag from url param
-            tag = request.args.get('tag')
+    if request.method == 'POST':
+        # get tag from form
+        tag = request.form['tag']
+    else:
+        # get tag from url param
+        tag = request.args.get('tag')
 
+    try:
         # execute query with parameterized query
         query = "SELECT name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration FROM fachverfahren WHERE tag ~* %s ORDER BY name"
         results = db_execute(query, (tag,))
 
-        # handle no results case
         if not results:
             return render_template('fachverfahrenSuche.html', warning=1, tag=tag)
 
-        # extract values from first result
         name, verf_id, tag, vewendungszweck, laufzeitverfahren, auftraggeber, verf_betreuung, kundenmanagement, fachadministration = results[
             0]
 
-        # convert person IDs to names
         auftraggeber = personIdToName(auftraggeber)
         verf_betreuung = personIdToName(verf_betreuung)
         kundenmanagement = personIdToName(kundenmanagement)
         fachadministration = personIdToName(fachadministration)
 
-        # return response
-        return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag,
-                               vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren,
-                               auftraggeber=auftraggeber, verf_betreuung=verf_betreuung,
-                               kundenmanagement=kundenmanagement, fachadministration=fachadministration)
+        return render_template('fachverfahrenAnsehen.html', name=name, verf_id=verf_id, tag=tag, vewendungszweck=vewendungszweck, laufzeitverfahren=laufzeitverfahren, auftraggeber=auftraggeber, verf_betreuung=verf_betreuung, kundenmanagement=kundenmanagement, fachadministration=fachadministration)
     except Exception as e:
-        return 'Fehler: ' + str(e)
+        return 'Fehler' + str(e)
 
 
 @statzy.route('/fachverfahrenEditieren', methods=['POST'])
@@ -486,8 +492,8 @@ def serverErstellen():
                     fachverfahren + "', '" + name + "', '" + umgebung + "', '" + laufzeit_server + "', '" + bereitstellungszeitpunkt + "', '" + verwendungszweck + "', '" + \
                         typ + "', '" + netzwerk + "', '" + ram + "', '" + cpu + "', '" + os + "', '" + speichertyp + "', '" + \
                         kapazität + "', '" + erreichbarkeit + "', '" + hochverfügbarkeit + "', '" + hochverfügbarkeit + "', '" + vertraulichkeit + "', '" + \
-                        verfügbarkeit + "', '" + integrität + "', '" + anmerkungen + "', '" + zeitpunkt_ins + "', '"+ \
-                        user_ins + "', '" + zeitpunkt_upd + "', '" + user_upd +"')"
+                        verfügbarkeit + "', '" + integrität + "', '" + anmerkungen + "', '" + zeitpunkt_ins + "', '" + \
+                        user_ins + "', '" + zeitpunkt_upd + "', '" + user_upd + "')"
                 print("test 2")
                 cursor.execute(query)
                 print("test 3")
@@ -510,21 +516,21 @@ def serverErstellen():
         bereitstellungszeitpunkt = ''
         verwendungszweck = ''
         typ = ''
-        netzwerk= ''
-        ram	= ''
-        cpu	= ''
+        netzwerk = ''
+        ram = ''
+        cpu = ''
         os = ''
-        speichertyp	= ''
-        kapazität = ''	
+        speichertyp = ''
+        kapazität = ''
         erreichbarkeit = ''
-        hochverfügbarkeit= ''
-        vertraulichkeit	= ''
+        hochverfügbarkeit = ''
+        vertraulichkeit = ''
         verfügbarkeit = ''
-        integrität	= ''
-        anmerkungen	= ''
+        integrität = ''
+        anmerkungen = ''
         zeitpunkt_ins = ''
         user_ins = ''
-        zeitpunkt_upd	= ''
+        zeitpunkt_upd = ''
         user_upd = ''
     try:
         # ? wenn ein fehler bei der validierung auftritt werden die bereits eingetragen daten wieder angezeigt
@@ -552,7 +558,6 @@ def serverEditieren():
         return f'Error: {str(e)}'
 
 
-
 @statzy.route('/serverUpdate', methods=['POST'])
 def serverUpdate():
     name = request.form['it-verfahren-namen']
@@ -574,8 +579,6 @@ def serverUpdate():
         return redirect(url_for('serverAnsehen', name=name))
     except Exception as e:
         return 'Fehler: ' + str(e)
-
-
 
 
 @statzy.route('/komponenteServer')
