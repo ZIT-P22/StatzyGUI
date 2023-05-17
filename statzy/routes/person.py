@@ -136,7 +136,11 @@ def personErstellen():
 @bp_person.route('/persServRelAnsehen')
 def persServRelAnsehen():
     try:
-        results = db_execute("SELECT * FROM person")
+        results = db_execute("SELECT * FROM server_person")
+        print(repr(results))
+
+        for entry in results:
+            print(f"Server: {entry[0]} | Person: {entry[1]}")
         return render_template('persServRelAnsehen.html', data=results)
     except Exception as e:
         results = []
