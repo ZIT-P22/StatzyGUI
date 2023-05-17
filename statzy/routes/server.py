@@ -153,7 +153,6 @@ def serverUpdate():
     umgebung = request.form['umgebung']
     laufzeit_server = request.form['laufzeit_server']
     bereitstellungszeitpunkt = request.form['bereitstellungszeitpunkt']
-    verwendungszweck = request.form['verwendungszweck']
     typ = request.form['typ']
     netzwerk = request.form['netzwerk']
     ram = request.form['ram']
@@ -167,20 +166,18 @@ def serverUpdate():
     verfügbarkeit = request.form['verfügbarkeit']
     integrität = request.form['integrität']
     anmerkungen = request.form['anmerkungen']
-    zeitpunkt_ins = request.form['zeitpunkt_ins']
-    user_ins = request.form['user_ins']
-    zeitpunkt_upd = request.form['zeitpunkt_upd']
-    user_upd = request.form['user_upd']
-
-
     try:
         cursor = get_cursor()
-        query = """UPDATE server SET name=%s, verf_id=%s, vewendungszweck=%s, laufzeitverfahren=%s, auftraggeber=%s, 
-                verf_betreuung=%s, kundenmanagement=%s, fachadministration=%s WHERE name=%s"""
-        cursor.execute(query, (name, verf_id, vewendungszweck, laufzeitverfahren,
-                               auftraggeber, verf_betreuung, kundenmanagement, fachadministration, name))
+        query = """UPDATE server SET name=%s, server_id=%s, verwendungszweck=%s, fachverfahren=%s, umgebung=%s, 
+            laufzeit_server=%s, bereitstellungszeitpunkt=%s, typ=%s, netzwerk=%s, ram=%s, cpu=%s, os=%s, 
+            speichertyp=%s, kapazität=%s, erreichbarkeit=%s, hochverfügbarkeit=%s, vertraulichkeit=%s, 
+            verfügbarkeit=%s, integrität=%s, anmerkungen=%s WHERE name=%s"""
+        cursor.execute(query, (name, server_id, verwendungszweck, fachverfahren, umgebung, laufzeit_server,
+                               bereitstellungszeitpunkt, typ, netzwerk, ram, cpu, os, speichertyp, kapazität,
+                               erreichbarkeit, hochverfügbarkeit, vertraulichkeit, verfügbarkeit, integrität,
+                               anmerkungen, name))
         get_db().commit()
-        return redirect(url_for('serverAnsehen', name=name))
+        return redirect(url_for('server.serverAnsehen', name=name))
     except Exception as e:
         return 'Fehler: ' + str(e)
 
